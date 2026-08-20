@@ -65,6 +65,41 @@
             --orange: #ffa94d;
             --dark: #0a0a12;
             --dark-purple: #120a1e;
+            --accent: #f06595;
+        }
+
+        body.light-theme {
+            --dark: #f5f5f5;
+            --dark-purple: #eee;
+        }
+
+        body.light-theme #page-bento {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        body.light-theme .sidebar-left {
+            background: #fff;
+            border-right-color: #e0e0e0;
+            color: #555;
+        }
+
+        body.light-theme .sidebar-logo {
+            color: #222;
+        }
+
+        body.light-theme .bento-navbar {
+            background: rgba(255, 255, 255, .92);
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-theme .modal-box {
+            background: #fff;
+            color: #222;
+        }
+
+        body.light-theme .editor-container {
+            background: #fdfcf7;
         }
 
         html.lenis,
@@ -2463,11 +2498,10 @@
             max-width: 900px;
             margin: 0 auto;
             background: #fff;
-            backdrop-filter: none;
             border-radius: 16px;
             min-height: 600px;
-            padding: 40px 48px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, .3);
+            padding: 12px 48px 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
             border: none;
         }
 
@@ -2581,7 +2615,7 @@
 
         .block-content:empty::before {
             content: attr(data-placeholder);
-            color: #bbb;
+            color: #999;
             pointer-events: none;
         }
 
@@ -2812,16 +2846,32 @@
 
         .slash-menu {
             position: fixed;
-            background: #1a1a1a;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
-            border: 1px solid #333;
+            background: rgba(30, 30, 40, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 280px;
             z-index: 100;
             padding: 6px;
             display: none;
-            max-height: 360px;
+            max-height: 420px;
             overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .slash-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .slash-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .slash-menu::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 3px;
         }
 
         .slash-menu.show {
@@ -2866,6 +2916,67 @@
             justify-content: center;
             font-size: 16px;
             flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        [data-type="text"] .slash-item-icon {
+            background: rgba(99, 179, 237, 0.15);
+            color: #63b3ed;
+        }
+
+        [data-type="h1"] .slash-item-icon {
+            background: rgba(252, 129, 129, 0.15);
+            color: #fc8181;
+        }
+
+        [data-type="h2"] .slash-item-icon {
+            background: rgba(237, 137, 54, 0.15);
+            color: #ed8936;
+        }
+
+        [data-type="h3"] .slash-item-icon {
+            background: rgba(236, 201, 75, 0.15);
+            color: #ecc94b;
+        }
+
+        [data-type="bullet"] .slash-item-icon {
+            background: rgba(72, 187, 120, 0.15);
+            color: #48bb78;
+        }
+
+        [data-type="numbered"] .slash-item-icon {
+            background: rgba(128, 90, 213, 0.15);
+            color: #805ad5;
+        }
+
+        [data-type="todo"] .slash-item-icon {
+            background: rgba(237, 100, 166, 0.15);
+            color: #ed64a6;
+        }
+
+        [data-type="quote"] .slash-item-icon {
+            background: rgba(160, 174, 192, 0.15);
+            color: #a0aec0;
+        }
+
+        [data-type="code"] .slash-item-icon {
+            background: rgba(56, 178, 172, 0.15);
+            color: #38b2ac;
+        }
+
+        [data-type="table"] .slash-item-icon {
+            background: rgba(66, 153, 225, 0.15);
+            color: #4299e1;
+        }
+
+        [data-type="embed"] .slash-item-icon {
+            background: rgba(159, 122, 234, 0.15);
+            color: #9f7aea;
+        }
+
+        [data-type="image"] .slash-item-icon {
+            background: rgba(237, 137, 54, 0.15);
+            color: #ed8936;
         }
 
         .slash-item-info {
@@ -3433,7 +3544,7 @@
             height: 100%;
             z-index: 2;
             overflow-y: auto;
-            padding: 140px 48px 80px;
+            padding: 16px 48px 80px;
             box-sizing: border-box;
         }
 
@@ -4227,9 +4338,9 @@
 
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1000px;
+            grid-template-columns: repeat(2, 260px);
+            gap: 24px;
+            justify-content: center;
             width: 100%;
         }
 
@@ -4237,7 +4348,7 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
-            padding: 32px 24px;
+            padding: 40px 32px 36px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
@@ -4250,14 +4361,14 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--pink), var(--yellow));
-            opacity: 0;
-            transition: opacity 0.4s;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pink), var(--yellow), var(--green));
+            opacity: 1;
         }
 
         .team-card:hover::before {
-            opacity: 1;
+            height: 5px;
+            background: linear-gradient(90deg, var(--pink), var(--orange), var(--yellow));
         }
 
         .team-card:hover {
@@ -4267,27 +4378,59 @@
         }
 
         .team-avatar {
-            width: 72px;
-            height: 72px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            margin: 0 auto 16px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
             background: linear-gradient(135deg, var(--pink), var(--purple));
-            box-shadow: 0 8px 25px rgba(255, 143, 163, 0.25);
+            box-shadow: 0 8px 30px rgba(255, 143, 163, 0.35), 0 0 0 3px rgba(255, 143, 163, 0.15);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .team-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--yellow), var(--green));
+            z-index: -1;
+            opacity: 0.6;
         }
 
         .team-card h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .team-card span {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .team-role {
+            display: block;
+            text-align: center;
+        }
+
+        .role-highlight {
+            background: linear-gradient(135deg, var(--pink), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
         }
 
         .sec-values {
@@ -4430,9 +4573,619 @@
                 height: 240px;
             }
         }
+
+        /* ─── Settings Modal (split-pane) ─── */
+        #settingsModal .modal-box {
+            max-width: 720px;
+            width: 92vw;
+            padding: 0;
+            display: flex;
+            min-height: 480px;
+            overflow: hidden;
+        }
+
+        #settingsModal .settings-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all .15s;
+            z-index: 2;
+        }
+
+        #settingsModal .settings-close:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .settings-sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            background: #222;
+            border-right: 1px solid #333;
+            padding: 24px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .settings-sidebar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            padding: 0 12px 18px;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .settings-tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #aaa;
+            transition: all .15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .settings-tab-btn:hover {
+            background: rgba(255, 255, 255, .06);
+            color: #ddd;
+        }
+
+        .settings-tab-btn.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .settings-tab-btn .tab-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .settings-content {
+            flex: 1;
+            padding: 24px 28px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .settings-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #333;
+        }
+
+        .settings-section-header .sec-icon {
+            font-size: 18px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .settings-row-label {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .settings-toggle {
+            width: 44px;
+            height: 24px;
+            background: #444;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: background .25s;
+            flex-shrink: 0;
+        }
+
+        .settings-toggle.on {
+            background: var(--accent);
+        }
+
+        .settings-toggle::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform .25s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+        }
+
+        .settings-toggle.on::after {
+            transform: translateX(20px);
+        }
+
+        .settings-theme-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .settings-theme-btn {
+            padding: 6px 16px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: transparent;
+            color: #aaa;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            transition: all .15s;
+        }
+
+        .settings-theme-btn:hover {
+            border-color: #666;
+            color: #ddd;
+        }
+
+        .settings-theme-btn.active {
+            border-color: #e8c23c;
+            background: rgba(232, 194, 60, .15);
+            color: #e8c23c;
+            font-weight: 600;
+        }
+
+        .settings-accent-colors {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .settings-accent-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all .15s;
+        }
+
+        .settings-accent-dot:hover {
+            transform: scale(1.15);
+        }
+
+        .settings-accent-dot.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, .25);
+        }
+
+        .settings-lang-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .settings-lang-btn {
+            padding: 6px 18px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: transparent;
+            color: #aaa;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            transition: all .15s;
+        }
+
+        .settings-lang-btn:hover {
+            border-color: #666;
+            color: #ddd;
+        }
+
+        .settings-lang-btn.active {
+            border-color: #40c057;
+            background: rgba(64, 192, 87, .12);
+            color: #40c057;
+            font-weight: 600;
+        }
+
+        /* ─── Mention Menu ─── */
+        .mention-menu {
+            position: fixed;
+            background: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+            border: 1px solid #333;
+            width: 240px;
+            z-index: 100;
+            padding: 6px;
+            display: none;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+
+        .mention-menu.show {
+            display: block;
+            animation: menuIn .12s ease-out;
+        }
+
+        .mention-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all .12s;
+        }
+
+        .mention-item:hover,
+        .mention-item.selected {
+            background: #333;
+        }
+
+        .mention-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .mention-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #eee;
+        }
+
+        .mention-email {
+            font-size: 11px;
+            color: #777;
+        }
+
+        .mention-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(240, 101, 149, .18);
+            color: var(--accent);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-weight: 600;
+            font-size: inherit;
+            white-space: nowrap;
+            user-select: all;
+        }
+
+        .mention-menu-title {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .3px;
+            color: var(--accent);
+            padding: 8px 12px 6px;
+            border-bottom: 1px solid #2c2c2c;
+            margin-bottom: 4px;
+        }
+
+        /* ─── Account Profile Page ─── */
+        #accountModal .modal-box {
+            display: none;
+        }
+
+        #accountModal {
+            background: rgba(10, 10, 18, .85);
+            backdrop-filter: blur(10px);
+        }
+
+        .account-page {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 28px 20px 48px;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .account-back {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all .15s;
+        }
+
+        .account-back:hover {
+            background: #2a2a2a;
+            color: #fff;
+        }
+
+        .account-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .account-subtitle {
+            font-size: 13px;
+            color: #888;
+            margin: 2px 0 0;
+        }
+
+        .account-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+
+        .account-card-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .account-profile-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 4px;
+        }
+
+        .account-avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .account-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8fa3, #b197fc);
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #aaa;
+            transition: all .15s;
+        }
+
+        .account-avatar-edit:hover {
+            background: #444;
+            color: #fff;
+        }
+
+        .account-profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .account-profile-status {
+            font-size: 13px;
+            color: #b197fc;
+            font-weight: 500;
+        }
+
+        .account-field-group {
+            margin-bottom: 14px;
+        }
+
+        .account-field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-field-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .account-field-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 10px;
+            color: #ddd;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+            transition: border-color .2s;
+        }
+
+        .account-field-input:focus {
+            border-color: rgba(255, 255, 255, .2);
+        }
+
+        .account-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .account-connected-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .account-connected-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .account-connected-info {
+            flex: 1;
+        }
+
+        .account-connected-name {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .account-connected-badge {
+            font-size: 12px;
+            color: #0ca678;
+            font-weight: 500;
+        }
+
+        .account-link-btn {
+            font-size: 13px;
+            color: #e85d04;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .account-sec-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .account-sec-row+.account-sec-row {
+            border-top: 1px solid rgba(255, 255, 255, .05);
+        }
+
+        .account-sec-icon-sm {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .account-sec-body {
+            flex: 1;
+        }
+
+        .account-sec-label {
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        .account-sec-desc {
+            font-size: 11px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .account-danger {
+            background: rgba(224, 49, 49, .06);
+            border-color: rgba(224, 49, 49, .2);
+        }
+
+        .account-danger-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #e03131;
+            margin-bottom: 4px;
+        }
+
+        .account-danger-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .account-danger-btn {
+            padding: 7px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(224, 49, 49, .3);
+            background: rgba(224, 49, 49, .1);
+            color: #ff6b6b;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .account-danger-btn:hover {
+            background: #e03131;
+            color: #fff;
+        }
     </style>
-    <base target="_blank">
-    <base target="_blank">
 </head>
 
 <body spellcheck="false">
@@ -4445,10 +5198,9 @@
     <div id="page-bento">
         <!-- NAVBAR -->
         <nav class="bento-navbar">
-            <a href="#" class="nav-logo">WorkRoom</a>
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
             <div class="nav-links">
-                <a href="#features" data-i18n="navFeatures" target="_self">ฟีเจอร์</a>
-                <a href="#" data-i18n="navPricing">ราคา</a>
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
                 <a href="#" data-i18n="navBlog" onclick="showBlog(); return false;">บล็อก</a>
             </div>
@@ -4677,7 +5429,6 @@
 
             <div class="wall-bento" id="wallBento"></div>
 
-            <button class="glow-btn" data-i18n="startCreate" onclick="showWorkroom()">เริ่มการสร้างสรรค์</button>
         </section>
 
 
@@ -4686,7 +5437,6 @@
             const translations = {
                 en: {
                     navFeatures: "Features",
-                    navPricing: "Pricing",
                     navStory: "Our Story",
                     navBlog: "Blog",
                     navLogin: "Login",
@@ -4794,8 +5544,9 @@
                     originTitle: "Born from the Mess",
                     originStickyTitle: "WorkRoom",
                     originStickyYear: "Est. 2024",
-                    originP1: "It all started with a simple feeling: \"Great ideas shouldn't be lost with sticky notes that disappear over time.\" We believe every creative thought, big or small, deserves to be organized and preserved.",
-                    originP2: "WorkRoom was built to be a space where anyone can jot down, plan, and collaborate with their team freely — with no limits on creativity.",
+                    originP1: "It all started with a simple feeling: 'Great ideas shouldn't be lost with sticky notes that disappear over time.' We believe every creative thought, big or small, deserves to be organized and preserved.",
+                    originP2: "We noticed that most big apps today come packed with features that take time to learn. Sure, if you're a fast learner, it's not a problem... but wouldn't it be better for those who don't want to spend time learning from scratch? Just download and start using immediately — with only the essential features, fast and focused.",
+                    originP3: "That's why WorkRoom was created — a space where everyone can jot down, plan, and work with their team freely, without anything interrupting your creative flow.",
                     timelineTitle: "Our Journey",
                     tl1Title: "The Beginning",
                     tl1Desc: "WorkRoom was born from a single sticky note idea. A small dev team formed in Bangkok.",
@@ -4805,14 +5556,11 @@
                     tl3Desc: "Added department rooms, whiteboard mode, and Google & Facebook login support.",
                     teamTitle: "Meet the Team",
                     teamSubtitle: "The people behind every feature you use.",
-                    team1Name: "Somchai",
-                    team1Role: "Founder & CEO",
-                    team2Name: "Somsri",
-                    team2Role: "Head of Engineering",
-                    team3Name: "Prasert",
-                    team3Role: "Lead Designer",
-                    team4Name: "Manee",
-                    team4Role: "Product Manager",
+                    team1Name: "KAWAII",
+                    team1RolePrefix: "Founder",
+                    team1Role: "Design Engineer / Design Technologist",
+                    team2RolePrefix: "CEO",
+                    team2Role: "Back-End Developer",
                     valuesTitle: "Our Values",
                     val1Title: "Creativity Without Limits",
                     val1Desc: "We believe everyone can have big ideas. Our space is designed to unleash imagination.",
@@ -4825,10 +5573,39 @@
                     ctaTitle: "Let's Write the<br>Next Chapter Together",
                     ctaDesc: "Whether you're a small team or a large organization, WorkRoom is ready to help your creativity grow.",
                     ctaBtn: "Get Started Free →",
+                    acctTitle: "My Account",
+                    acctSubtitle: "Manage your account information and security settings",
+                    acctAvatarLabel: "Profile avatar name",
+                    acctFreeMember: "Free member",
+                    acctRealName: "Display name",
+                    acctEmail: "Email",
+                    acctConnected: "Connected Accounts",
+                    acctConnectedBadge: "Connected ✓",
+                    acctSecurity: "Security",
+                    acctKeepSecure: "Keep your account secure",
+                    acctKeepSecureDesc: "Your password is encrypted and secure",
+                    acctViewInfo: "View info →",
+                    acctLogoutAll: "Log out from all devices",
+                    acctLogoutAllDesc: "Log out of all devices you're currently signed in on",
+                    acctClickHere: "Click here",
+                    acctDangerDesc: "Deleting your account will remove access to all your data and content on WorkRoom",
+                    acctDeleteBtn: "🗑️ Delete Account",
+                    settingsTitle: "Settings",
+                    settingsNotif: "Notifications",
+                    settingsAppearance: "Appearance",
+                    settingsLanguage: "Language",
+                    settingsAbout: "About",
+                    settingsNotifTag: "Notify when someone types/tags ideas",
+                    settingsNotifSound: "Notification sound",
+                    settingsTheme: "Dark theme",
+                    settingsThemeDark: "Dark",
+                    settingsThemeLight: "Light",
+                    settingsThemeSystem: "System",
+                    settingsAccent: "Accent color",
+                    settingsVersion: "App version",
                 },
                 th: {
                     navFeatures: "ฟีเจอร์",
-                    navPricing: "ราคา",
                     navStory: "เรื่องราวของเรา",
                     navBlog: "บล็อก",
                     navLogin: "เข้าสู่ระบบ",
@@ -4934,9 +5711,10 @@
                     storyHeroDesc: "จากไอเดียเล็กๆ บนกระดาษโน้ต สู่พื้นที่ทำงานที่เชื่อมต่อความคิดสร้างสรรค์ของทุกคน",
                     originTitle: "จุดเริ่มต้นจากความยุ่งเหยิง",
                     originStickyTitle: "WorkRoom",
-                    originStickyYear: "ก่อตั้ง 2024",
-                    originP1: "ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า \"ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา\" เราเชื่อว่าทุกความคิดสร้างสรรค์ ไม่ว่าจะเล็กหรือใหญ่ ล้วนมีค่าและควรได้รับการจัดเก็บอย่างเป็นระบบ",
-                    originP2: "WorkRoom ถูกสร้างขึ้นเพื่อเป็นพื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน และร่วมมือกับทีมได้อย่างอิสระ ไม่มีขีดจำกัดทางความคิดสร้างสรรค์",
+                    originStickyYear: "ก่อตั้ง 2026",
+                    originP1: "ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า 'ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา' เราเชื่อว่าทุกความคิดสร้างสรรค์ ไม่ว่าจะเล็กหรือใหญ่ ล้วนมีค่าและควรได้รับการจัดเก็บอย่างเป็นระบบ",
+                    originP2: "เราสังเกตเห็นว่าแอปใหญ่ๆ ในปัจจุบัน มักมีฟังก์ชันให้เรียนรู้เยอะแยะไปหมด แน่นอนว่าถ้าเป็นคนที่เรียนรู้ไว มันคงไม่ใช่เรื่องยาก… แต่จะดีกว่าไหม สำหรับคนที่ไม่อยากเสียเวลาเริ่มเรียนรู้ใหม่จากศูนย์? แค่โหลดมา ก็เข้าใจและเริ่มใช้งานได้ทันที มีเฉพาะฟังก์ชันที่จำเป็น รวดเร็ว และตรงจุด",
+                    originP3: "WorkRoom จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน และทำงานร่วมกับทีมได้อย่างอิสระ โดยไม่มีอะไรมาขัดจังหวะความคิดสร้างสรรค์ของคุณ",
                     timelineTitle: "เส้นทางการเติบโต",
                     tl1Title: "จุดเริ่มต้น",
                     tl1Desc: "WorkRoom ถือกำเนิดขึ้นจากไอเดียบนโปสต์อิทใบเดียว ก่อตั้งทีมพัฒนาเล็กๆ ในกรุงเทพฯ",
@@ -4946,14 +5724,11 @@
                     tl3Desc: "เพิ่มฟีเจอร์ห้องแผนก ระบบไวท์บอร์ด และการเชื่อมต่อกับ Google และ Facebook",
                     teamTitle: "ทีมของเรา",
                     teamSubtitle: "คนที่อยู่เบื้องหลังทุกฟีเจอร์ที่คุณใช้งาน",
-                    team1Name: "คุณสมชาย",
-                    team1Role: "ผู้ก่อตั้ง & CEO",
-                    team2Name: "คุณสมศรี",
-                    team2Role: "หัวหน้าทีมพัฒนา",
-                    team3Name: "คุณประเสริฐ",
-                    team3Role: "Lead Designer",
-                    team4Name: "คุณมานี",
-                    team4Role: "ผู้จัดการผลิตภัณฑ์",
+                    team1Name: "KAWAII",
+                    team1RolePrefix: "ผู้ก่อตั้ง",
+                    team1Role: "ตำแหน่งที่ทำ Design Engineer / Design Technologist",
+                    team2RolePrefix: "CEO",
+                    team2Role: "ตำแหน่งที่ทำ Back-End Developer",
                     valuesTitle: "ค่านิยมของเรา",
                     val1Title: "ความคิดสร้างสรรค์ไร้ขีดจำกัด",
                     val1Desc: "เราเชื่อว่าทุกคนมีไอเดียที่ยิ่งใหญ่ได้ พื้นที่ของเราออกแบบมาเพื่อปลดปล่อยจินตนาการ",
@@ -4965,7 +5740,37 @@
                     val4Desc: "เราไม่หยุดพัฒนา และเราอยากเห็นผู้ใช้ของเราเติบโตไปพร้อมๆ กับเราเช่นกัน",
                     ctaTitle: "มาร่วมสร้าง<br>เรื่องราวต่อไปด้วยกัน",
                     ctaDesc: "ไม่ว่าคุณจะเป็นทีมเล็กหรือองค์กรใหญ่ WorkRoom พร้อมเป็นพื้นที่ให้ความคิดสร้างสรรค์ของคุณเติบโต",
-                    ctaBtn: "เริ่มใช้งานฟรี →"
+                    ctaBtn: "เริ่มใช้งานฟรี →",
+                    acctTitle: "บัญชีผู้ใช้ของฉัน",
+                    acctSubtitle: "จัดการข้อมูลบัญชีและการตั้งค่าความปลอดภัย",
+                    acctAvatarLabel: "ชื่อ avatar โปรไฟล์",
+                    acctFreeMember: "สมาชิกบัญชีฟรี",
+                    acctRealName: "ชื่อเรียกจริง",
+                    acctEmail: "อีเมล",
+                    acctConnected: "บัญชีที่เชื่อมต่อ",
+                    acctConnectedBadge: "เชื่อมต่ออยู่",
+                    acctSecurity: "ความปลอดภัย",
+                    acctKeepSecure: "รักษารหัสผู้ใช้ของคุณ",
+                    acctKeepSecureDesc: "รหัสผ่านปัจจุบันได้รับการเข้ารหัสและปลอดภัย",
+                    acctViewInfo: "ดูข้อมูล →",
+                    acctLogoutAll: "ออกจากระบบทุกอุปกรณ์",
+                    acctLogoutAllDesc: "ออกจากระบบในทุกอุปกรณ์ที่คุณเข้าถึงอยู่ตอนนี้",
+                    acctClickHere: "คลิกที่นี่",
+                    acctDangerDesc: "ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป",
+                    acctDeleteBtn: "🗑️ ลบบัญชี",
+                    settingsTitle: "ตั้งค่า",
+                    settingsNotif: "แจ้งเตือน",
+                    settingsAppearance: "รูปลักษณ์",
+                    settingsLanguage: "ภาษา",
+                    settingsAbout: "เกี่ยวกับ",
+                    settingsNotifTag: "แจ้งเตือนเมื่อมีคนพิมพ์/แท็กไอเดีย",
+                    settingsNotifSound: "เสียงแจ้งเตือน",
+                    settingsTheme: "โทนมืด",
+                    settingsThemeDark: "มืด",
+                    settingsThemeLight: "สว่าง",
+                    settingsThemeSystem: "ระบบ",
+                    settingsAccent: "สีสัน",
+                    settingsVersion: "เวอร์ชันแอป",
                 }
             };
 
@@ -5043,15 +5848,17 @@
             }
 
             // ===== LENIS SMOOTH SCROLL =====
-            const lenis = new Lenis({
+            window.__lenis = new Lenis({
                 lerp: 0.08,
                 smoothWheel: true,
                 syncTouch: true,
                 wheelMultiplier: 0.9
             });
+            var lenis = window.__lenis;
+            window.__lenisPaused = false;
 
             lenis.on('scroll', ScrollTrigger.update);
-            gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+            gsap.ticker.add((time) => { if (!window.__lenisPaused) lenis.raf(time * 1000); });
             gsap.ticker.lagSmoothing(0);
 
             // ===== CUSTOM CURSOR =====
@@ -5463,14 +6270,14 @@
                         </div>
                     </div>
                     <div class="sidebar-bottom">
-                        <div class="user-card" id="userCard" style="display:none;">
+                        <div class="user-card" id="userCard" style="display:none;" onclick="openAccountPage()">
                             <div class="user-avatar" id="userAvatar"></div>
                             <div class="user-info">
                                 <div class="user-name" id="userName"></div>
                                 <div class="user-email" id="userEmail"></div>
                             </div>
                             <div class="user-provider" id="userBadge"></div>
-                            <button class="user-logout" onclick="logout()" title="ออกจากระบบ">
+                            <button class="user-logout" onclick="event.stopPropagation();logout()" title="ออกจากระบบ">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -5531,13 +6338,13 @@
 
                     <div class="editor-scroll">
                         <div class="editor-container" id="editorContainer">
-                            <div id="normalEditor">
+                            <div id="normalEditor" style="display:none;">
                                 <input type="text" class="editor-title" id="pageTitle" placeholder="หน้าใหม่"
                                     value="หน้าใหม่">
                                 <div id="editorBlocks"></div>
                             </div>
 
-                            <div id="ideaEditor" style="display:none;">
+                            <div id="ideaEditor">
                                 <div class="idea-workspace">
                                     <div class="idea-sheet">
                                         <div class="idea-static-header">
@@ -5711,6 +6518,17 @@
                     <div class="slash-item-desc">แทรกรูปจากเครื่อง</div>
                 </div>
             </div>
+            <div class="slash-item" data-type="mention" onclick="selectSlashType('mention')">
+                <div class="slash-item-icon" style="background:#f06595;color:#fff;">@</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">แท็กผู้ใช้</div>
+                    <div class="slash-item-desc">แท็ก/mention คนในทีม</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mention-menu" id="mentionMenu">
+            <div class="mention-menu-title">@ แท็กผู้ใช้</div>
         </div>
 
         <div class="block-ctx" id="blockCtx">
@@ -5751,17 +6569,178 @@
             </div>
         </div>
 
+        <!-- Account Profile Page -->
+        <div class="modal-overlay" id="accountModal">
+            <div class="account-page">
+                <div class="account-header">
+                    <button class="account-back" onclick="closeModal('accountModal')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="account-title" data-i18n="acctTitle">บัญชีผู้ใช้ของฉัน</h2>
+                        <p class="account-subtitle" data-i18n="acctSubtitle">จัดการข้อมูลบัญชีและการตั้งค่าความปลอดภัย
+                        </p>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-card-label" data-i18n="acctAvatarLabel">ชื่อ avatar โปรไฟล์</div>
+                    <div class="account-profile-header">
+                        <div class="account-avatar-wrap">
+                            <div class="account-avatar" id="acctAvatar">K</div>
+                            <label class="account-avatar-edit">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                                <input type="file" accept="image/*" style="display:none" onchange="changeAvatar(event)">
+                            </label>
+                        </div>
+                        <div class="account-profile-info">
+                            <div class="account-profile-name" id="acctDisplayName">kawaii</div>
+                            <div class="account-profile-status" data-i18n="acctFreeMember">สมาชิกบัญชีฟรี</div>
+                        </div>
+                    </div>
+                    <div class="account-field-group" style="margin-top:16px;">
+                        <div class="account-field-label" data-i18n="acctRealName">ชื่อเรียกจริง</div>
+                        <input class="account-field-input" id="acctNameInput" value="kawaii"
+                            onchange="saveAccountField('name')">
+                    </div>
+                    <div class="account-field-group">
+                        <div class="account-field-label" data-i18n="acctEmail">อีเมล</div>
+                        <input class="account-field-input" id="acctEmailInput" value="kawaii@workroom.app"
+                            onchange="saveAccountField('email')">
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-section-title"><span style="margin-right:4px;">🔗</span> <span
+                            data-i18n="acctConnected">บัญชีที่เชื่อมต่อ</span></div>
+                    <div class="account-connected-item">
+                        <div class="account-connected-icon" style="background:#4285f4;">G</div>
+                        <div class="account-connected-name">Google</div>
+                        <span class="account-connected-badge" data-i18n="acctConnectedBadge">เชื่อมต่ออยู่</span>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-section-title" data-i18n="acctSecurity">ความปลอดภัย</div>
+                    <div class="account-sec-row">
+                        <div class="account-sec-icon-sm">🔒</div>
+                        <div class="account-sec-body">
+                            <div class="account-sec-label" data-i18n="acctKeepSecure">รักษารหัสผู้ใช้ของคุณ</div>
+                            <div class="account-sec-desc" data-i18n="acctKeepSecureDesc">
+                                รหัสผ่านปัจจุบันได้รับการเข้ารหัสและปลอดภัย</div>
+                        </div>
+                        <button class="account-link-btn" data-i18n="acctViewInfo">ดูข้อมูล →</button>
+                    </div>
+                    <div class="account-sec-row">
+                        <div class="account-sec-icon-sm">🔑</div>
+                        <div class="account-sec-body">
+                            <div class="account-sec-label" data-i18n="acctLogoutAll">ออกจากระบบทุกอุปกรณ์</div>
+                            <div class="account-sec-desc" data-i18n="acctLogoutAllDesc">
+                                ออกจากระบบในทุกอุปกรณ์ที่คุณเข้าถึงอยู่ตอนนี้</div>
+                        </div>
+                        <button class="account-link-btn" onclick="logout()"
+                            data-i18n="acctClickHere">คลิกที่นี่</button>
+                    </div>
+                </div>
+                <div class="account-card account-danger">
+                    <div class="account-danger-title">DANGER ZONE</div>
+                    <p class="account-danger-desc" data-i18n="acctDangerDesc">
+                        ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป</p>
+                    <button class="account-danger-btn" onclick="deleteAccount()" data-i18n="acctDeleteBtn">🗑️
+                        ลบบัญชี</button>
+                </div>
+            </div>
+        </div>
+
         <div class="modal-overlay" id="settingsModal">
-            <div class="modal-box">
-                <div class="modal-title">ตั้งค่า</div>
-                <div style="margin-bottom:18px;"><label
-                        style="display:flex;align-items:center;justify-content:space-between;font-size:14px;color:#ddd;padding:10px 0;"><span>แจ้งเตือนการแท็ก</span><input
-                            type="checkbox" checked style="width:18px;height:18px;accent-color:#3b82f6;"></label></div>
-                <div style="margin-bottom:18px;"><label
-                        style="display:flex;align-items:center;justify-content:space-between;font-size:14px;color:#ddd;padding:10px 0;"><span>เสียงแจ้งเตือน</span><input
-                            type="checkbox" checked style="width:18px;height:18px;accent-color:#3b82f6;"></label></div>
-                <div class="modal-actions"><button class="btn btn-primary"
-                        onclick="closeModal('settingsModal')">เสร็จสิ้น</button></div>
+            <div class="modal-box" style="position:relative;">
+                <button class="settings-close" onclick="closeModal('settingsModal')">✕</button>
+                <div class="settings-sidebar">
+                    <div class="settings-sidebar-title" data-i18n="settingsTitle">ตั้งค่า</div>
+                    <button class="settings-tab-btn active" onclick="switchSettingsTab('notif',this)"><span
+                            class="tab-icon">🔔</span><span data-i18n="settingsNotif">แจ้งเตือน</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('appearance',this)"><span
+                            class="tab-icon">🎨</span><span data-i18n="settingsAppearance">รูปลักษณ์</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('language',this)"><span
+                            class="tab-icon">🌐</span><span data-i18n="settingsLanguage">ภาษา</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('about',this)"><span
+                            class="tab-icon">ℹ️</span><span data-i18n="settingsAbout">เกี่ยวกับ</span></button>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section active" id="settings-notif">
+                        <div class="settings-section-header" style="color:#f06595;"><span
+                                class="sec-icon">🔔</span><span data-i18n="settingsNotif">แจ้งเตือน</span></div>
+                        <div class="settings-row">
+                            <span class="settings-row-label"
+                                data-i18n="settingsNotifTag">แจ้งเตือนเมื่อมีคนพิมพ์/แท็กไอเดีย</span>
+                            <div id="toggleNotifTag" class="settings-toggle on"
+                                onclick="toggleSettingSwitch(this,'settings-notifTag')"></div>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsNotifSound">เสียงแจ้งเตือน</span>
+                            <div id="toggleNotifSound" class="settings-toggle on"
+                                onclick="toggleSettingSwitch(this,'settings-notifSound')"></div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-appearance">
+                        <div class="settings-section-header" style="color:#fcc419;"><span
+                                class="sec-icon">🎨</span><span data-i18n="settingsAppearance">รูปลักษณ์</span></div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsTheme">โทนมืด</span>
+                            <div class="settings-theme-btns">
+                                <button class="settings-theme-btn active" data-theme="dark"
+                                    onclick="switchSettingsTheme(this,'dark')"
+                                    data-i18n="settingsThemeDark">มืด</button>
+                                <button class="settings-theme-btn" data-theme="light"
+                                    onclick="switchSettingsTheme(this,'light')"
+                                    data-i18n="settingsThemeLight">สว่าง</button>
+                                <button class="settings-theme-btn" data-theme="system"
+                                    onclick="switchSettingsTheme(this,'system')"
+                                    data-i18n="settingsThemeSystem">ระบบ</button>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsAccent">สีสัน</span>
+                            <div class="settings-accent-colors">
+                                <div class="settings-accent-dot active" style="background:#f06595;"
+                                    onclick="pickAccent(this,'#f06595')"></div>
+                                <div class="settings-accent-dot" style="background:#fcc419;"
+                                    onclick="pickAccent(this,'#fcc419')"></div>
+                                <div class="settings-accent-dot" style="background:#40c057;"
+                                    onclick="pickAccent(this,'#40c057')"></div>
+                                <div class="settings-accent-dot" style="background:#339af0;"
+                                    onclick="pickAccent(this,'#339af0')"></div>
+                                <div class="settings-accent-dot" style="background:#7950f2;"
+                                    onclick="pickAccent(this,'#7950f2')"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-language">
+                        <div class="settings-section-header" style="color:#40c057;"><span
+                                class="sec-icon">🌐</span><span data-i18n="settingsLanguage">ภาษา</span></div>
+                        <div class="settings-row">
+                            <div class="settings-lang-btns">
+                                <button class="settings-lang-btn" data-lang="th"
+                                    onclick="setLang('th');switchSettingsLang(this)">ไทย</button>
+                                <button class="settings-lang-btn" data-lang="en"
+                                    onclick="setLang('en');switchSettingsLang(this)">EN</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-about">
+                        <div class="settings-section-header" style="color:#748ffc;"><span
+                                class="sec-icon">ℹ️</span><span data-i18n="settingsAbout">เกี่ยวกับ</span></div>
+                        <div class="settings-row"><span class="settings-row-label"
+                                data-i18n="settingsVersion">เวอร์ชันแอป</span><span
+                                style="color:#aaa;font-size:14px;">1.0.0</span></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -5807,7 +6786,11 @@
             ];
 
             let wbStrokes = [], wbTool = 'pen', wbColor = '#333', wbSize = 3, isWbDrawing = false, currentWbStroke = null;
-            let ideaDocBlocks = [{ type: 'text', content: '' }];
+            let ideaDocBlocks = JSON.parse(localStorage.getItem('ideaDocBlocks') || 'null') || [
+                { type: 'h1', content: 'วิธีการใช้งาน' },
+                { type: 'text', content: 'พิมพ์ <b>/</b> เพื่อเข้าถึงฟังก์ชันต่างๆ ในการออกแบบไอเดีย' },
+                { type: 'text', content: '' }
+            ];
 
             // ========== INIT ==========
             let workroomInitialized = false;
@@ -5839,6 +6822,9 @@
             }
             document.addEventListener('DOMContentLoaded', () => {
                 initWorkroom();
+                // หยุด Lenis ไม่ให้จับ scroll event ใน slash menu
+                var sm = document.getElementById('slashMenu');
+                if (sm) sm.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: false });
             });
 
 
@@ -6015,6 +7001,195 @@
                 showToast('คุณถูกแท็กโดย Prasert');
             }, 6000);
 
+            // ========== SETTINGS FUNCTIONS ==========
+            function switchSettingsTab(tab, btn) {
+                document.querySelectorAll('.settings-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
+                document.getElementById('settings-' + tab).classList.add('active');
+            }
+            function toggleSettingSwitch(el, storageKey) {
+                el.classList.toggle('on');
+                try { localStorage.setItem(storageKey, el.classList.contains('on') ? '1' : '0'); } catch (e) { }
+            }
+            function restoreToggles() {
+                try {
+                    if (localStorage.getItem('settings-notifTag') === '0') document.getElementById('toggleNotifTag').classList.remove('on');
+                    if (localStorage.getItem('settings-notifSound') === '0') document.getElementById('toggleNotifSound').classList.remove('on');
+                } catch (e) { }
+            }
+            function applyTheme(theme) {
+                var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.body.classList.toggle('light-theme', !isDark);
+            }
+            function switchSettingsTheme(btn, theme) {
+                document.querySelectorAll('.settings-theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                try { localStorage.setItem('settings-theme', theme); } catch (e) { }
+                applyTheme(theme);
+            }
+            function restoreTheme() {
+                try {
+                    var saved = localStorage.getItem('settings-theme') || 'dark';
+                    var btn = document.querySelector('.settings-theme-btn[data-theme="' + saved + '"]');
+                    if (btn) { document.querySelectorAll('.settings-theme-btn').forEach(function (b) { b.classList.remove('active'); }); btn.classList.add('active'); }
+                    applyTheme(saved);
+                } catch (e) { }
+            }
+            function applyAccent(color) { document.documentElement.style.setProperty('--accent', color); }
+            function pickAccent(dot, color) {
+                document.querySelectorAll('.settings-accent-dot').forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                try { localStorage.setItem('settings-accent', color); } catch (e) { }
+                applyAccent(color);
+            }
+            function restoreAccent() {
+                try {
+                    var saved = localStorage.getItem('settings-accent');
+                    if (saved) {
+                        applyAccent(saved);
+                        document.querySelectorAll('.settings-accent-dot').forEach(function (d) { d.classList.remove('active'); });
+                        var dot = document.querySelector('.settings-accent-dot[style*="' + saved + '"]');
+                        if (dot) dot.classList.add('active');
+                    }
+                } catch (e) { }
+            }
+            function switchSettingsLang(btn) {
+                document.querySelectorAll('.settings-lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            // ========== ACCOUNT FUNCTIONS ==========
+            function openAccountPage() {
+                var user = currentUser || {};
+                var name = user.name || 'User';
+                var email = user.email || '';
+                var initial = name.trim().charAt(0).toUpperCase() || '?';
+                var pic = (typeof safePicture === 'function') ? safePicture(user.picture) : '';
+                var avatar = document.getElementById('acctAvatar');
+                avatar.innerHTML = '';
+                avatar.style.background = '';
+                if (pic) {
+                    avatar.style.background = '#2a2a2a';
+                    var img = document.createElement('img');
+                    img.src = pic;
+                    img.onerror = function () { avatar.style.background = 'linear-gradient(135deg, #ff8fa3, #b197fc)'; avatar.textContent = initial; };
+                    avatar.appendChild(img);
+                } else {
+                    avatar.style.background = 'linear-gradient(135deg, #ff8fa3, #b197fc)';
+                    avatar.textContent = initial;
+                }
+                document.getElementById('acctDisplayName').textContent = name;
+                document.getElementById('acctNameInput').value = name;
+                document.getElementById('acctEmailInput').value = email;
+                openModal('accountModal');
+            }
+            function saveAccountField(field) {
+                var input = document.getElementById(field === 'name' ? 'acctNameInput' : 'acctEmailInput');
+                var val = input.value.trim();
+                if (!val) return;
+                var user = currentUser || {};
+                user[field] = val;
+                currentUser = user;
+                try { localStorage.setItem('wr-user', JSON.stringify(user)); } catch (e) { }
+                if (typeof renderUserProfile === 'function') renderUserProfile(user);
+                document.getElementById('acctDisplayName').textContent = user.name || 'User';
+                showToast(currentLang === 'th' ? 'บันทึกสำเร็จ' : 'Saved successfully');
+            }
+            function changeAvatar(e) {
+                var file = e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    var user = currentUser || {};
+                    user.picture = evt.target.result;
+                    currentUser = user;
+                    try { localStorage.setItem('wr-user', JSON.stringify(user)); } catch (err) { }
+                    if (typeof renderUserProfile === 'function') renderUserProfile(user);
+                    openAccountPage();
+                    showToast(currentLang === 'th' ? 'เปลี่ยนรูปโปรไฟล์สำเร็จ' : 'Profile picture updated');
+                };
+                reader.readAsDataURL(file);
+            }
+            function deleteAccount() {
+                var lang = currentLang || 'th';
+                if (!confirm(lang === 'th' ? 'คุณแน่ใจหรือว่าต้องการลบบัญชี?' : 'Are you sure you want to delete your account?')) return;
+                try { localStorage.removeItem('wr-user'); } catch (e) { }
+                currentUser = null;
+                closeModal('accountModal');
+                showToast(lang === 'th' ? 'ลบบัญชีสำเร็จ' : 'Account deleted');
+                setTimeout(function () { location.reload(); }, 1000);
+            }
+
+            // ========== MENTION FUNCTIONS ==========
+            let mentionTarget = null, mentionIndex = 0, mentionBlockIndex = null;
+            const mentionColors = ['#8b5cf6', '#e64980', '#1971c2', '#f76707', '#37b24d', '#0ca678', '#f59f00'];
+            let registeredUsers = [
+                { name: 'kawaii', email: 'kawaii@gmail.com' },
+                { name: 'paru', email: 'paru@gmail.com' },
+                { name: 'somchai', email: 'somchai@gmail.com' },
+                { name: 'manee', email: 'manee@gmail.com' },
+                { name: 'napat', email: 'napat@gmail.com' },
+                { name: 'arisa', email: 'arisa@gmail.com' }
+            ];
+            function getMentionUsers(query) {
+                var q = (query || '').toLowerCase();
+                return registeredUsers.filter(function (u) { return u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q); });
+            }
+            function showMentionMenu(targetEl, blockIdx, query) {
+                var users = getMentionUsers(query);
+                if (users.length === 0) { hideMentionMenu(); return; }
+                mentionBlockIndex = blockIdx;
+                mentionIndex = 0;
+                var menu = document.getElementById('mentionMenu');
+                var rect = targetEl.getBoundingClientRect();
+                menu.style.left = (rect.left + 40) + 'px';
+                menu.style.top = (rect.bottom + 4) + 'px';
+                var html = '<div class="mention-menu-title">@ แท็กผู้ใช้</div>';
+                users.forEach(function (u, i) {
+                    var initial = u.name.charAt(0).toUpperCase();
+                    var color = mentionColors[i % mentionColors.length];
+                    html += '<div class="mention-item' + (i === 0 ? ' selected' : '') + '" data-email="' + u.email + '">'
+                        + '<div class="mention-avatar" style="background:' + color + '">' + initial + '</div>'
+                        + '<div><div class="mention-name">' + u.name + '</div>'
+                        + '<div class="mention-email">' + u.email + '</div></div></div>';
+                });
+                menu.innerHTML = html;
+                menu.classList.add('show');
+            }
+            function hideMentionMenu() {
+                document.getElementById('mentionMenu').classList.remove('show');
+                mentionBlockIndex = null;
+                mentionTarget = null;
+            }
+            function selectMention(email) {
+                if (mentionBlockIndex === null) return;
+                var user = registeredUsers.find(function (u) { return u.email === email; });
+                if (!user) return;
+                var isIdea = currentRoomId === 'room-1';
+                var page = isIdea ? null : roomPages[currentRoomId];
+                var block = isIdea ? ideaDocBlocks[mentionBlockIndex] : page.blocks[mentionBlockIndex];
+                var raw = block.content || '';
+                var atIdx = raw.lastIndexOf('@');
+                if (atIdx !== -1) raw = raw.substring(0, atIdx);
+                block.content = raw + '<span class="mention-chip" contenteditable="false" title="' + user.email + '">@' + user.name + '</span>&nbsp;';
+                hideMentionMenu();
+                if (isIdea) { renderIdeaBlocks(); setTimeout(() => focusBlock(mentionBlockIndex, true), 10); }
+                else { renderEditor(); setTimeout(() => focusBlock(mentionBlockIndex, false), 10); }
+            }
+            function updateMentionSelection() {
+                document.querySelectorAll('#mentionMenu .mention-item').forEach((item, i) => {
+                    item.classList.toggle('selected', i === mentionIndex);
+                });
+            }
+            document.getElementById('mentionMenu').addEventListener('click', function (e) {
+                var item = e.target.closest('.mention-item');
+                if (!item) return;
+                e.stopPropagation();
+                var email = item.dataset.email;
+                if (email) selectMention(email);
+            });
+
             // ========== MODALS ==========
             function openModal(id) { document.getElementById(id).classList.add('active'); }
             function closeModal(id) { document.getElementById(id).classList.remove('active'); }
@@ -6029,6 +7204,8 @@
                 if (!dropdown.contains(e.target) && !bell.contains(e.target)) dropdown.classList.remove('show');
                 let slash = document.getElementById('slashMenu');
                 if (!slash.contains(e.target)) hideSlashMenu();
+                var mention = document.getElementById('mentionMenu');
+                if (mention && mention.classList.contains('show') && !mention.contains(e.target)) hideMentionMenu();
                 let bctx = document.getElementById('blockCtx');
                 if (!bctx.contains(e.target)) bctx.classList.remove('show');
             });
@@ -6163,8 +7340,8 @@
             }
 
             function getPlaceholder(type) {
-                let map = { text: "พิมพ์ '/' เพื่อเพิ่มบล็อก...", h1: 'หัวข้อ 1', h2: 'หัวข้อ 2', h3: 'หัวข้อ 3', bullet: 'รายการ', numbered: 'รายการ', todo: 'สิ่งที่ต้องทำ', quote: 'ข้อความอ้างอิง', code: 'โค้ด', table: 'ตาราง', embed: 'https://...', image: 'URL รูปภาพ' };
-                return map[type] || 'พิมพ์ข้อความ...';
+                let map = { text: "เริ่มเขียนอะไรสักอย่าง...", h1: 'หัวข้อ 1', h2: 'หัวข้อ 2', h3: 'หัวข้อ 3', bullet: 'รายการ', numbered: 'รายการ', todo: 'สิ่งที่ต้องทำ', quote: 'ข้อความอ้างอิง', code: 'โค้ด', table: 'ตาราง', embed: 'https://...', image: 'URL รูปภาพ' };
+                return map[type] || 'เขียนข้อความ...';
             }
 
             function handleBlockKeydown(e, index, isIdea) {
@@ -6173,6 +7350,7 @@
                 let content = e.target;
 
                 if (e.key === 'Enter' && !e.shiftKey) {
+                    if (document.getElementById('mentionMenu').classList.contains('show') || document.getElementById('slashMenu').classList.contains('show')) return;
                     e.preventDefault();
                     let sel = window.getSelection();
                     let range = sel.getRangeAt(0);
@@ -6261,6 +7439,20 @@
                     showSlashMenu(e.target, index);
                 } else {
                     hideSlashMenu();
+                }
+
+                // Detect @ mention
+                if (text.includes('@') && block.type !== 'code' && block.type !== 'divider') {
+                    let atIdx = text.lastIndexOf('@');
+                    let afterAt = text.substring(atIdx + 1);
+                    if (!afterAt.includes(' ')) {
+                        mentionTarget = e.target;
+                        showMentionMenu(e.target, index, afterAt);
+                    } else {
+                        hideMentionMenu();
+                    }
+                } else {
+                    hideMentionMenu();
                 }
             }
 
@@ -6355,6 +7547,7 @@
                             block.content = evt.target.result;
                             block.url = evt.target.result;
                             hideSlashMenu();
+                            saveIdeaBlocks();
                             if (isIdea) renderIdeaDoc(); else renderEditor();
                             setTimeout(() => focusBlock(slashMenuTarget, isIdea), 10);
                         };
@@ -6371,6 +7564,7 @@
                 if (type === 'table') { block.rows = [['หัวข้อ A', 'หัวข้อ B', 'หัวข้อ C'], ['ข้อมูล 1', 'ข้อมูล 2', 'ข้อมูล 3']]; }
                 block.content = '';
                 hideSlashMenu();
+                saveIdeaBlocks();
                 if (isIdea) { renderIdeaBlocks(); setTimeout(() => focusIdeaBlock(slashMenuTarget), 10); }
                 else { renderEditor(); setTimeout(() => focusBlock(slashMenuTarget, false), 10); }
             }
@@ -6391,6 +7585,7 @@
                 if (currentRoomId === 'room-1') {
                     ideaDocBlocks.splice(blockCtxIndex, 1);
                     if (ideaDocBlocks.length === 0) ideaDocBlocks.push({ type: 'text', content: '' });
+                    saveIdeaBlocks();
                     renderIdeaBlocks();
                 } else {
                     roomPages[currentRoomId].blocks.splice(blockCtxIndex, 1);
@@ -6401,6 +7596,10 @@
 
 
             // ========== IDEA BLOCK EDITOR ==========
+            function saveIdeaBlocks() {
+                localStorage.setItem('ideaDocBlocks', JSON.stringify(ideaDocBlocks));
+            }
+
             function renderIdeaBlocks() {
                 let container = document.getElementById('ideaBlocks');
                 if (!container) return;
@@ -6447,7 +7646,7 @@
             }
 
             function getIdeaPlaceholder(type) {
-                let map = { text: "พิมพ์ '/' เพื่อเพิ่มบล็อก...", h1: 'หัวข้อ 1', h2: 'หัวข้อ 2', h3: 'หัวข้อ 3', bullet: 'รายการ', numbered: 'รายการ', todo: 'สิ่งที่ต้องทำ', quote: 'ข้อความอ้างอิง', divider: '', code: 'โค้ด', table: 'ตาราง', embed: 'https://...', image: 'URL รูปภาพ' };
+                let map = { text: "เริ่มเขียนอะไรสักอย่าง...", h1: 'หัวข้อ 1', h2: 'หัวข้อ 2', h3: 'หัวข้อ 3', bullet: 'รายการ', numbered: 'รายการ', todo: 'สิ่งที่ต้องทำ', quote: 'ข้อความอ้างอิง', divider: '', code: 'โค้ด', table: 'ตาราง', embed: 'https://...', image: 'URL รูปภาพ' };
                 return map[type] || 'พิมพ์ข้อความ...';
             }
 
@@ -6456,6 +7655,7 @@
                 let content = e.target;
 
                 if (e.key === 'Enter' && !e.shiftKey) {
+                    if (document.getElementById('mentionMenu').classList.contains('show') || document.getElementById('slashMenu').classList.contains('show')) return;
                     e.preventDefault();
                     let sel = window.getSelection();
                     let range = sel.getRangeAt(0);
@@ -6466,6 +7666,7 @@
                     block.content = before;
                     let newBlock = { type: 'text', content: after };
                     ideaDocBlocks.splice(index + 1, 0, newBlock);
+                    saveIdeaBlocks();
                     renderIdeaBlocks();
                     setTimeout(() => focusIdeaBlock(index + 1), 10);
                     return;
@@ -6487,6 +7688,7 @@
                             let prevLen = prev.content.length;
                             prev.content += block.content;
                             ideaDocBlocks.splice(index, 1);
+                            saveIdeaBlocks();
                             renderIdeaBlocks();
                             setTimeout(() => {
                                 let el = getIdeaBlockContent(index - 1);
@@ -6540,6 +7742,7 @@
                 let block = ideaDocBlocks[index];
                 let text = e.target.innerText;
                 block.content = text;
+                saveIdeaBlocks();
 
                 if (text === '# ' && block.type === 'text') { block.type = 'h1'; block.content = ''; renderIdeaBlocks(); setTimeout(() => focusIdeaBlock(index), 10); return; }
                 if (text === '## ' && block.type === 'text') { block.type = 'h2'; block.content = ''; renderIdeaBlocks(); setTimeout(() => focusIdeaBlock(index), 10); return; }
@@ -6724,8 +7927,7 @@
         <nav class="bento-navbar">
             <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
             <div class="nav-links">
-                <a href="#" data-i18n="navFeatures" onclick="showBento(); return false;">ฟีเจอร์</a>
-                <a href="#" data-i18n="navPricing">ราคา</a>
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" class="active" onclick="return false;">เรื่องราวของเรา</a>
                 <a href="#" data-i18n="navBlog" onclick="showBlog(); return false;">บล็อก</a>
             </div>
@@ -6764,60 +7966,30 @@
                 <div class="origin-visual" data-speed="0.04">
                     <div class="origin-sticky" id="originSticky">
                         <h3 data-i18n="originStickyTitle">WorkRoom</h3>
-                        <p data-i18n="originStickyYear">ก่อตั้ง 2024</p>
+                        <p data-i18n="originStickyYear">ก่อตั้ง 2026</p>
                     </div>
                 </div>
                 <div class="origin-content" data-speed="0.02">
                     <h2 data-i18n="originTitle">จุดเริ่มต้นจากความยุ่งเหยิง</h2>
                     <p data-i18n="originP1">
-                        ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า "ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา"
+                        ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า 'ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา'
                         เราเชื่อว่าทุกความคิดสร้างสรรค์ ไม่ว่าจะเล็กหรือใหญ่
                         ล้วนมีค่าและควรได้รับการจัดเก็บอย่างเป็นระบบ
                     </p>
                     <p data-i18n="originP2">
-                        WorkRoom ถูกสร้างขึ้นเพื่อเป็นพื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน และร่วมมือกับทีมได้อย่างอิสระ
-                        ไม่มีขีดจำกัดทางความคิดสร้างสรรค์
+                        เราสังเกตเห็นว่าแอปใหญ่ๆ ในปัจจุบัน มักมีฟังก์ชันให้เรียนรู้เยอะแยะไปหมด
+                        แน่นอนว่าถ้าเป็นคนที่เรียนรู้ไว มันคงไม่ใช่เรื่องยาก… แต่จะดีกว่าไหม
+                        สำหรับคนที่ไม่อยากเสียเวลาเริ่มเรียนรู้ใหม่จากศูนย์? แค่โหลดมา ก็เข้าใจและเริ่มใช้งานได้ทันที
+                        มีเฉพาะฟังก์ชันที่จำเป็น รวดเร็ว และตรงจุด
+                    </p>
+                    <p data-i18n="originP3">
+                        WorkRoom จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน
+                        และทำงานร่วมกับทีมได้อย่างอิสระ โดยไม่มีอะไรมาขัดจังหวะความคิดสร้างสรรค์ของคุณ
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- TIMELINE -->
-        <section class="section sec-timeline">
-            <h2 class="timeline-title" data-i18n="timelineTitle">เส้นทางการเติบโต</h2>
-            <div class="timeline-track">
-                <div class="timeline-line"></div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2024</span>
-                        <h3 data-i18n="tl1Title">จุดเริ่มต้น</h3>
-                        <p data-i18n="tl1Desc">WorkRoom ถือกำเนิดขึ้นจากไอเดียบนโปสต์อิทใบเดียว ก่อตั้งทีมพัฒนาเล็กๆ
-                            ในกรุงเทพฯ</p>
-                    </div>
-                    <div class="timeline-dot"></div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2025</span>
-                        <h3 data-i18n="tl2Title">เวอร์ชันแรก</h3>
-                        <p data-i18n="tl2Desc">เปิดตัวระบบห้องทำงาน โปสต์อิทดิจิตอล และระบบเชิญทีม มีผู้ใช้งานกว่า
-                            10,000 คนใน 3 เดือน</p>
-                    </div>
-                    <div class="timeline-dot"></div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2026</span>
-                        <h3 data-i18n="tl3Title">ขยายสู่องค์กร</h3>
-                        <p data-i18n="tl3Desc">เพิ่มฟีเจอร์ห้องแผนก ระบบไวท์บอร์ด และการเชื่อมต่อกับ Google และ Facebook
-                        </p>
-                    </div>
-                    <div class="timeline-dot"></div>
-                </div>
-            </div>
         </section>
 
         <!-- TEAM -->
@@ -6826,27 +7998,22 @@
             <p class="team-subtitle" data-i18n="teamSubtitle">คนที่อยู่เบื้องหลังทุกฟีเจอร์ที่คุณใช้งาน</p>
             <div class="team-grid">
                 <div class="team-card">
-                    <div class="team-avatar">🚀</div>
-                    <h4 data-i18n="team1Name">คุณสมชาย</h4>
-                    <span data-i18n="team1Role">ผู้ก่อตั้ง & CEO</span>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, var(--blue), var(--purple));">💻
+                    <div class="team-avatar"
+                        style="background: linear-gradient(135deg, var(--pink), var(--purple)); overflow: hidden;">
+                        <img src="kawaii.jpg" alt="KAWAII" style="width:100%;height:100%;object-fit:cover;">
                     </div>
-                    <h4 data-i18n="team2Name">คุณสมศรี</h4>
-                    <span data-i18n="team2Role">หัวหน้าทีมพัฒนา</span>
+                    <h4>KAWAII</h4>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team1RolePrefix">ผู้ก่อตั้ง</span>
+                        <span data-i18n="team1Role">ตำแหน่งที่ทำ Design Engineer / Design Technologist</span></span>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, var(--green), var(--yellow));">
-                        🎨</div>
-                    <h4 data-i18n="team3Name">คุณประเสริฐ</h4>
-                    <span data-i18n="team3Role">Lead Designer</span>
-                </div>
-                <div class="team-card">
-                    <div class="team-avatar" style="background: linear-gradient(135deg, var(--orange), var(--pink));">📈
+                    <div class="team-avatar"
+                        style="background: linear-gradient(135deg, var(--blue), var(--green)); overflow: hidden;">
+                        <img src="Paru.jpg" alt="Paru" style="width:100%;height:100%;object-fit:cover;">
                     </div>
-                    <h4 data-i18n="team4Name">คุณมานี</h4>
-                    <span data-i18n="team4Role">ผู้จัดการผลิตภัณฑ์</span>
+                    <h4>Paru</h4>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team2RolePrefix">CEO</span>
+                        <span data-i18n="team2Role">ตำแหน่งที่ทำ Back-End Developer</span></span>
                 </div>
             </div>
         </section>
@@ -6897,8 +8064,7 @@
         <nav class="bento-navbar">
             <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
             <div class="nav-links">
-                <a href="#" data-i18n="navFeatures" onclick="showBento(); return false;">ฟีเจอร์</a>
-                <a href="#" data-i18n="navPricing">ราคา</a>
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
                 <a href="#" data-i18n="navBlog" class="active" onclick="return false;">บล็อก</a>
             </div>
@@ -7498,6 +8664,9 @@
 
         // ===== BLOG PAGE FUNCTIONS =====
         function showBlog(skipHistory = false) {
+            resetLenis();
+            if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
+            window.scrollTo(0, 0);
             document.getElementById('page-bento').style.display = 'none';
             document.getElementById('page-workroom').style.display = 'none';
             document.getElementById('page-story').style.display = 'none';
@@ -7568,8 +8737,12 @@
         }
 
         function showStory(skipHistory = false) {
+            resetLenis();
+            if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
+            window.scrollTo(0, 0);
             document.getElementById('page-bento').style.display = 'none';
             document.getElementById('page-workroom').style.display = 'none';
+            document.getElementById('page-blog').style.display = 'none';
             document.getElementById('page-story').style.display = 'block';
             document.body.style.overflow = '';
             document.body.style.background = '';
@@ -7612,6 +8785,7 @@
         function showWorkroom(skipHistory = false) {
             document.getElementById('page-bento').style.display = 'none';
             document.getElementById('page-story').style.display = 'none';
+            document.getElementById('page-blog').style.display = 'none';
             document.getElementById('page-workroom').style.display = 'block';
             document.body.style.overflow = 'hidden';
             document.body.style.background = '#d4d8dc';
@@ -7685,8 +8859,12 @@
         }
 
         function showBento(skipHistory = false) {
+            resetLenis();
+            if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
+            window.scrollTo(0, 0);
             document.getElementById('page-workroom').style.display = 'none';
             document.getElementById('page-story').style.display = 'none';
+            document.getElementById('page-blog').style.display = 'none';
             document.getElementById('page-bento').style.display = 'block';
             document.body.style.overflow = '';
             document.body.style.background = '';
@@ -7764,6 +8942,75 @@
                 });
             });
         });
+
+        // Scroll to features section on bento page
+        function scrollToFeatures(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var bentoPage = document.getElementById('page-bento');
+            var alreadyOnBento = bentoPage && bentoPage.style.display !== 'none';
+            var featuresEl = document.getElementById('features');
+            if (!featuresEl) return;
+
+            if (!alreadyOnBento) {
+                document.getElementById('page-workroom').style.display = 'none';
+                document.getElementById('page-story').style.display = 'none';
+                document.getElementById('page-blog').style.display = 'none';
+                bentoPage.style.display = 'block';
+                document.body.style.overflow = '';
+                document.body.style.background = '';
+                history.replaceState({ page: 'bento' }, '', '#');
+            }
+
+            // หยุด Lenis ไม่ให้ control scroll
+            window.__lenisPaused = true;
+            if (window.__lenis) window.__lenis.stop();
+            window.scrollTo(0, 0);
+
+            var waitTime = alreadyOnBento ? 100 : 400;
+            setTimeout(function () {
+                var targetY = featuresEl.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+                setTimeout(function () {
+                    // กลับมาเปิด Lenis + sync ตำแหน่ง scroll ปัจจุบัน
+                    window.__lenisPaused = false;
+                    if (window.__lenis) {
+                        window.__lenis.scrollTo(window.scrollY, { immediate: true });
+                        window.__lenis.start();
+                    }
+                    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                }, 1200);
+            }, waitTime);
+        }
+
+        // Helper: รีเซ็ต Lenis ให้กลับมาทำงานปกติ
+        var __scrollToFeaturesTimer = null;
+        function resetLenis() {
+            if (__scrollToFeaturesTimer) {
+                clearTimeout(__scrollToFeaturesTimer);
+                __scrollToFeaturesTimer = null;
+            }
+            window.__lenisPaused = false;
+            if (window.__lenis) {
+                window.__lenis.start();
+            }
+        }
+
+        // IntersectionObserver: toggle ฟีเจอร์ active class ตาม viewport
+        var featuresSection = document.getElementById('features');
+        var featuresNavLink = document.querySelector('[data-i18n="navFeatures"]');
+        if (featuresSection && featuresNavLink) {
+            var featuresObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        featuresNavLink.classList.add('active');
+                    } else {
+                        featuresNavLink.classList.remove('active');
+                    }
+                });
+            }, { threshold: 0.3 });
+            featuresObserver.observe(featuresSection);
+        }
 
         function initRoute() {
             if (window.location.hash === '#workroom') {
