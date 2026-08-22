@@ -1,0 +1,472 @@
+// ===== TRANSLATIONS =====
+            const translations = {
+                en: {
+                    navFeatures: "Features",
+                    navStory: "Our Story",
+                    navBlog: "Blog",
+                    navLogin: "Login",
+                    navDownload: "Download",
+                    logout: "Logout",
+                    startCreate: "Start Creating",
+                    navCta: "Get Started",
+                    badge: "Live Workspace",
+                    overview: "Overview",
+                    creativeStudio: "Creative<br>Studio",
+                    heroDesc: "Your ideas deserve a beautiful home",
+                    notes: "Notes",
+                    notesDesc: "Active sticky notes on your wall",
+                    projects: "Projects",
+                    team: "Team",
+                    productivity: "Productivity",
+                    heroCardMainTitle: "Your Ideas",
+                    heroCardMainDesc: "Pinned, organized, always within reach",
+                    heroCardDeptTitle: "Department Rooms",
+                    heroCardDeptDesc: "Organized by team, always in sync",
+                    heroCardDeptSubtitle: "Access files from every department in one place",
+                    heroCardPrivateTitle: "Private",
+                    heroCardPrivateDesc: "Just you. Your secret space.",
+                    heroCardTeamTitle: "Shared",
+                    heroCardTeamDesc: "Build together. In real time.",
+                    heroCardSummary: "One place for every idea, sketch, and plan.",
+                    floatTitle: "Ideas Floating<br>Everywhere",
+                    floatDesc: "Capture every spark of creativity before it drifts away",
+                    btnStart: "Login →",
+                    writeItDown: "Write It<br>Down",
+                    pinNow: "Don't let great ideas slip away.<br>Pin them now.",
+                    wallTitle: "Your Creative Wall",
+                    wallDesc: "Organize thoughts, sketches, and wireframes in one beautiful space",
+                    btnExplore: "Login →",
+                    wcPostIt: "Post-it System",
+                    wcPostItDesc: "Auto-saves your ideas as post-it cards. Access anytime via app",
+                    wcDecorate: "Decorate Post-it",
+                    wcDecorateDesc: "Customize colors, attach images. Make each card unique",
+                    wcRooms: "Workspace Rooms",
+                    wcRoomsDesc: "Organize docs by category or responsibility. Clear structure",
+                    wcBrainstormRoom: "Brainstorm Room",
+                    wcBrainstormRoomDesc: "Team space to think and design projects together",
+                    wcInvite: "Member Invite",
+                    wcInviteDesc: "Add people to your team easily via invite link",
+                    footerTagline: "Connect with us",
+                    footerCopyright: "© 2026 WorkRoom. All rights reserved."
+                    ,
+
+
+                    blogTitle1: "Blog",
+                    blogTitle2: "WorkRoom",
+                    blogHeroDesc: "Tips, guides, and stories to help you get the most out of WorkRoom and manage your ideas effectively.",
+                    blogFilterAll: "All",
+                    blogFilterTips: "Tips",
+                    blogFilterBehind: "Behind the Scenes",
+                    blogFilterCase: "Case Studies",
+                    blogFilterGeneral: "General",
+                    blogTagTips: "Tips",
+                    blogTagBehind: "Behind",
+                    blogTagCase: "Case Study",
+                    blogTagGeneral: "General",
+                    blogReadMore: "Read more →",
+                    blog1Title: "5 Ways to Organize Ideas So They Don't Get Lost Halfway",
+                    blog1Excerpt: "Great ideas often visit when we're not ready. Learn how to catch them in time, store them systematically, and bring them back to life.",
+                    blogDate1: "Aug 15, 2026",
+                    blog2Title: "How to Use Digital Post-its to Work 2x Faster",
+                    blog2Excerpt: "Transform scattered paper notes into a digital system that's searchable, shareable, and never lost to the wind.",
+                    blogDate2: "Aug 10, 2026",
+                    blog3Title: "How to Take Notes Systematically, Not Just Write and Forget",
+                    blog3Excerpt: "The PARA Method technique to help you categorize ideas with an easy-to-understand structure that can be reused and connected.",
+                    blogDate3: "Aug 5, 2026",
+                    blog4Title: "From Prototype to Version 2.0: WorkRoom's 6-Month Journey",
+                    blog4Excerpt: "Trace the development from the first line of code to a full-featured app, through obstacles and lessons learned by a small team.",
+                    blogDate4: "Aug 12, 2026",
+                    blog5Title: "Latest Feature: The Whiteboard System the Team Asked For",
+                    blog5Excerpt: "Why we decided to integrate a drawing board into the idea room, and the design process that made it the easiest to use.",
+                    blogDate5: "Aug 8, 2026",
+                    blog6Title: "How Did We Solve the 'Lost Ideas' Problem? Behind the Idea Room Design",
+                    blog6Excerpt: "The thinking behind creating a workspace that prevents ideas from being lost, from UX Research to real-world testing.",
+                    blogDate6: "Aug 1, 2026",
+                    blog7Title: "How a Content Team Uses Department Rooms to Stop Asking for Files Back and Forth",
+                    blog7Excerpt: "A case study from a 5-person content team that reduced file search time by 70% after moving to WorkRoom's department rooms.",
+                    blogDate7: "Aug 14, 2026",
+                    blog8Title: "How a 5-Person Startup Manages Projects with WorkRoom",
+                    blog8Excerpt: "From 30-minute daily stand-ups to asynchronous updates that the team can track anytime, anywhere.",
+                    blogDate8: "Aug 7, 2026",
+                    blog9Title: "Designers Keep Mood Boards in the Same Place as Work Documents",
+                    blog9Excerpt: "How to combine inspiration, sketches, and deliverables in one space without switching apps.",
+                    blogDate9: "Aug 2, 2026",
+                    blog10Title: "Why Ideas Disappear Easily When You Don't Jot Them Down Quickly",
+                    blog10Excerpt: "The science behind short-term memory, and why immediate note-taking is the most important skill for creative workers.",
+                    blogDate10: "Aug 13, 2026",
+                    blog11Title: "Rule of Three: Why We Should Jot Down No More Than 3 Ideas at a Time",
+                    blog11Excerpt: "The psychology principle explaining why the human brain remembers best when information is grouped in small sets of three.",
+                    blogDate11: "Aug 9, 2026",
+                    blog12Title: "Digital Minimalism and Task Management: Less Stuff, Less Confusion",
+                    blog12Excerpt: "Ways to reduce digital clutter so your attention stays on what truly matters.",
+                    blogDate12: "Aug 4, 2026",
+                    blogCtaTitle: "Want to Try WorkRoom<br>for Yourself?",
+                    blogCtaDesc: "Start free today and experience a new way of managing ideas.",
+                    storyBadge: "About Us",
+                    storyTitle1: "Our",
+                    storyTitle2: "Story",
+                    storyHeroDesc: "From a tiny idea on a sticky note to a workspace connecting everyone's creativity.",
+                    originTitle: "Born from the Mess",
+                    originStickyTitle: "WorkRoom",
+                    originStickyYear: "Est. 2024",
+                    originP1: "It all started with a simple feeling: 'Great ideas shouldn't be lost with sticky notes that disappear over time.' We believe every creative thought, big or small, deserves to be organized and preserved.",
+                    originP2: "We noticed that most big apps today come packed with features that take time to learn. Sure, if you're a fast learner, it's not a problem... but wouldn't it be better for those who don't want to spend time learning from scratch? Just download and start using immediately — with only the essential features, fast and focused.",
+                    originP3: "That's why WorkRoom was created — a space where everyone can jot down, plan, and work with their team freely, without anything interrupting your creative flow.",
+                    timelineTitle: "Our Journey",
+                    tl1Title: "The Beginning",
+                    tl1Desc: "WorkRoom was born from a single sticky note idea. A small dev team formed in Bangkok.",
+                    tl2Title: "First Launch",
+                    tl2Desc: "Launched workspace rooms, digital sticky notes, and team invites. Reached 10,000 users in 3 months.",
+                    tl3Title: "Scaling Up",
+                    tl3Desc: "Added department rooms, whiteboard mode, and Google & Facebook login support.",
+                    teamTitle: "Meet the Team",
+                    teamSubtitle: "The people behind every feature you use.",
+                    team1Name: "KAWAII",
+                    team1RolePrefix: "Founder",
+                    team1Role: "Design Engineer / Design Technologist",
+                    team2RolePrefix: "CEO",
+                    team2Role: "Back-End Developer",
+                    valuesTitle: "Our Values",
+                    val1Title: "Creativity Without Limits",
+                    val1Desc: "We believe everyone can have big ideas. Our space is designed to unleash imagination.",
+                    val2Title: "Collaboration First",
+                    val2Desc: "The best work comes from working together. We build tools that connect teams.",
+                    val3Title: "Security Always",
+                    val3Desc: "Your data and ideas matter most. We protect them with the highest standards.",
+                    val4Title: "Grow Together",
+                    val4Desc: "We never stop improving, and we want our users to grow alongside us.",
+                    ctaTitle: "Let's Write the<br>Next Chapter Together",
+                    ctaDesc: "Whether you're a small team or a large organization, WorkRoom is ready to help your creativity grow.",
+                    ctaBtn: "Get Started Free →",
+                    acctTitle: "My Account",
+                    acctSubtitle: "Manage your account information and security settings",
+                    acctAvatarLabel: "Profile avatar name",
+                    acctFreeMember: "Free member",
+                    acctRealName: "Display name",
+                    acctEmail: "Email",
+                    acctConnected: "Connected Accounts",
+                    acctConnectedBadge: "Connected ✓",
+                    acctSecurity: "Security",
+                    acctKeepSecure: "Keep your account secure",
+                    acctKeepSecureDesc: "Your password is encrypted and secure",
+                    acctViewInfo: "View info →",
+                    acctLogoutAll: "Log out from all devices",
+                    acctLogoutAllDesc: "Log out of all devices you're currently signed in on",
+                    acctClickHere: "Click here",
+                    acctDangerDesc: "Deleting your account will remove access to all your data and content on WorkRoom",
+                    acctDeleteBtn: "🗑️ Delete Account",
+                    settingsTitle: "Settings",
+                    settingsNotif: "Notifications",
+                    settingsAppearance: "Appearance",
+                    settingsLanguage: "Language",
+                    settingsAbout: "About",
+                    settingsNotifTag: "Notify when someone types/tags ideas",
+                    settingsNotifSound: "Notification sound",
+                    settingsTestSound: "Test sound",
+                    settingsTheme: "Dark theme",
+                    settingsThemeDark: "Dark",
+                    settingsThemeLight: "Light",
+                    settingsThemeSystem: "System",
+                    settingsAccent: "Accent color",
+                    settingsVersion: "App version",
+                    settingsStorage: "Data storage",
+                    settingsStorageLocal: "On this device",
+                    settingsAppInfo: "App information",
+                    settingsCopyVersion: "Copy version",
+                    wrCreateRoom: "Create new room",
+                    wrAllPages: "All pages",
+                    wrSettings: "Settings",
+                    wrSearch: "Search...",
+                    wrSelectWorkspace: "Select workspace",
+                    wrNotifications: "Notifications",
+                    wrClearAll: "Clear all",
+                    wrNoNotifications: "No notifications",
+                    wrSectionGeneral: "General",
+                    wrSectionPrivate: "Private rooms",
+                    wrSectionDepartment: "Departments",
+                    wrIdeaWelcome1: "Welcome to the Ideas room! Save all your creative thoughts here.",
+                    wrIdeaWelcome2: "Add images or freely sketch your ideas.",
+                },
+                th: {
+                    navFeatures: "ฟีเจอร์",
+                    navStory: "เรื่องราวของเรา",
+                    navBlog: "บล็อก",
+                    navLogin: "เข้าสู่ระบบ",
+                    navDownload: "ดาวน์โหลด",
+                    logout: "ออกจากระบบ",
+                    startCreate: "เริ่มการสร้างสรรค์",
+                    navCta: "เริ่มใช้ฟรี",
+                    badge: "พื้นที่ทำงานสด",
+                    overview: "ภาพรวม",
+                    creativeStudio: "สตูดิโอ<br>สร้างสรรค์",
+                    heroDesc: "ไอเดียของคุณสมควรได้บ้านที่สวยงาม",
+                    notes: "โน้ต",
+                    notesDesc: "โน้ตกระดาษโพสต์ที่ใช้งานอยู่บนผนังของคุณ",
+                    projects: "โปรเจกต์",
+                    team: "ทีม",
+                    productivity: "ประสิทธิภาพ",
+                    heroCardMainTitle: "ไอเดียของคุณ",
+                    heroCardMainDesc: "ปักหมุด จัดระเบียบ เข้าถึงได้ตลอด",
+                    heroCardDeptTitle: "ห้องตามแผนก",
+                    heroCardDeptDesc: "แยกตามทีม อัปเดตพร้อมกันเสมอ",
+                    heroCardDeptSubtitle: "เห็นไฟล์จากแผนกอื่นได้ในที่เดียว",
+                    heroCardPrivateTitle: "ส่วนตัว",
+                    heroCardPrivateDesc: "มีแค่คุณ พื้นที่ลับของคุณ",
+                    heroCardTeamTitle: "ร่วมงาน",
+                    heroCardTeamDesc: "สร้างไปด้วยกัน แบบเรียลไทม์",
+                    heroCardSummary: "ที่เดียวสำหรับทุกไอเดีย ร่างแบบ และแผนงาน",
+                    floatTitle: "ไอเดียลอยอยู่<br>ทุกที่",
+                    floatDesc: "จับทุกประกายความคิดสร้างสรรค์ก่อนที่มันจะลอยหายไป",
+                    btnStart: "เข้าสู่ระบบ →",
+                    writeItDown: "จด<br>ไว้เลย",
+                    pinNow: "อย่าปล่อยให้ไอเดียดีๆ หลุดลอยไป<br>ปักหมุดไว้ตอนนี้",
+                    wallTitle: "ผนังแห่งความคิดสร้างสรรค์",
+                    wallDesc: "จัดระเบียบความคิด ร่างแบบ และ wireframes ในพื้นที่สวยงามแห่งเดียว",
+                    btnExplore: "เข้าสู่ระบบ →",
+                    wcPostIt: "ระบบโปสต์อิท",
+                    wcPostItDesc: "ผู้ใช้เขียนหรือคิดไอเดีย ระบบจะจัดเก็บเป็นการ์ดโปสต์อิทให้อัตโนมัติ เปิดดูผ่านแอพได้ทุกเมื่อ",
+                    wcDecorate: "ตกแต่งโปสต์อิท",
+                    wcDecorateDesc: "ปรับแต่งโปสต์อิทได้ตามใจ ทั้งเปลี่ยนสี แนบรูปภาพ ให้แต่ละใบมีเอกลักษณ์ตามต้องการ",
+                    wcRooms: "ห้องแบ่งงาน",
+                    wcRoomsDesc: "สร้างห้องเก็บเอกสารแยกตามหมวดหมู่หรือหน้าที่ความรับผิดชอบ จัดระเบียบงานเป็นสัดส่วนชัดเจน",
+                    wcBrainstormRoom: "ห้องระดมไอเดีย",
+                    wcBrainstormRoomDesc: "พื้นที่ให้ทุกคนในทีมช่วยกันคิดและออกแบบโปรเจกต์ร่วมกันได้อย่างเต็มที่",
+                    wcInvite: "ระบบเชิญสมาชิก",
+                    wcInviteDesc: "เพิ่มคนเข้าทีมหรือกลุ่มงานได้ง่ายๆ ผ่านการส่งลิงก์เชิญ",
+                    footerTagline: "ติดต่อเรา",
+                    footerCopyright: "© 2026 WorkRoom. สงวนลิขสิทธิ์",
+
+
+                    blogTitle1: "บล็อก",
+                    blogTitle2: "WorkRoom",
+                    blogHeroDesc: "เคล็ดลับ แนวทาง และเรื่องราวที่จะช่วยให้คุณใช้งาน WorkRoom และจัดการไอเดียได้อย่างเต็มประสิทธิภาพ",
+                    blogFilterAll: "ทั้งหมด",
+                    blogFilterTips: "เคล็ดลับ",
+                    blogFilterBehind: "เบื้องหลัง",
+                    blogFilterCase: "เคสตัวอย่าง",
+                    blogFilterGeneral: "ความรู้ทั่วไป",
+                    blogTagTips: "เคล็ดลับ",
+                    blogTagBehind: "เบื้องหลัง",
+                    blogTagCase: "เคสตัวอย่าง",
+                    blogTagGeneral: "ความรู้ทั่วไป",
+                    blogReadMore: "อ่านต่อ →",
+                    blog1Title: "5 วิธีจัดระเบียบไอเดียไม่ให้หายไปกลางทาง",
+                    blog1Excerpt: "ไอเดียดีๆ มักมาเยือนตอนเราไม่พร้อม เรียนรู้วิธีจับมันไว้ให้ทัน จัดเก็บให้เป็นระบบ และนำกลับมาใช้งานได้จริง",
+                    blogDate1: "15 ส.ค. 2026",
+                    blog2Title: "วิธีใช้ Post-it ดิจิตอลให้ทำงานเร็วขึ้น 2 เท่า",
+                    blog2Excerpt: "เปลี่ยนจากกระดาษโน้ตกระจัดกระจาย สู่ระบบดิจิตอลที่ค้นหาได้ แชร์ได้ และไม่มีวันหายไปตามลม",
+                    blogDate2: "10 ส.ค. 2026",
+                    blog3Title: "จดไอเดียอย่างไรให้เป็นระบบ ไม่ใช่แค่จดแล้วทิ้ง",
+                    blog3Excerpt: "เทคนิค PARA Method ที่ช่วยให้คุณแยกแยะไอเดียตามโครงสร้างที่เข้าใจง่าย ใช้ซ้ำได้ และเชื่อมโยงกันได้",
+                    blogDate3: "5 ส.ค. 2026",
+                    blog4Title: "จากโปรโตไทพ์จนถึงเวอร์ชัน 2.0: เส้นทาง 6 เดือนของ WorkRoom",
+                    blog4Excerpt: "ย้อนรอยการพัฒนาตั้งแต่โค้ดแรกจนถึงฟีเจอร์ครบครัน ผ่านอุปสรรคและบทเรียนที่ทีมเล็กๆ เรียนรู้ไปด้วยกัน",
+                    blogDate4: "12 ส.ค. 2026",
+                    blog5Title: "ฟีเจอร์ใหม่ล่าสุด: ระบบ Whiteboard ที่ทีมขอมา",
+                    blog5Excerpt: "ทำไมเราถึงตัดสินใจรวมกระดานวาดเข้ากับห้องไอเดีย และกระบวนการออกแบบที่ทำให้ใช้งานง่ายที่สุด",
+                    blogDate5: "8 ส.ค. 2026",
+                    blog6Title: "เราแก้ปัญหา 'ไอเดียหาย' ยังไง? เบื้องหลังการออกแบบห้องเก็บไอเดีย",
+                    blog6Excerpt: "วิธีคิดเบื้องหลังการสร้างห้องทำงานที่ช่วยให้ไอเดียไม่สูญหายอีกต่อไป ตั้งแต่ UX Research จนถึงการทดสอบจริง",
+                    blogDate6: "1 ส.ค. 2026",
+                    blog7Title: "ทีมคอนเทนต์ใช้ห้องแผนกยังไงให้ไม่ต้องขอไฟล์กันไปมา",
+                    blog7Excerpt: "เคสจากทีมคอนเทนต์ 5 คนที่ลดเวลาค้นหาไฟล์ลง 70% หลังจากย้ายมาใช้ห้องแผนกใน WorkRoom",
+                    blogDate7: "14 ส.ค. 2026",
+                    blog8Title: "สตาร์ทอัพ 5 คน จัดการโปรเจกต์ด้วย WorkRoom ได้อย่างไร",
+                    blog8Excerpt: "จากสแตนด์อัพทุกเช้าที่ใช้เวลา 30 นาที สู่การอัปเดตงานแบบอะซิงโครนัสที่ทีมติดตามได้ตลอดเวลา",
+                    blogDate8: "7 ส.ค. 2026",
+                    blog9Title: "นักออกแบบเก็บ Mood Board ไว้ในที่เดียวกับเอกสารงาน",
+                    blog9Excerpt: "วิธีรวมแรงบันดาลใจ ร่างแบบ และเอกสารส่งมอบงานให้อยู่ในพื้นที่เดียวกัน ไม่ต้องสลับแอปให้ปวดหัว",
+                    blogDate9: "2 ส.ค. 2026",
+                    blog10Title: "ทำไมไอเดียถึงหายไปง่ายเวลาไม่รีบจด",
+                    blog10Excerpt: "ศาสตร์เบื้องหลังความทรงจำสั้น และทำไมการจดบันทึกทันทีถึงเป็นทักษะสำคัญที่สุดของคนทำงานสร้างสรรค์",
+                    blogDate10: "13 ส.ค. 2026",
+                    blog11Title: "Rule of Three: ทำไมเราควรจดไอเดียครั้งละไม่เกิน 3 ข้อ",
+                    blog11Excerpt: "หลักจิตวิทยาที่อธิบายว่าทำไมสมองมนุษย์ถึงจำได้ดีที่สุดเมื่อข้อมูลถูกแบ่งเป็นกลุ่มเล็กๆ 3 ข้อ",
+                    blogDate11: "9 ส.ค. 2026",
+                    blog12Title: "Digital Minimalism กับการจัดการงาน: ลดของ ลดสับสน",
+                    blog12Excerpt: "วิธีลดความวุ่นวายในพื้นที่ดิจิตอลของคุณ เพื่อให้สมาธิอยู่กับงานที่สำคัญจริงๆ",
+                    blogDate12: "4 ส.ค. 2026",
+                    blogCtaTitle: "อยากลองใช้ WorkRoom<br>ด้วยตัวเอง?",
+                    blogCtaDesc: "เริ่มต้นฟรีวันนี้ แล้วสัมผัสประสบการณ์การจัดการไอเดียแบบใหม่",
+                    storyBadge: "เกี่ยวกับเรา",
+                    storyTitle1: "เรื่องราว",
+                    storyTitle2: "ของเรา",
+                    storyHeroDesc: "จากไอเดียเล็กๆ บนกระดาษโน้ต สู่พื้นที่ทำงานที่เชื่อมต่อความคิดสร้างสรรค์ของทุกคน",
+                    originTitle: "จุดเริ่มต้นจากความยุ่งเหยิง",
+                    originStickyTitle: "WorkRoom",
+                    originStickyYear: "ก่อตั้ง 2026",
+                    originP1: "ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า 'ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา' เราเชื่อว่าทุกความคิดสร้างสรรค์ ไม่ว่าจะเล็กหรือใหญ่ ล้วนมีค่าและควรได้รับการจัดเก็บอย่างเป็นระบบ",
+                    originP2: "เราสังเกตเห็นว่าแอปใหญ่ๆ ในปัจจุบัน มักมีฟังก์ชันให้เรียนรู้เยอะแยะไปหมด แน่นอนว่าถ้าเป็นคนที่เรียนรู้ไว มันคงไม่ใช่เรื่องยาก… แต่จะดีกว่าไหม สำหรับคนที่ไม่อยากเสียเวลาเริ่มเรียนรู้ใหม่จากศูนย์? แค่โหลดมา ก็เข้าใจและเริ่มใช้งานได้ทันที มีเฉพาะฟังก์ชันที่จำเป็น รวดเร็ว และตรงจุด",
+                    originP3: "WorkRoom จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน และทำงานร่วมกับทีมได้อย่างอิสระ โดยไม่มีอะไรมาขัดจังหวะความคิดสร้างสรรค์ของคุณ",
+                    timelineTitle: "เส้นทางการเติบโต",
+                    tl1Title: "จุดเริ่มต้น",
+                    tl1Desc: "WorkRoom ถือกำเนิดขึ้นจากไอเดียบนโปสต์อิทใบเดียว ก่อตั้งทีมพัฒนาเล็กๆ ในกรุงเทพฯ",
+                    tl2Title: "เวอร์ชันแรก",
+                    tl2Desc: "เปิดตัวระบบห้องทำงาน โปสต์อิทดิจิตอล และระบบเชิญทีม มีผู้ใช้งานกว่า 10,000 คนใน 3 เดือน",
+                    tl3Title: "ขยายสู่องค์กร",
+                    tl3Desc: "เพิ่มฟีเจอร์ห้องแผนก ระบบไวท์บอร์ด และการเชื่อมต่อกับ Google และ Facebook",
+                    teamTitle: "ทีมของเรา",
+                    teamSubtitle: "คนที่อยู่เบื้องหลังทุกฟีเจอร์ที่คุณใช้งาน",
+                    team1Name: "KAWAII",
+                    team1RolePrefix: "ผู้ก่อตั้ง",
+                    team1Role: "ตำแหน่งที่ทำ Design Engineer / Design Technologist",
+                    team2RolePrefix: "CEO",
+                    team2Role: "ตำแหน่งที่ทำ Back-End Developer",
+                    valuesTitle: "ค่านิยมของเรา",
+                    val1Title: "ความคิดสร้างสรรค์ไร้ขีดจำกัด",
+                    val1Desc: "เราเชื่อว่าทุกคนมีไอเดียที่ยิ่งใหญ่ได้ พื้นที่ของเราออกแบบมาเพื่อปลดปล่อยจินตนาการ",
+                    val2Title: "การร่วมมือกัน",
+                    val2Desc: "งานที่ดีที่สุดเกิดจากการทำงานร่วมกัน เราสร้างเครื่องมือที่เชื่อมต่อทีมเข้าด้วยกัน",
+                    val3Title: "ความปลอดภัยก่อนเสมอ",
+                    val3Desc: "ข้อมูลและไอเดียของคุณคือสิ่งสำคัญที่สุด เราปกป้องมันด้วยมาตรฐานสูงสุด",
+                    val4Title: "เติบโตไปด้วยกัน",
+                    val4Desc: "เราไม่หยุดพัฒนา และเราอยากเห็นผู้ใช้ของเราเติบโตไปพร้อมๆ กับเราเช่นกัน",
+                    ctaTitle: "มาร่วมสร้าง<br>เรื่องราวต่อไปด้วยกัน",
+                    ctaDesc: "ไม่ว่าคุณจะเป็นทีมเล็กหรือองค์กรใหญ่ WorkRoom พร้อมเป็นพื้นที่ให้ความคิดสร้างสรรค์ของคุณเติบโต",
+                    ctaBtn: "เริ่มใช้งานฟรี →",
+                    acctTitle: "บัญชีผู้ใช้ของฉัน",
+                    acctSubtitle: "จัดการข้อมูลบัญชีและการตั้งค่าความปลอดภัย",
+                    acctAvatarLabel: "ชื่อ avatar โปรไฟล์",
+                    acctFreeMember: "สมาชิกบัญชีฟรี",
+                    acctRealName: "ชื่อเรียกจริง",
+                    acctEmail: "อีเมล",
+                    acctConnected: "บัญชีที่เชื่อมต่อ",
+                    acctConnectedBadge: "เชื่อมต่ออยู่",
+                    acctSecurity: "ความปลอดภัย",
+                    acctKeepSecure: "รักษารหัสผู้ใช้ของคุณ",
+                    acctKeepSecureDesc: "รหัสผ่านปัจจุบันได้รับการเข้ารหัสและปลอดภัย",
+                    acctViewInfo: "ดูข้อมูล →",
+                    acctLogoutAll: "ออกจากระบบทุกอุปกรณ์",
+                    acctLogoutAllDesc: "ออกจากระบบในทุกอุปกรณ์ที่คุณเข้าถึงอยู่ตอนนี้",
+                    acctClickHere: "คลิกที่นี่",
+                    acctDangerDesc: "ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป",
+                    acctDeleteBtn: "🗑️ ลบบัญชี",
+                    settingsTitle: "ตั้งค่า",
+                    settingsNotif: "แจ้งเตือน",
+                    settingsAppearance: "รูปลักษณ์",
+                    settingsLanguage: "ภาษา",
+                    settingsAbout: "เกี่ยวกับ",
+                    settingsNotifTag: "แจ้งเตือนเมื่อมีคนพิมพ์/แท็กไอเดีย",
+                    settingsNotifSound: "เสียงแจ้งเตือน",
+                    settingsTestSound: "ทดลองเสียง",
+                    settingsTheme: "โทนมืด",
+                    settingsThemeDark: "มืด",
+                    settingsThemeLight: "สว่าง",
+                    settingsThemeSystem: "ระบบ",
+                    settingsAccent: "สีสัน",
+                    settingsVersion: "เวอร์ชันแอป",
+                    settingsStorage: "การบันทึกข้อมูล",
+                    settingsStorageLocal: "บนอุปกรณ์นี้",
+                    settingsAppInfo: "ข้อมูลแอป",
+                    settingsCopyVersion: "คัดลอกเวอร์ชัน",
+                    wrCreateRoom: "สร้างห้องใหม่",
+                    wrAllPages: "หน้าทั้งหมด",
+                    wrSettings: "ตั้งค่า",
+                    wrSearch: "ค้นหา...",
+                    wrSelectWorkspace: "เลือกพื้นที่ทำงาน",
+                    wrNotifications: "การแจ้งเตือน",
+                    wrClearAll: "ล้างทั้งหมด",
+                    wrNoNotifications: "ไม่มีการแจ้งเตือน",
+                    wrSectionGeneral: "ห้องทั่วไป",
+                    wrSectionPrivate: "ห้องส่วนตัว",
+                    wrSectionDepartment: "ห้องแผนก",
+                    wrIdeaWelcome1: "ยินดีต้อนรับสู่ห้องไอเดีย! ที่นี่คุณสามารถจดบันทึกความคิดสร้างสรรค์ทั้งหมดของคุณได้",
+                    wrIdeaWelcome2: "คุณสามารถใส่รูปภาพประกอบ หรือวาดเขียนไอเดียได้อย่างอิสระ",
+                }
+            };
+
+            const languageDefaultVersion = 'workroom-global-language-default-v3';
+            let currentLang;
+            if (localStorage.getItem(languageDefaultVersion)) {
+                currentLang = localStorage.getItem('bentoLang') || 'en';
+            } else {
+                currentLang = 'en';
+                localStorage.setItem('bentoLang', 'en');
+                localStorage.setItem(languageDefaultVersion, '1');
+            }
+
+            function setLang(lang) {
+                currentLang = lang;
+                localStorage.setItem('bentoLang', lang);
+
+                // Update toggle buttons
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                // Update all i18n elements with fade animation
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (translations[lang][key]) {
+                        // ถ้าเป็น nav-links ให้เปลี่ยนด้วย textContent แทน innerHTML (ป้องกันลิงก์พัง)
+                        const isNavLink = el.closest('.nav-links') || el.closest('.nav-actions');
+                        gsap.to(el, {
+                            opacity: 0,
+                            y: isNavLink ? 0 : 8,
+                            duration: 0.2,
+                            onComplete: () => {
+                                // ถ้าปุ่มถูกเปลี่ยนสถานะไปแล้ว (เช่น ล็อกอิน/ออกจากระบบ) ข้าม ไม่เขียนทับ
+                                if (el.dataset.i18n !== key) return;
+                                if (isNavLink) {
+                                    el.textContent = translations[lang][key];
+                                } else {
+                                    el.innerHTML = translations[lang][key];
+                                }
+                                gsap.to(el, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+                            }
+                        });
+                    }
+                });
+
+                document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+                    var placeholder = translations[lang][el.dataset.i18nPlaceholder];
+                    if (placeholder) el.setAttribute('placeholder', placeholder);
+                });
+
+                // Update wall cards
+                updateWallCards(lang);
+
+                // Update html lang attribute
+                document.documentElement.lang = lang;
+                if (typeof refreshWorkroomLanguage === 'function') refreshWorkroomLanguage();
+            }
+
+            function updateWallCards(lang) {
+                const wb = document.getElementById('wallBento');
+                wb.innerHTML = '';
+
+                const wallCardsData = [
+                    { cls: 'wc-yellow w-2 h-2', icon: '📝', titleKey: 'wcPostIt', descKey: 'wcPostItDesc' },
+                    { cls: 'wc-pink', icon: '🎨', titleKey: 'wcDecorate', descKey: 'wcDecorateDesc' },
+                    { cls: 'wc-blue', icon: '🏢', titleKey: 'wcRooms', descKey: 'wcRoomsDesc' },
+                    { cls: 'wc-orange w-2', icon: '💡', titleKey: 'wcBrainstormRoom', descKey: 'wcBrainstormRoomDesc' },
+                    { cls: 'wc-green w-2', icon: '👥', titleKey: 'wcInvite', descKey: 'wcInviteDesc' },
+                ];
+
+                wallCardsData.forEach((c, i) => {
+                    const d = document.createElement('div');
+                    d.className = 'wall-card ' + c.cls;
+                    d.dataset.speed = (0.02 + (i % 3) * 0.02).toFixed(3);
+                    d.innerHTML = '<div class="wc-icon">' + c.icon + '</div><div class="wc-title">' + translations[lang][c.titleKey] + '</div><div class="wc-desc">' + translations[lang][c.descKey] + '</div>';
+                    d.style.opacity = '0';
+                    d.style.transform = 'translateY(20px)';
+                    wb.appendChild(d);
+
+                    gsap.to(d, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        delay: i * 0.05,
+                        ease: 'power2.out'
+                    });
+                });
+            }
+
+            // Keep expensive continuous effects off on low-power, touch and reduced-motion devices.
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+            const lowPowerDevice = (navigator.deviceMemory && navigator.deviceMemory <= 4)
+                || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
+                || (navigator.connection && navigator.connection.saveData);
+            window.__liteMotion = prefersReducedMotion || hasCoarsePointer || lowPowerDevice;
+            document.documentElement.classList.toggle('lite-motion', window.__liteMotion);

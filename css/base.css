@@ -1,0 +1,272 @@
+/* ===== GLOBAL RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== PAGE WRAPPERS ===== */
+        #page-bento {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a12;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #page-workroom {
+            position: fixed;
+            inset: 0;
+            background: #d4d8dc;
+            overflow: hidden;
+            display: none;
+            z-index: 50;
+            font-family: "Prompt", sans-serif;
+        }
+
+        #page-workroom,
+        #page-workroom * {
+            font-family: "Prompt", sans-serif;
+        }
+
+/* ===== THEME & VARIABLES ===== */
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #ff8fa3;
+            --pink-light: #ffc2cd;
+            --yellow: #ffd43b;
+            --yellow-light: #ffe066;
+            --purple: #b197fc;
+            --purple-light: #d0bfff;
+            --blue: #74c0fc;
+            --blue-light: #a5d8ff;
+            --green: #8ce99a;
+            --green-light: #b2f2bb;
+            --orange: #ffa94d;
+            --dark: #0a0a12;
+            --dark-purple: #120a1e;
+            --accent: #f06595;
+        }
+
+        body.light-theme {
+            --dark: #f5f5f5;
+            --dark-purple: #eee;
+        }
+
+        body.light-theme #page-bento {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        body.light-theme .sidebar-left {
+            background: #fff;
+            border-right-color: #e0e0e0;
+            color: #555;
+        }
+
+        body.light-theme .sidebar-logo {
+            color: #222;
+        }
+
+        body.light-theme .bento-navbar {
+            background: rgba(255, 255, 255, .92);
+            border-bottom-color: #e0e0e0;
+        }
+
+        body.light-theme .modal-box {
+            background: #fff;
+            color: #222;
+        }
+
+        body.light-theme .editor-container {
+            background: #fdfcf7;
+        }
+
+        body.light-theme .settings-sidebar,
+        body.light-theme .settings-content {
+            background: #f7f7f8;
+            color: #222;
+        }
+
+        body.light-theme .settings-sidebar {
+            border-right-color: #dedee3;
+        }
+
+        body.light-theme .settings-tab-btn,
+        body.light-theme .settings-row-label {
+            color: #555;
+        }
+
+        body.light-theme .settings-tab-btn.active {
+            background: #fff;
+            color: #18181b;
+            border-color: var(--accent);
+        }
+
+        body.light-theme .settings-section-header,
+        body.light-theme .settings-row {
+            border-color: #dedee3;
+        }
+
+        /* WorkRoom follows the shared appearance settings. */
+        body.light-theme #page-workroom,
+        body.light-theme #mainApp,
+        body.light-theme .app-frame,
+        body.light-theme .main-area {
+            background: #eef0f3;
+        }
+
+        body.light-theme #page-workroom .sidebar-left {
+            background: #fff;
+            border-right-color: #dedfe4;
+            color: #686a72;
+        }
+
+        body.light-theme #page-workroom .sidebar-logo {
+            color: #17181b;
+        }
+
+        body.light-theme #page-workroom .header {
+            background: rgba(255, 255, 255, .94);
+            border-bottom-color: #dedfe4;
+        }
+
+        body.light-theme #page-workroom .search-box input {
+            background: #f1f2f5;
+            color: #18191d;
+        }
+
+        body.light-theme #page-workroom .create-room-btn {
+            background: #f0f1f4;
+            color: #24252a;
+        }
+
+        body.light-theme #page-workroom .create-room-btn:hover {
+            background: #e4e6eb;
+        }
+
+        body.light-theme #page-workroom .sidebar-item {
+            color: #6b6d75;
+        }
+
+        body.light-theme #page-workroom .sidebar-item::before {
+            background: #f0f1f4;
+        }
+
+        body.light-theme #page-workroom .sidebar-item.active::before {
+            background: color-mix(in srgb, var(--accent) 12%, #fff);
+        }
+
+        body.light-theme #page-workroom .sidebar-item:hover,
+        body.light-theme #page-workroom .sidebar-item.active {
+            color: #18191d;
+        }
+
+        body.light-theme #page-workroom .page-history-item:hover {
+            background: #f0f1f4;
+            color: #33343a;
+        }
+
+        body.light-theme #page-workroom .page-history-item.active {
+            background: color-mix(in srgb, var(--accent) 12%, #fff);
+            color: #17181b;
+        }
+
+        body.light-theme #page-workroom .sidebar-bottom {
+            background: #fff;
+            border-top-color: #dedfe4;
+        }
+
+        body.light-theme #page-workroom .user-card {
+            background: #f4f5f7;
+            border-color: #dedfe4;
+        }
+
+        body.light-theme #page-workroom .settings-btn {
+            color: #595b63;
+        }
+
+        body.light-theme #page-workroom .workspace-menu,
+        body.light-theme #page-workroom .notif-dropdown,
+        body.light-theme #page-workroom .team-panel {
+            background: #fff;
+            color: #222;
+            border-color: #dedfe4;
+        }
+
+        #page-workroom .settings-icon,
+        #page-workroom .page-history-group-title::before {
+            color: var(--accent);
+            background-color: var(--accent);
+        }
+
+        #page-workroom .sidebar-item.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            border-radius: 0 4px 4px 0;
+            background: var(--accent);
+            z-index: 2;
+        }
+
+        #page-workroom .create-room-btn:hover,
+        #page-workroom .bell-btn:hover,
+        #page-workroom .team-button:hover {
+            color: var(--accent);
+        }
+
+        #page-workroom .workspace-switcher[aria-expanded="true"],
+        #page-workroom .workspace-option.active {
+            border-color: var(--accent);
+        }
+
+        #page-workroom .create-choice:has(input:checked) {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 13%, #202020);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 9%, transparent);
+        }
+
+        #page-workroom .create-choice:has(input:checked) .create-choice-icon,
+        #page-workroom .invite-accept,
+        #page-workroom .account-avatar-edit:hover {
+            background: var(--accent);
+        }
+
+        #page-workroom .page-history-item.drop-before::after,
+        #page-workroom .page-history-item.drop-after::after {
+            background: var(--accent);
+        }
+
+        #page-workroom .idea-page-tab.active {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 28%, #17151a);
+            box-shadow: 0 5px 16px color-mix(in srgb, var(--accent) 20%, transparent);
+        }
+
+        #page-workroom .idea-page-tab:focus-visible {
+            outline-color: var(--accent);
+        }
+
+        html.lenis,
+        html.lenis #page-bento {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        #page-bento {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
