@@ -1,5 +1,16 @@
+// WorkRoom themes are account preferences for the app surface only.
+// Marketing, story, blog, and login pages always keep their original styling.
+        function setWorkroomThemeActive(active) {
+            if (active && typeof restoreTheme === 'function') {
+                restoreTheme();
+                return;
+            }
+            document.body.classList.remove('playful-theme', 'light-theme');
+        }
+
 // ===== BLOG PAGE FUNCTIONS =====
         function showBlog(skipHistory = false) {
+            setWorkroomThemeActive(false);
             resetLenis();
             if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
             window.scrollTo(0, 0);
@@ -73,6 +84,7 @@
         }
 
         function showStory(skipHistory = false) {
+            setWorkroomThemeActive(false);
             resetLenis();
             if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
             window.scrollTo(0, 0);
@@ -140,11 +152,13 @@
             // ล็อกอินแล้ว → เข้าใช้งานแอปตรงๆ / ยังไม่ล็อกอิน → ขึ้นหน้าล็อกอินก่อน แล้วเข้าแอปต่อหลังล็อกอิน
             var savedUser = currentUser || getSavedUser();
             if (savedUser) {
+                setWorkroomThemeActive(true);
                 currentUser = savedUser;
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 renderUserProfile(currentUser);
             } else {
+                setWorkroomThemeActive(false);
                 loginDestination = 'app';
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('mainApp').style.display = 'none';
@@ -174,6 +188,7 @@
 
         // สำหรับปุ่ม "เข้าสู่ระบบ" ในเมนูบน: ขึ้นหน้าล็อกอินอย่างเดียว (หลังล็อกอินจะกลับหน้าแรก)
         function showLoginPage(skipHistory = false) {
+            setWorkroomThemeActive(false);
             window.__lenisPaused = true;
             if (window.__lenis) window.__lenis.stop();
             if (typeof pauseCustomCursor === 'function') pauseCustomCursor();
@@ -203,6 +218,7 @@
         }
 
         function showBento(skipHistory = false) {
+            setWorkroomThemeActive(false);
             resetLenis();
             if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
             window.scrollTo(0, 0);
