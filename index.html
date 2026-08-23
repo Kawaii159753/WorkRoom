@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-        <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=playful-20260823-10">
 
 </head>
 
@@ -263,7 +263,7 @@
         </section>
 
 
-        
+
 
 
     </div>
@@ -277,9 +277,46 @@
     <div id="page-workroom">
 
         <div id="loginPage">
-            <div class="login-box">
-                <h1>WorkRoom</h1>
-                <p class="login-subtitle">ยินดีต้อนรับกลับ 👋 เข้าสู่ระบบเพื่อทำงานต่อ</p>
+            <div class="login-shell">
+                <section class="login-visual" aria-label="WorkRoom">
+                    <div class="login-paper-grid" aria-hidden="true"></div>
+                    <div class="login-floating-notes" aria-hidden="true">
+                        <span class="login-note note-pink">IDEA!</span>
+                        <span class="login-note note-blue">PLAN</span>
+                        <span class="login-note note-yellow">DO IT</span>
+                        <span class="login-note note-purple">CREATE</span>
+                    </div>
+                    <a href="#" class="login-brand" onclick="showBento();return false;">
+                        <span class="login-brand-mark" aria-hidden="true">W</span><span>WorkRoom</span>
+                    </a>
+                    <div class="login-visual-copy">
+                        <p class="login-eyebrow" data-login-copy="eyebrow">พื้นที่สำหรับทีมของคุณ</p>
+                        <h1 data-login-copy="visualTitle">จัดการงานทุกอย่าง<br>ในที่เดียว</h1>
+                        <p data-login-copy="visualText">โฟกัสกับงานที่สำคัญ เชื่อมต่อกับทีม และพาโปรเจกต์ไปข้างหน้าได้อย่างลื่นไหล</p>
+                        <ul class="login-features">
+                            <li class="feature-yellow"><span>✓</span><b data-login-copy="feature1">เวิร์กโฟลว์ที่ชัดเจน</b></li>
+                            <li class="feature-blue"><span>✓</span><b data-login-copy="feature2">ทำงานร่วมกันแบบเรียลไทม์</b></li>
+                            <li class="feature-pink"><span>✓</span><b data-login-copy="feature3">ข้อมูลของคุณปลอดภัย</b></li>
+                        </ul>
+                    </div>
+                    <figure class="login-quote">
+                        <blockquote data-login-copy="quote">“WorkRoom ทำให้ทุกคนเห็นภาพเดียวกัน และช่วยให้ทีมเราเดินหน้าได้เร็วขึ้น”</blockquote>
+                        <figcaption data-login-copy="quoteBy">May — Product Lead</figcaption>
+                    </figure>
+                </section>
+                <section class="login-panel">
+                    <header class="login-panel-header">
+                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;"><span class="login-brand-mark">W</span><span>WorkRoom</span></a>
+                        <div class="login-language" role="group" aria-label="เปลี่ยนภาษา">
+                            <span aria-hidden="true">◎</span>
+                            <button type="button" class="lang-btn active" data-lang="th" onclick="setLang('th')">ไทย</button>
+                            <button type="button" class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                        </div>
+                    </header>
+                    <div class="login-box">
+                <p class="login-kicker">WORKROOM ACCOUNT</p>
+                <h2 data-login-copy="title">ยินดีต้อนรับกลับมา</h2>
+                <p class="login-subtitle" data-login-copy="subtitle">เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ</p>
                 <div class="social-btns">
                     <button type="button" class="social-btn btn-google" onclick="socialLogin('google')">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -292,28 +329,30 @@
                             <path fill="#EA4335"
                                 d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
                         </svg>
-                        <span class="sbtn-label">เข้าสู่ระบบด้วย Google</span>
+                        <span class="sbtn-label" data-login-copy="google">Google</span>
                     </button>
                     <button type="button" class="social-btn btn-facebook" onclick="socialLogin('facebook')">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path fill="#fff"
                                 d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.026 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.971h-1.514c-1.491 0-1.956.93-1.956 1.886v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
                         </svg>
-                        <span class="sbtn-label">เข้าสู่ระบบด้วย Facebook</span>
+                        <span class="sbtn-label" data-login-copy="facebook">Facebook</span>
                     </button>
                 </div>
-                <div class="login-divider">หรือเข้าสู่ระบบด้วยอีเมล</div>
+                <div class="login-divider" data-login-copy="divider">หรือเข้าสู่ระบบด้วยอีเมล</div>
                 <form id="loginForm">
-                    <input type="email" id="loginEmail" placeholder="อีเมล" autocomplete="email" required>
-                    <input type="password" id="loginPassword" placeholder="รหัสผ่าน" autocomplete="current-password"
-                        minlength="8" required>
-                    <button type="submit">เข้าสู่ระบบ</button>
+                    <label for="loginEmail" data-login-copy="email">อีเมล</label>
+                    <div class="login-input-wrap"><span aria-hidden="true">@</span><input type="email" id="loginEmail" placeholder="name@company.com" autocomplete="email" required></div>
+                    <label for="loginPassword" data-login-copy="password">รหัสผ่าน</label>
+                    <div class="login-input-wrap"><span aria-hidden="true">●</span><input type="password" id="loginPassword" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" minlength="8" required><button class="password-toggle" type="button" onclick="toggleLoginPassword(this)" aria-label="แสดงรหัสผ่าน">◉</button></div>
+                    <div class="login-options"><label class="login-check"><input type="checkbox"><span data-login-copy="remember">จดจำฉัน</span></label><a href="#" data-login-copy="forgot">ลืมรหัสผ่าน?</a></div>
+                    <button class="login-submit" type="submit"><span data-login-copy="submit">เข้าสู่ระบบ</span><span aria-hidden="true">→</span></button>
                 </form>
-                <div style="text-align:center;margin-top:16px;">
-                    <a href="#" onclick="showBento();return false;"
-                        style="color:#888;text-decoration:none;font-size:13px;transition:color .2s;"
-                        onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">← กลับหน้าแรก</a>
-                </div>
+                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" data-login-copy="signup">สร้างบัญชี</a></p>
+                <p class="login-legal" data-login-copy="legal">เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</p>
+                    </div>
+                    <a href="#" class="login-back" onclick="showBento();return false;"><span>←</span><span data-login-copy="back">กลับหน้าหลัก</span></a>
+                </section>
             </div>
         </div>
 
@@ -588,19 +627,20 @@
                         <aside class="team-panel" id="teamPanel" aria-label="สมาชิกทีม">
                             <div class="team-panel-head">
                                 <div class="team-panel-title">
-                                    <h3>สมาชิกทีม</h3>
+                                    <h3 data-i18n="wrTeamMembers">สมาชิกทีม</h3>
                                     <p id="teamPanelWorkspace">พื้นที่ของฉัน</p>
                                 </div>
                                 <button class="team-close" onclick="closeTeamPanel()" aria-label="ปิด">×</button>
                             </div>
                             <div class="team-section">
-                                <div class="team-section-label"><span>สมาชิก</span><span id="teamMemberCount">1
+                                <div class="team-section-label"><span data-i18n="wrMembers">สมาชิก</span><span
+                                        id="teamMemberCount">1
                                         คน</span></div>
                                 <div id="teamMemberList"></div>
                             </div>
                             <div class="team-panel-footer">
-                                <button class="team-invite-button" id="openInviteButton"
-                                    onclick="openInviteDialog()">เชิญสมาชิกด้วยอีเมล</button>
+                                <button class="team-invite-button" id="openInviteButton" onclick="openInviteDialog()"
+                                    data-i18n="wrInviteByEmail">เชิญสมาชิกด้วยอีเมล</button>
                             </div>
                         </aside>
                     </header>
@@ -861,27 +901,32 @@
 
         <div class="modal-overlay" id="inviteModal">
             <div class="modal-box invite-dialog" role="dialog" aria-modal="true" aria-labelledby="inviteTitle">
-                <div class="modal-title" id="inviteTitle">เชิญสมาชิกเข้าทีม</div>
+                <div class="modal-title" id="inviteTitle" data-i18n="wrInviteTitle">เชิญสมาชิกเข้าทีม</div>
                 <div class="invite-form-row">
-                    <label for="inviteEmail">อีเมลของผู้ที่ต้องการเชิญ</label>
+                    <label for="inviteEmail" data-i18n="wrInviteEmail">อีเมลของผู้ที่ต้องการเชิญ</label>
                     <input type="email" id="inviteEmail" placeholder="name@example.com" autocomplete="email">
                 </div>
                 <div class="invite-form-row">
-                    <label for="inviteRole">สิทธิ์เริ่มต้น</label>
+                    <label for="inviteRole" data-i18n="wrInviteDefaultRole">สิทธิ์เริ่มต้น</label>
                     <select id="inviteRole">
-                        <option value="editor">แก้ไขได้</option>
-                        <option value="viewer">ดูได้อย่างเดียว</option>
+                        <option value="editor" data-i18n="wrInviteEditor">แก้ไขได้</option>
+                        <option value="viewer" data-i18n="wrInviteViewer">ดูได้อย่างเดียว</option>
                     </select>
                 </div>
                 <div class="invite-form-row">
-                    <label>ห้องที่อนุญาตให้เข้าถึง</label>
-                    <div class="room-permission-list" id="inviteRoomList"></div>
+                    <label data-i18n="wrInviteRooms">ห้องที่อนุญาตให้เข้าถึง</label>
+                    <div class="room-permission-list" id="inviteRoomList" tabindex="0" role="group"
+                        aria-label="ห้องที่อนุญาตให้เข้าถึง" data-lenis-prevent
+                        data-lenis-prevent-wheel data-lenis-prevent-touch></div>
                 </div>
-                <p class="invite-note">คำเชิญจะปรากฏในกระดิ่งของบัญชีอีเมลนี้ เมื่อผู้รับเข้าสู่ระบบและกดยอมรับ
+                <p class="invite-note" data-i18n="wrInviteNote">คำเชิญจะปรากฏในกระดิ่งของบัญชีอีเมลนี้
+                    เมื่อผู้รับเข้าสู่ระบบและกดยอมรับ
                     พื้นที่ทีมจะถูกเพิ่มในตัวสลับพื้นที่ทำงานทันที</p>
                 <div class="modal-actions">
-                    <button class="btn btn-secondary" onclick="closeModal('inviteModal')">ยกเลิก</button>
-                    <button class="btn btn-primary" onclick="sendTeamInvite()">ส่งคำเชิญ</button>
+                    <button class="btn btn-primary" onclick="sendTeamInvite()"
+                        data-i18n="wrSendInvite">ส่งคำเชิญ</button>
+                    <button class="btn btn-secondary" onclick="closeModal('inviteModal')"
+                        data-i18n="commonCancel">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -975,12 +1020,15 @@
                         <div class="account-field-label" data-i18n="acctEmail">อีเมล</div>
                         <input class="account-field-input" id="acctEmailInput" value="kawaii@workroom.app" readonly
                             aria-describedby="acctEmailHint">
-                        <div class="account-field-hint" id="acctEmailHint">ใช้อีเมลนี้สำหรับเข้าสู่ระบบและรับคำเชิญ
+                        <div class="account-field-hint" id="acctEmailHint" data-i18n="acctEmailHint">
+                            ใช้อีเมลนี้สำหรับเข้าสู่ระบบและรับคำเชิญ
                         </div>
                     </div>
                     <div class="account-profile-actions">
-                        <button class="account-primary-btn" id="acctSaveBtn" type="button">บันทึกโปรไฟล์</button>
-                        <button class="account-secondary-btn" id="acctCancelBtn" type="button">ยกเลิก</button>
+                        <button class="account-primary-btn" id="acctSaveBtn" type="button"
+                            data-i18n="acctSaveProfile">บันทึกโปรไฟล์</button>
+                        <button class="account-secondary-btn" id="acctCancelBtn" type="button"
+                            data-i18n="commonCancel">ยกเลิก</button>
                     </div>
                 </div>
                 <div class="account-card">
@@ -992,8 +1040,7 @@
                             <div class="account-connected-name">Google</div>
                             <div class="account-connected-detail" id="acctProviderDetail"></div>
                         </div>
-                        <span class="account-connected-badge" id="acctConnectedBadge"
-                            data-i18n="acctConnectedBadge">เชื่อมต่ออยู่</span>
+                        <span class="account-connected-badge" id="acctConnectedBadge">เชื่อมต่ออยู่</span>
                         <button class="account-provider-btn" id="acctProviderBtn" type="button"
                             onclick="toggleGoogleConnection()">ยกเลิกการเชื่อมต่อ</button>
                     </div>
@@ -1012,7 +1059,7 @@
                     </div>
                 </div>
                 <div class="account-card account-danger">
-                    <div class="account-danger-title">DANGER ZONE</div>
+                    <div class="account-danger-title" data-i18n="acctDangerTitle">DANGER ZONE</div>
                     <p class="account-danger-desc" data-i18n="acctDangerDesc">
                         ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป</p>
                     <button class="account-danger-btn" onclick="deleteAccount()" data-i18n="acctDeleteBtn">🗑️
@@ -1085,6 +1132,9 @@
                                 <button class="settings-theme-btn" data-theme="system"
                                     onclick="switchSettingsTheme(this,'system')"
                                     data-i18n="settingsThemeSystem">ระบบ</button>
+                                <button class="settings-theme-btn settings-theme-playful" data-theme="playful"
+                                    onclick="switchSettingsTheme(this,'playful')"
+                                    data-i18n="settingsThemePlayful">สนุก</button>
                             </div>
                         </div>
                         <div class="settings-row">
@@ -1155,7 +1205,7 @@
         </div>
 
 
-        
+
 
     </div>
 
@@ -1607,14 +1657,14 @@
     </footer>
 
     <!-- ==================== SOCIAL LOGIN (GOOGLE / FACEBOOK) ==================== -->
-    
+
 
     <!-- ==================== PAGE SWITCHER ==================== -->
 
-        <!-- APPLICATION SCRIPTS -->
+    <!-- APPLICATION SCRIPTS -->
     <script src="js/i18n.js"></script>
     <script src="js/bento.js"></script>
-    <script src="js/workroom.js"></script>
+    <script src="js/workroom.js?v=20260823-12"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
 </body>

@@ -24,16 +24,84 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 }
                 return value;
             }
+            function uiText(key, fallback) {
+                var table = typeof translations !== 'undefined' && translations[currentLang];
+                return table && table[key] != null ? table[key] : (fallback || key);
+            }
             function workroomRoomName(id) {
                 var room = rooms[id];
                 if (!room) return workroomSystemText('ไม่มีชื่อ');
                 return /^room-[1-6]$/.test(id) ? workroomSystemText(room.name) : room.name;
             }
+            function workspaceDisplayName(workspace) {
+                var name = String(workspace && workspace.name || '').trim();
+                if (/^พื้นที่ของ\s+/i.test(name)) return currentLang === 'en' ? name.replace(/^พื้นที่ของ\s+/i, 'Workspace of ') : name;
+                if (/^Workspace of\s+/i.test(name)) return currentLang === 'th' ? name.replace(/^Workspace of\s+/i, 'พื้นที่ของ ') : name;
+                return name;
+            }
             function refreshWorkroomLanguage() {
                 if (!document.getElementById('mainApp')) return;
+                refreshLoginLanguage();
                 if (typeof renderWorkspaceRooms === 'function' && activeWorkspace) renderWorkspaceRooms();
+                if (typeof renderWorkspaceMenu === 'function' && activeWorkspace) renderWorkspaceMenu();
+                if (typeof renderTeamPanel === 'function' && activeWorkspace) renderTeamPanel();
+                if (typeof renderNotif === 'function') renderNotif();
+                var accountModal = document.getElementById('accountModal');
+                if (accountModal && accountModal.classList.contains('active') && typeof openAccountPage === 'function') openAccountPage(false);
+                var toolbarToggle = document.getElementById('ideaToolbarToggle');
+                var toolbar = document.getElementById('ideaToolbar');
+                if (toolbarToggle) {
+                    var expanded = !!(toolbar && toolbar.classList.contains('expanded'));
+                    toolbarToggle.setAttribute('aria-label', uiText(expanded ? 'wrToolbarClose' : 'wrToolbarOpen'));
+                    toolbarToggle.title = uiText(expanded ? 'wrToolbarClose' : 'wrToolbarOpen');
+                }
+                var teamButton = document.getElementById('teamButton');
+                if (teamButton) teamButton.title = uiText('wrTeamMembers');
+                var teamPanel = document.getElementById('teamPanel');
+                if (teamPanel) teamPanel.setAttribute('aria-label', uiText('wrTeamMembers'));
+                var teamClose = document.querySelector('#teamPanel .team-close');
+                if (teamClose) teamClose.setAttribute('aria-label', uiText('wrClose'));
                 if (typeof renderEditor === 'function' && workroomInitialized) renderEditor();
                 if (typeof initTypewriter === 'function' && workroomInitialized) initTypewriter();
+            }
+
+            const loginLanguageCopy = {
+                th: {
+                    eyebrow: 'พื้นที่สำหรับทีมของคุณ', visualTitle: 'จัดการงานทุกอย่าง<br>ในที่เดียว', visualText: 'โฟกัสกับงานที่สำคัญ เชื่อมต่อกับทีม และพาโปรเจกต์ไปข้างหน้าได้อย่างลื่นไหล',
+                    feature1: 'เวิร์กโฟลว์ที่ชัดเจน', feature2: 'ทำงานร่วมกันแบบเรียลไทม์', feature3: 'ข้อมูลของคุณปลอดภัย', quote: '“WorkRoom ทำให้ทุกคนเห็นภาพเดียวกัน และช่วยให้ทีมเราเดินหน้าได้เร็วขึ้น”', quoteBy: 'May — Product Lead',
+                    title: 'ยินดีต้อนรับกลับมา', subtitle: 'เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ', google: 'Google', facebook: 'Facebook', divider: 'หรือเข้าสู่ระบบด้วยอีเมล',
+                    email: 'อีเมล', password: 'รหัสผ่าน', passwordPlaceholder: 'กรอกรหัสผ่าน', remember: 'จดจำฉัน', forgot: 'ลืมรหัสผ่าน?', submit: 'เข้าสู่ระบบ', noAccount: 'ยังไม่มีบัญชี?', signup: 'สร้างบัญชี', legal: 'เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว', back: 'กลับหน้าหลัก', show: 'แสดงรหัสผ่าน', hide: 'ซ่อนรหัสผ่าน'
+                },
+                en: {
+                    eyebrow: 'Your team workspace', visualTitle: 'All your work,<br>in one place', visualText: 'Focus on what matters, stay connected with your team, and move every project forward.',
+                    feature1: 'Clear, focused workflows', feature2: 'Real-time collaboration', feature3: 'Your data stays secure', quote: '“WorkRoom gives everyone the same view and helps our team move faster.”', quoteBy: 'May — Product Lead',
+                    title: 'Welcome back', subtitle: 'Sign in to manage your work and collaborate with your team.', google: 'Google', facebook: 'Facebook', divider: 'or sign in with email',
+                    email: 'Email', password: 'Password', passwordPlaceholder: 'Enter your password', remember: 'Remember me', forgot: 'Forgot password?', submit: 'Sign in', noAccount: "Don't have an account?", signup: 'Create account', legal: 'By signing in, you agree to our Terms of Service and Privacy Policy.', back: 'Back to home', show: 'Show password', hide: 'Hide password'
+                }
+            };
+
+            function refreshLoginLanguage() {
+                var lang = currentLang === 'en' ? 'en' : 'th';
+                var copy = loginLanguageCopy[lang];
+                document.querySelectorAll('[data-login-copy]').forEach(function (el) {
+                    var value = copy[el.dataset.loginCopy];
+                    if (value != null) el.innerHTML = value;
+                });
+                var password = document.getElementById('loginPassword');
+                if (password) password.placeholder = copy.passwordPlaceholder;
+                var toggle = document.querySelector('.password-toggle');
+                if (toggle) toggle.setAttribute('aria-label', password && password.type === 'text' ? copy.hide : copy.show);
+                var language = document.querySelector('.login-language');
+                if (language) language.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'เปลี่ยนภาษา');
+            }
+
+            function toggleLoginPassword(button) {
+                var input = document.getElementById('loginPassword');
+                if (!input) return;
+                input.type = input.type === 'password' ? 'text' : 'password';
+                var lang = currentLang === 'en' ? 'en' : 'th';
+                button.setAttribute('aria-label', input.type === 'text' ? loginLanguageCopy[lang].hide : loginLanguageCopy[lang].show);
+                button.textContent = input.type === 'text' ? '◌' : '◉';
             }
 
             let rooms = {
@@ -78,6 +146,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             let collaborationSaveTimer = null;
             let workspaceProfileTargetId = null;
             let pendingWorkspaceProfile = null;
+            const DEFAULT_WORKSPACE_ICON = 'assets/images/workroom-default-workspace.png';
             const initialRooms = JSON.parse(JSON.stringify(rooms));
             const initialRoomPages = JSON.parse(JSON.stringify(roomPages));
             let roomPageCollections = {};
@@ -945,6 +1014,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                         name: 'พื้นที่ของ ' + account.name,
                         ownerName: account.name,
                         ownerEmail: account.email,
+                        icon: DEFAULT_WORKSPACE_ICON,
                         role: 'owner',
                         allowedRoomIds: Object.keys(initialRooms),
                         members: [{ name: account.name, email: account.email, picture: account.picture || null, role: 'owner', joinedAt: Date.now() }]
@@ -957,6 +1027,13 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                         ideaPages: initialIdeaPages,
                         activeIdeaPageId: initialIdeaPages[0].id
                     });
+                    writeJson(collaborationKey(account.email), state);
+                }
+
+                // Keep the first personal workspace consistent for existing users,
+                // while preserving every profile image they have chosen themselves.
+                if (state.workspaces[0] && !safeImageSource(state.workspaces[0].icon)) {
+                    state.workspaces[0].icon = DEFAULT_WORKSPACE_ICON;
                     writeJson(collaborationKey(account.email), state);
                 }
 
@@ -1111,22 +1188,24 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             function renderWorkspaceMenu() {
                 if (!collaborationState || !activeWorkspace) return;
-                document.getElementById('workspaceName').textContent = activeWorkspace.name;
+                var activeName = workspaceDisplayName(activeWorkspace);
+                document.getElementById('workspaceName').textContent = activeName;
                 document.getElementById('workspaceMark').innerHTML = workspaceMarkHtml(activeWorkspace);
                 var switcher = document.getElementById('workspaceSwitcher');
                 if (switcher) {
-                    switcher.title = 'พื้นที่ทำงาน: ' + activeWorkspace.name;
-                    switcher.setAttribute('aria-label', 'เลือกพื้นที่ทำงาน ปัจจุบัน ' + activeWorkspace.name);
+                    switcher.title = uiText('wrWorkspacePrefix') + ': ' + activeName;
+                    switcher.setAttribute('aria-label', uiText('wrCurrentWorkspace') + ' ' + activeName);
                 }
-                document.getElementById('teamPanelWorkspace').textContent = activeWorkspace.name;
+                document.getElementById('teamPanelWorkspace').textContent = activeName;
                 document.getElementById('workspaceList').innerHTML = collaborationState.workspaces.map(function (workspace) {
-                    var role = workspace.role === 'owner' ? 'พื้นที่ของคุณ' : (workspace.role === 'editor' ? 'แก้ไขได้' : 'ดูได้อย่างเดียว');
+                    var role = workspace.role === 'owner' ? uiText('wrYourWorkspace') : (workspace.role === 'editor' ? uiText('wrCanEdit') : uiText('wrViewOnly'));
                     var editing = workspaceProfileTargetId === workspace.id;
+                    var displayName = workspaceDisplayName(workspace);
                     return '<div class="workspace-option-row' + (editing ? ' editing' : '') + '"><button class="workspace-option' + (workspace.id === activeWorkspace.id ? ' active' : '') + '" onclick="switchWorkspace(\'' + escapeHtml(workspace.id) + '\')">'
                         + '<span class="workspace-option-mark">' + workspaceMarkHtml(workspace) + '</span><span class="workspace-option-copy">'
-                        + '<span class="workspace-option-name">' + escapeHtml(workspace.name) + '</span><span class="workspace-option-role">' + role + '</span></span></button>'
-                        + (workspace.role === 'owner' ? '<button class="workspace-edit-button" onclick="toggleWorkspaceProfileOptions(event,\'' + escapeHtml(workspace.id) + '\')" aria-expanded="' + String(editing) + '" title="แก้ไขเซิร์ฟเวอร์" aria-label="แก้ไขเซิร์ฟเวอร์ ' + escapeHtml(workspace.name) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>' : '')
-                        + (editing ? '<div class="workspace-edit-panel"><button class="workspace-profile-action" onclick="chooseWorkspaceProfileImage(event,\'' + escapeHtml(workspace.id) + '\')">📷 เปลี่ยนโปรไฟล์เซิร์ฟเวอร์</button></div>' : '')
+                        + '<span class="workspace-option-name">' + escapeHtml(displayName) + '</span><span class="workspace-option-role">' + role + '</span></span></button>'
+                        + (workspace.role === 'owner' ? '<button class="workspace-edit-button" onclick="toggleWorkspaceProfileOptions(event,\'' + escapeHtml(workspace.id) + '\')" aria-expanded="' + String(editing) + '" title="' + escapeHtml(uiText('wrEditServer')) + '" aria-label="' + escapeHtml(uiText('wrEditServer') + ' ' + displayName) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>' : '')
+                        + (editing ? '<div class="workspace-edit-panel"><button class="workspace-profile-action" onclick="chooseWorkspaceProfileImage(event,\'' + escapeHtml(workspace.id) + '\')">📷 ' + escapeHtml(uiText('wrChangeServerProfile')) + '</button></div>' : '')
                         + '</div>';
                 }).join('');
             }
@@ -1147,8 +1226,9 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             function workspaceMarkHtml(workspace) {
                 var icon = workspace && safeImageSource(workspace.icon);
+                var fallbackIcon = safeImageSource(DEFAULT_WORKSPACE_ICON);
                 return icon
-                    ? '<img src="' + escapeHtml(icon) + '" alt="">'
+                    ? '<img src="' + escapeHtml(icon) + '" alt="" onerror="this.onerror=null;this.src=\'' + escapeHtml(fallbackIcon) + '\'">'
                     : escapeHtml(workspaceInitial(workspace ? workspace.name : 'W'));
             }
 
@@ -1255,17 +1335,17 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var offline = members.filter(function (member) { return !isMemberOnline(member); });
                 var renderMember = function (member) {
                     var onlineNow = isMemberOnline(member);
-                    var roleLabel = member.role === 'owner' ? 'เจ้าของ' : (member.role === 'editor' ? 'แก้ไข' : 'ดู');
+                    var roleLabel = member.role === 'owner' ? uiText('wrOwner') : (member.role === 'editor' ? uiText('wrEditor') : uiText('wrViewer'));
                     return '<div class="team-member"><div class="team-member-avatar">' + escapeHtml(workspaceInitial(member.name || member.email))
                         + '<span class="presence-dot' + (onlineNow ? ' online' : '') + '"></span></div><div class="team-member-copy">'
                         + '<div class="team-member-name">' + escapeHtml(member.name || member.email) + '</div><div class="team-member-status">'
-                        + (onlineNow ? 'ออนไลน์' : 'ออฟไลน์') + '</div></div><span class="team-role">' + roleLabel + '</span></div>';
+                        + (onlineNow ? uiText('wrOnline') : uiText('wrOffline')) + '</div></div><span class="team-role">' + roleLabel + '</span></div>';
                 };
-                var html = '<div class="team-section-label"><span>ออนไลน์</span><span>' + online.length + '</span></div>' + online.map(renderMember).join('');
-                if (offline.length) html += '<div class="team-section-label" style="margin-top:12px"><span>ออฟไลน์</span><span>' + offline.length + '</span></div>' + offline.map(renderMember).join('');
-                document.getElementById('teamMemberList').innerHTML = html || '<div class="team-empty">ยังไม่มีสมาชิก</div>';
-                document.getElementById('teamMemberCount').textContent = members.length + ' คน';
-                document.getElementById('teamPanelWorkspace').textContent = activeWorkspace.name;
+                var html = '<div class="team-section-label"><span>' + escapeHtml(uiText('wrOnline')) + '</span><span>' + online.length + '</span></div>' + online.map(renderMember).join('');
+                if (offline.length) html += '<div class="team-section-label" style="margin-top:12px"><span>' + escapeHtml(uiText('wrOffline')) + '</span><span>' + offline.length + '</span></div>' + offline.map(renderMember).join('');
+                document.getElementById('teamMemberList').innerHTML = html || '<div class="team-empty">' + escapeHtml(uiText('wrNoMembers')) + '</div>';
+                document.getElementById('teamMemberCount').textContent = members.length + ' ' + uiText('wrMemberUnit');
+                document.getElementById('teamPanelWorkspace').textContent = workspaceDisplayName(activeWorkspace);
                 var inviteButton = document.getElementById('openInviteButton');
                 inviteButton.style.display = activeWorkspace.role === 'owner' ? 'block' : 'none';
             }
@@ -1292,7 +1372,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                     return id !== 'empty-room' && rooms[id].privacy !== 'private';
                 }).map(function (id) {
                     return '<label class="room-permission-item"><input type="checkbox" value="' + escapeHtml(id) + '" checked><span>'
-                        + escapeHtml((rooms[id].emoji || '📁') + ' ' + rooms[id].name) + '</span></label>';
+                        + escapeHtml((rooms[id].emoji || '📁') + ' ' + workroomRoomName(id)) + '</span></label>';
                 }).join('');
                 closeTeamPanel();
                 openModal('inviteModal');
@@ -1399,20 +1479,20 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var visibleNotifications = notifications.filter(function (item) {
                     return item.type === 'team_invite' || readSetting('settings-notifTag', true);
                 });
-                if (visibleNotifications.length === 0) { list.innerHTML = '<div class="notif-dropdown-empty">ไม่มีการแจ้งเตือน</div>'; return; }
+                if (visibleNotifications.length === 0) { list.innerHTML = '<div class="notif-dropdown-empty">' + escapeHtml(uiText('wrNoNotifications')) + '</div>'; return; }
                 list.innerHTML = visibleNotifications.map(function (item) {
                     if (item.type === 'team_invite') {
                         var actions = item.status === 'pending'
-                            ? '<div class="invite-actions"><button class="invite-accept" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',true)">ยอมรับ</button><button class="invite-decline" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',false)">ปฏิเสธ</button></div>'
-                            : '<div class="invite-notification-meta">' + (item.status === 'accepted' ? 'ยอมรับแล้ว' : 'ปฏิเสธแล้ว') + '</div>';
+                            ? '<div class="invite-actions"><button class="invite-accept" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',true)">' + escapeHtml(uiText('wrAccept')) + '</button><button class="invite-decline" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',false)">' + escapeHtml(uiText('wrDecline')) + '</button></div>'
+                            : '<div class="invite-notification-meta">' + escapeHtml(item.status === 'accepted' ? uiText('wrAccepted') : uiText('wrDeclined')) + '</div>';
                         return '<div class="invite-notification"><div class="invite-notification-title"><strong>' + escapeHtml(item.fromName)
-                            + '</strong> ส่งคำเชิญให้เข้าร่วม “' + escapeHtml(item.workspaceName) + '”</div><div class="invite-notification-meta">'
-                            + escapeHtml(item.time || 'เมื่อกี้') + ' · ' + (item.role === 'editor' ? 'แก้ไขได้' : 'ดูได้อย่างเดียว') + '</div>' + actions + '</div>';
+                            + '</strong> ' + escapeHtml(uiText('wrInviteMessage')) + ' “' + escapeHtml(item.workspaceName) + '”</div><div class="invite-notification-meta">'
+                            + escapeHtml(item.time || uiText('wrJustNow')) + ' · ' + escapeHtml(item.role === 'editor' ? uiText('wrEditPermission') : uiText('wrViewPermission')) + '</div>' + actions + '</div>';
                     }
                     if (item.type === 'mention') {
                         return '<div class="invite-notification ' + (item.read ? '' : 'unread') + '">'
-                            + '<div class="invite-notification-title"><strong>@' + escapeHtml(item.fromName || 'สมาชิก')
-                            + '</strong> แท็กคุณใน “' + escapeHtml(item.roomName || 'ห้องทำงาน') + '”</div>'
+                            + '<div class="invite-notification-title"><strong>@' + escapeHtml(item.fromName || uiText('wrMemberFallback'))
+                            + '</strong> ' + escapeHtml(uiText('wrMentionedYou')) + ' “' + escapeHtml(item.roomName || uiText('wrWorkroomFallback')) + '”</div>'
                             + '<div class="invite-notification-meta">' + escapeHtml(item.workspaceName || '')
                             + (item.time ? ' · ' + escapeHtml(item.time) : '') + '</div></div>';
                     }
@@ -1498,7 +1578,9 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             }
             function applyTheme(theme) {
                 var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                document.body.classList.toggle('light-theme', !isDark);
+                var isPlayful = theme === 'playful';
+                document.body.classList.toggle('playful-theme', isPlayful);
+                document.body.classList.toggle('light-theme', !isDark || isPlayful);
             }
             function switchSettingsTheme(btn, theme) {
                 document.querySelectorAll('.settings-theme-btn').forEach(b => b.classList.remove('active'));
@@ -1587,7 +1669,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             });
 
             // ========== ACCOUNT FUNCTIONS ==========
-            function openAccountPage() {
+            function openAccountPage(shouldOpen) {
                 var user = currentUser || {};
                 var name = user.name || 'User';
                 var email = user.email || '';
@@ -1612,11 +1694,11 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var connected = user.provider === 'google';
                 var badge = document.getElementById('acctConnectedBadge');
                 var providerButton = document.getElementById('acctProviderBtn');
-                document.getElementById('acctProviderDetail').textContent = connected ? email : 'ยังไม่ได้เชื่อมต่อบัญชี Google';
-                badge.textContent = connected ? 'เชื่อมต่ออยู่' : 'ยังไม่เชื่อมต่อ';
+                document.getElementById('acctProviderDetail').textContent = connected ? email : uiText('acctGoogleNotConnected');
+                badge.textContent = connected ? uiText('acctConnectedNow') : uiText('acctNotConnected');
                 badge.classList.toggle('disconnected', !connected);
-                providerButton.textContent = connected ? 'ยกเลิกการเชื่อมต่อ' : 'เชื่อมต่อ Google';
-                openModal('accountModal');
+                providerButton.textContent = connected ? uiText('acctDisconnectGoogle') : uiText('acctConnectGoogle');
+                if (shouldOpen !== false) openModal('accountModal');
             }
             function persistAccountUser(user) {
                 currentUser = user;
@@ -3201,8 +3283,8 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 closeIdeaSaveMenu();
                 if (toggle) {
                     toggle.setAttribute('aria-expanded', 'false');
-                    toggle.setAttribute('aria-label', 'เปิดเครื่องมือ');
-                    toggle.title = 'เปิดเครื่องมือ';
+                    toggle.setAttribute('aria-label', uiText('wrToolbarOpen'));
+                    toggle.title = uiText('wrToolbarOpen');
                 }
             }
 
@@ -3213,8 +3295,8 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var toggle = document.getElementById('ideaToolbarToggle');
                 if (toggle) {
                     toggle.setAttribute('aria-expanded', String(expanded));
-                    toggle.setAttribute('aria-label', expanded ? 'ปิดเครื่องมือ' : 'เปิดเครื่องมือ');
-                    toggle.title = expanded ? 'ปิดเครื่องมือ' : 'เปิดเครื่องมือ';
+                    toggle.setAttribute('aria-label', uiText(expanded ? 'wrToolbarClose' : 'wrToolbarOpen'));
+                    toggle.title = uiText(expanded ? 'wrToolbarClose' : 'wrToolbarOpen');
                 }
             }
 

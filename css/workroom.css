@@ -1,5 +1,170 @@
 /* ===== WORKROOM CSS ===== */
 
+/* ===== LOGIN REDESIGN ===== */
+#loginPage {
+    background: #f4f6fb;
+    padding: clamp(12px, 2vw, 32px);
+    overflow: auto;
+}
+
+#loginPage::before {
+    content: '';
+    position: fixed;
+    width: 360px;
+    height: 360px;
+    left: -120px;
+    top: -120px;
+    border-radius: 50%;
+    background: rgba(212, 224, 255, .75);
+    filter: blur(60px);
+}
+
+.login-shell {
+    position: relative;
+    width: min(1360px, 100%);
+    min-height: calc(100vh - clamp(24px, 4vw, 64px));
+    display: grid;
+    grid-template-columns: 1.02fr .98fr;
+    overflow: hidden;
+    border: 1px solid #fff;
+    border-radius: 28px;
+    background: #fff;
+    box-shadow: 0 30px 90px -45px rgba(30, 54, 105, .4);
+}
+
+.login-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: clamp(42px, 5vw, 64px);
+    background: #132b5c;
+    color: #fff;
+}
+
+.login-visual::before {
+    content: '';
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: -140px;
+    top: -140px;
+    border: 78px solid #214687;
+    border-radius: 50%;
+}
+
+.login-visual::after {
+    content: '';
+    position: absolute;
+    width: 390px;
+    height: 390px;
+    left: -100px;
+    bottom: -180px;
+    border-radius: 50%;
+    background: #1c56d7;
+    filter: blur(50px);
+    opacity: .55;
+}
+
+.login-brand {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    color: inherit;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -.04em;
+}
+
+.login-brand-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #fff;
+    color: #174fc7;
+    font-weight: 800;
+}
+
+.login-visual-copy { position: relative; z-index: 1; margin: auto 0; max-width: 560px; padding: 56px 0; animation: loginEnter .55s cubic-bezier(.22,1,.36,1) both; }
+.login-eyebrow, .login-kicker { margin: 0 0 16px; color: #91b1ff; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.login-visual-copy h1 { margin: 0; color: #fff; font-size: clamp(44px, 4.2vw, 68px); line-height: 1.05; letter-spacing: -.055em; }
+.login-visual-copy > p:not(.login-eyebrow) { max-width: 480px; margin: 26px 0 0; color: #b8c9e9; font-size: 17px; line-height: 1.8; }
+.login-features { display: grid; gap: 15px; margin: 34px 0 0; padding: 0; list-style: none; }
+.login-features li { display: flex; align-items: center; gap: 12px; color: #e6edff; font-size: 14px; }
+.login-features li span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.1); color: #a7bfff; }
+.login-features b { font-weight: 500; }
+.login-quote { position: relative; z-index: 1; margin: 0; padding-left: 18px; border-left: 2px solid #4d78d9; }
+.login-quote blockquote { margin: 0; color: #dce7ff; font-size: 13px; line-height: 1.7; }
+.login-quote figcaption { margin-top: 6px; color: #83a7f8; font-size: 11px; font-weight: 600; }
+
+.login-panel { display: flex; min-width: 0; flex-direction: column; padding: clamp(28px, 4vw, 60px); color: #172033; }
+.login-panel-header { display: flex; justify-content: flex-end; }
+.login-mobile-brand { display: none; color: #132b5c; }
+.login-language { display: flex; align-items: center; gap: 4px; padding: 5px; border: 1px solid #dfe4ed; border-radius: 999px; color: #66748c; box-shadow: 0 2px 8px rgba(24,44,85,.05); }
+.login-language > span { padding: 0 4px 0 7px; font-size: 18px; }
+.login-language .lang-btn { width: auto; padding: 6px 10px; border: 0; border-radius: 999px; background: transparent; color: #647188; font-size: 12px; font-weight: 600; }
+.login-language .lang-btn:hover { background: #f1f4f9; }
+.login-language .lang-btn.active { background: #e9efff; color: #174fc7; }
+
+.login-panel .login-box { width: 100%; max-width: 480px; margin: auto; padding: 44px 0; border: 0; border-radius: 0; background: transparent; animation: loginEnter .55s .08s cubic-bezier(.22,1,.36,1) both; }
+.login-panel .login-box h2 { margin: 0; color: #14203a; font-size: clamp(34px, 3.2vw, 42px); line-height: 1.18; letter-spacing: -.045em; }
+.login-panel .login-kicker { color: #1b59dd; }
+.login-panel .login-subtitle { max-width: 450px; margin: 12px 0 30px; color: #68758b; text-align: left; font-size: 14px; line-height: 1.7; }
+.login-panel .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.login-panel .login-box .social-btn { min-height: 48px; padding: 10px 14px; border: 1px solid #dfe4ed; border-radius: 12px; font-size: 14px; box-shadow: 0 2px 5px rgba(18,42,84,.05); }
+.login-panel .login-box .btn-google { color: #253149; }
+.login-panel .login-box .btn-facebook { border-color: #1877f2; }
+.login-panel .login-divider { margin: 26px 0 22px; color: #8a94a6; font-size: 11px; }
+.login-panel .login-divider::before, .login-panel .login-divider::after { background: #e1e5ec; }
+#loginForm > label { display: block; margin: 17px 0 8px; color: #354056; font-size: 13px; font-weight: 600; }
+.login-input-wrap { position: relative; display: block; }
+.login-input-wrap > span { position: absolute; z-index: 1; left: 16px; top: 50%; transform: translateY(-50%); color: #8995aa; font-size: 13px; }
+.login-panel .login-box .login-input-wrap input { height: 52px; margin: 0; padding: 0 44px; border: 1px solid #dfe4ed; border-radius: 12px; background: #fbfcfe; color: #1b2740; }
+.login-panel .login-box .login-input-wrap input:focus { border-color: #2864e8; background: #fff; box-shadow: 0 0 0 4px rgba(40,100,232,.1); }
+.login-box .password-toggle { position: absolute; right: 8px; top: 50%; width: 36px; height: 36px; padding: 0; transform: translateY(-50%); border-radius: 9px; background: transparent; color: #758196; font-size: 15px; }
+.login-box .password-toggle:hover { background: #edf1f7; }
+.login-options { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 18px 0; font-size: 12px; }
+.login-options a, .login-signup a { color: #1b59dd; font-weight: 600; text-decoration: none; }
+.login-check { display: flex; align-items: center; gap: 8px; color: #5f6c82; cursor: pointer; }
+.login-check input { width: 15px !important; height: 15px !important; margin: 0 !important; padding: 0 !important; accent-color: #1b59dd; }
+.login-panel .login-box .login-submit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; border-radius: 12px; background: #174fc7; font-size: 14px; font-weight: 600; box-shadow: 0 12px 24px -12px rgba(23,79,199,.8); }
+.login-panel .login-box .login-submit:hover { background: #1244af; transform: translateY(-1px); }
+.login-signup { margin: 24px 0 0; color: #758196; text-align: center; font-size: 12px; }
+.login-legal { max-width: 370px; margin: 16px auto 0; color: #98a1b1; text-align: center; font-size: 10px; line-height: 1.6; }
+.login-back { display: flex; align-items: center; gap: 8px; width: max-content; color: #68758b; text-decoration: none; font-size: 12px; font-weight: 600; }
+.login-back:hover { color: #1b59dd; }
+.login-box button:focus-visible, .login-box input:focus-visible, .login-language button:focus-visible, .login-back:focus-visible { outline: 3px solid rgba(40,100,232,.25); outline-offset: 2px; }
+
+@keyframes loginEnter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 900px) {
+    .login-shell { display: block; min-height: calc(100vh - 24px); }
+    .login-visual { display: none; }
+    .login-panel { min-height: calc(100vh - 24px); padding: 26px clamp(22px, 7vw, 54px); }
+    .login-panel-header { align-items: center; justify-content: space-between; }
+    .login-mobile-brand { display: flex; }
+}
+
+@media (max-width: 520px) {
+    #loginPage { padding: 0; }
+    .login-shell { min-height: 100vh; border: 0; border-radius: 0; }
+    .login-panel { min-height: 100vh; padding: 22px 20px; }
+    .login-panel .login-box { padding: 42px 0 30px; }
+    .login-panel .social-btns { grid-template-columns: 1fr; }
+    .login-panel .login-box h2 { font-size: 32px; }
+    .login-legal { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-visual-copy, .login-panel .login-box { animation: none; }
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -187,6 +352,17 @@
             flex: 1;
             height: 1px;
             background: #333;
+        }
+
+        /* Keep the redesigned page canvas above the legacy login defaults. */
+        #loginPage {
+            background: #f4f6fb;
+            padding: clamp(12px, 2vw, 32px);
+            overflow: auto;
+        }
+
+        @media (max-width: 520px) {
+            #loginPage { padding: 0; }
         }
 
         #mainApp {
@@ -2838,11 +3014,21 @@
 
         .room-permission-list {
             max-height: 168px;
-            overflow: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            touch-action: pan-y;
+            scrollbar-gutter: stable;
+            -webkit-overflow-scrolling: touch;
             padding: 6px;
             border: 1px solid #292929;
             border-radius: 10px;
             background: #111;
+        }
+
+        .room-permission-list:focus-visible {
+            outline: 2px solid var(--accent, #845ef7);
+            outline-offset: 2px;
         }
 
         .room-permission-item {
@@ -4385,4 +4571,807 @@
 
         #ideaEditor {
             display: block;
+        }
+
+        /* Light-surface contrast guard: child colors must not inherit dark-theme whites. */
+        body.light-theme #page-workroom .user-name,
+        body.light-theme #page-workroom .team-panel-title h3,
+        body.light-theme #page-workroom .notif-dropdown-header h4 {
+            color: #24212a;
+        }
+
+        body.light-theme #page-workroom .user-email,
+        body.light-theme #page-workroom .team-panel-title p,
+        body.light-theme #page-workroom .notif-dropdown-time {
+            color: #706a77;
+        }
+
+        body.light-theme #page-workroom .team-panel-head,
+        body.light-theme #page-workroom .notif-dropdown-header {
+            border-color: #e4dfe7;
+        }
+
+        body.light-theme #page-workroom .team-close,
+        body.light-theme #page-workroom .notif-dropdown-clear {
+            color: #69636f;
+        }
+
+        body.light-theme #page-workroom .team-close:hover,
+        body.light-theme #page-workroom .notif-dropdown-clear:hover {
+            color: #24212a;
+            background: #f0edf2;
+        }
+
+        body.light-theme #page-workroom .notif-dropdown-empty {
+            color: #625d68;
+        }
+
+        body.light-theme #page-workroom .notif-dropdown-item {
+            border-color: #ece8ee;
+        }
+
+        body.light-theme #page-workroom .notif-dropdown-item:hover {
+            background: #f6f3f7;
+        }
+
+        body.light-theme #page-workroom .notif-dropdown-item.unread {
+            background: #eef5ff;
+        }
+
+        body.light-theme #page-workroom .notif-dropdown-text {
+            color: #312d36;
+        }
+
+        body.light-theme #page-workroom .user-provider.provider-google {
+            color: #2559a8;
+            background: #e7f0ff;
+            border-color: #a9c8f7;
+        }
+
+        body.light-theme #page-workroom .user-provider.provider-facebook {
+            color: #155fbf;
+            background: #e5f0ff;
+            border-color: #9dc5f6;
+        }
+
+        body.playful-theme #page-workroom .user-name,
+        body.playful-theme #page-workroom .team-panel-title h3,
+        body.playful-theme #page-workroom .notif-dropdown-header h4 {
+            color: var(--playful-ink, #30293a);
+        }
+
+        body.playful-theme #page-workroom .team-panel-title h3::after,
+        body.playful-theme #page-workroom .notif-dropdown-header h4::after {
+            content: ' ✦';
+            color: #f06595;
+            font-size: .72em;
+        }
+
+        body.playful-theme #page-workroom .user-email,
+        body.playful-theme #page-workroom .team-panel-title p,
+        body.playful-theme #page-workroom .notif-dropdown-time {
+            color: #746b7c;
+        }
+
+        body.playful-theme #page-workroom .team-panel-head,
+        body.playful-theme #page-workroom .notif-dropdown-header {
+            border-color: #eadbea;
+            background: linear-gradient(90deg, rgba(255,194,205,.18), rgba(208,191,255,.13));
+        }
+
+        body.playful-theme #page-workroom .team-close,
+        body.playful-theme #page-workroom .notif-dropdown-clear {
+            color: #66586f;
+        }
+
+        body.playful-theme #page-workroom .team-close:hover,
+        body.playful-theme #page-workroom .notif-dropdown-clear:hover {
+            color: #3b3042;
+            background: #f0e4f6;
+        }
+
+        body.playful-theme #page-workroom .notif-dropdown-empty {
+            color: #665e6d;
+        }
+
+        body.playful-theme #page-workroom .notif-dropdown-text {
+            color: #382f3e;
+        }
+
+        /* Playful create/edit dialog: paper canvas with post-it choices. */
+        body.playful-theme #page-workroom .modal-overlay:has(.create-dialog) {
+            background: rgba(48, 39, 58, .38);
+            backdrop-filter: blur(7px) saturate(115%);
+        }
+
+        body.playful-theme #page-workroom .create-dialog {
+            position: relative;
+            overflow: visible;
+            border: 1px solid #e1d3e8;
+            border-radius: 9px 24px 9px 9px;
+            background:
+                repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(107,145,188,.075) 32px),
+                #fffdf6;
+            color: #30293a;
+            box-shadow: 12px 14px 0 rgba(165,216,255,.24), 0 24px 60px rgba(52,38,64,.22);
+        }
+
+        body.playful-theme #page-workroom .create-dialog::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            width: 92px;
+            height: 22px;
+            left: 50%;
+            top: -11px;
+            transform: translateX(-50%) rotate(-1.5deg);
+            background: rgba(255,224,102,.7);
+            box-shadow: 0 2px 4px rgba(80,61,26,.05);
+            pointer-events: none;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .modal-title {
+            color: #30293a;
+            font-size: 20px;
+            letter-spacing: -.025em;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .modal-title::after {
+            content: ' ✦';
+            color: #f06595;
+            font-size: .72em;
+        }
+
+        body.playful-theme #page-workroom .create-field-label {
+            color: #6f6577;
+            font-weight: 600;
+        }
+
+        body.playful-theme #page-workroom .create-choice {
+            border-color: rgba(74,57,90,.11);
+            background: #fff0a6;
+            color: #352e3b;
+            box-shadow: 4px 6px 12px rgba(64,48,76,.09);
+        }
+
+        body.playful-theme #page-workroom .create-type-grid .create-choice:nth-child(2) { background: #bde3ff; }
+        body.playful-theme #page-workroom .visibility-grid .create-choice:nth-child(1) { background: #c8f5cf; }
+        body.playful-theme #page-workroom .visibility-grid .create-choice:nth-child(2) { background: #ffd0d9; }
+
+        body.playful-theme #page-workroom .create-choice:hover {
+            border-color: rgba(105,78,118,.28);
+            filter: saturate(1.04);
+            box-shadow: 6px 8px 15px rgba(64,48,76,.13);
+        }
+
+        body.playful-theme #page-workroom .create-choice:has(input:checked) {
+            border-color: #f06595;
+            background: #ffc2cd;
+            box-shadow: 0 0 0 3px rgba(240,101,149,.14), 5px 7px 0 rgba(208,191,255,.22);
+            transform: rotate(-.35deg);
+        }
+
+        body.playful-theme #page-workroom .create-choice-icon {
+            border: 1px solid rgba(74,57,90,.1);
+            background: rgba(255,255,255,.58);
+            color: #4f4458;
+            box-shadow: 2px 3px 0 rgba(62,45,72,.09);
+        }
+
+        body.playful-theme #page-workroom .create-choice:has(input:checked) .create-choice-icon {
+            background: linear-gradient(135deg, #ff8fa3, #b197fc);
+            color: #fff;
+        }
+
+        body.playful-theme #page-workroom .create-choice-title {
+            color: #352e3b;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .modal-input,
+        body.playful-theme #page-workroom .create-select-trigger {
+            border-color: #dfd4e4;
+            background: rgba(255,255,255,.82);
+            color: #30293a;
+            box-shadow: 0 4px 12px rgba(61,45,72,.05);
+        }
+
+        body.playful-theme #page-workroom .create-dialog .modal-input::placeholder {
+            color: #9a91a0;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .modal-input:focus,
+        body.playful-theme #page-workroom .create-select-trigger:focus-visible,
+        body.playful-theme #page-workroom .create-select-trigger[aria-expanded="true"] {
+            border-color: #f06595;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(240,101,149,.12), 0 8px 22px rgba(61,45,72,.08);
+        }
+
+        body.playful-theme #page-workroom .create-select-chevron { color: #76687e; }
+        body.playful-theme #page-workroom .create-select-trigger[aria-expanded="true"] .create-select-chevron { color: #d64e80; }
+
+        body.playful-theme #page-workroom .create-select-menu {
+            border-color: #dfd3e4;
+            background: rgba(255,253,246,.98);
+            box-shadow: 7px 9px 0 rgba(165,216,255,.2), 0 18px 42px rgba(54,40,66,.17);
+        }
+
+        body.playful-theme #page-workroom .create-select-option { color: #625869; }
+        body.playful-theme #page-workroom .create-select-option:hover,
+        body.playful-theme #page-workroom .create-select-option:focus-visible { color: #30293a; background: #f1e8f7; }
+        body.playful-theme #page-workroom .create-select-option[aria-selected="true"] { color: #46334f; background: linear-gradient(90deg, #ffc2cd, #eee4ff); }
+        body.playful-theme #page-workroom .create-select-option::before { background: #cfc4d4; }
+        body.playful-theme #page-workroom .create-select-option[aria-selected="true"]::before { background: #f06595; box-shadow: 0 0 0 4px rgba(240,101,149,.12); }
+
+        body.playful-theme #page-workroom .create-dialog .btn-primary {
+            background: linear-gradient(135deg, #ff8fa3, #b197fc);
+            color: #fff;
+            box-shadow: 0 8px 16px -9px rgba(217,75,130,.6);
+        }
+
+        body.playful-theme #page-workroom .create-dialog .btn-primary:hover {
+            background: linear-gradient(135deg, #ff7f98, #a284f5);
+        }
+
+        body.playful-theme #page-workroom .create-dialog .btn-secondary {
+            border: 1px solid #ddcee8;
+            background: #eadcff;
+            color: #594c63;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .btn-secondary:hover {
+            background: #dcc7fb;
+            color: #30293a;
+        }
+
+        body.playful-theme #page-workroom .create-dialog .btn-danger {
+            background: #ffd0d9;
+            color: #973850;
+        }
+
+        @media (max-width: 560px) {
+            body.playful-theme #page-workroom .create-dialog { border-radius: 9px 20px 9px 9px; }
+            body.playful-theme #page-workroom .create-type-grid,
+            body.playful-theme #page-workroom .visibility-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Playful workspace switcher: stacked post-it cards instead of dark panels. */
+        body.playful-theme #page-workroom .workspace-menu {
+            overflow: visible;
+            padding: 10px;
+            border: 1px solid #dfd1e8;
+            border-radius: 10px 20px 10px 10px;
+            background:
+                repeating-linear-gradient(to bottom, transparent 0, transparent 25px, rgba(105,143,186,.06) 26px),
+                #fffdf6;
+            box-shadow: 8px 10px 0 rgba(165,216,255,.24), 0 18px 42px rgba(53,39,65,.18);
+        }
+
+        body.playful-theme #page-workroom .workspace-menu::before {
+            content: '';
+            position: absolute;
+            width: 68px;
+            height: 15px;
+            left: 50%;
+            top: -8px;
+            transform: translateX(-50%) rotate(-1.5deg);
+            background: rgba(255,224,102,.72);
+            pointer-events: none;
+        }
+
+        body.playful-theme #page-workroom .workspace-menu-title {
+            color: #756a7c;
+            font-weight: 600;
+            letter-spacing: .02em;
+        }
+
+        body.playful-theme #page-workroom .workspace-option-row {
+            border: 1px solid transparent;
+            border-radius: 9px 17px 9px 9px;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        body.playful-theme #page-workroom .workspace-option-row:hover {
+            transform: translateY(-1px) rotate(-.25deg);
+        }
+
+        body.playful-theme #page-workroom .workspace-option {
+            border-radius: inherit;
+            background: #f2eaff;
+            color: #30293a;
+        }
+
+        body.playful-theme #page-workroom .workspace-option:hover {
+            background: #eadcff;
+            color: #30293a;
+        }
+
+        body.playful-theme #page-workroom .workspace-option.active {
+            background: #ffe783;
+            color: #30293a;
+            box-shadow: 4px 5px 0 rgba(83,63,28,.12);
+        }
+
+        body.playful-theme #page-workroom .workspace-option-name { color: #30293a; }
+        body.playful-theme #page-workroom .workspace-option-role { color: #716879; }
+
+        body.playful-theme #page-workroom .workspace-option-mark,
+        body.playful-theme #page-workroom .workspace-switcher-mark {
+            border: 1px solid rgba(79,57,91,.12);
+            background: linear-gradient(135deg, #ff8fa3, #b197fc);
+            color: #fff;
+            box-shadow: 3px 4px 0 rgba(82,57,94,.12);
+        }
+
+        body.playful-theme #page-workroom .workspace-switcher:hover,
+        body.playful-theme #page-workroom .workspace-switcher[aria-expanded="true"] {
+            border-color: #d7bde6;
+            background: #f0e4f8;
+        }
+
+        body.playful-theme #page-workroom .workspace-option-row.editing {
+            border-color: #dfcbe9;
+            background: #fff4f6;
+            box-shadow: 5px 6px 0 rgba(255,194,205,.25);
+        }
+
+        body.playful-theme #page-workroom .workspace-edit-button {
+            background: rgba(208,191,255,.62);
+            color: #665071;
+        }
+
+        body.playful-theme #page-workroom .workspace-edit-button:hover,
+        body.playful-theme #page-workroom .workspace-edit-button:focus-visible,
+        body.playful-theme #page-workroom .workspace-edit-button[aria-expanded="true"] {
+            background: #d0bfff;
+            color: #3f2f49;
+            box-shadow: 2px 3px 0 rgba(83,58,96,.12);
+        }
+
+        body.playful-theme #page-workroom .workspace-edit-panel {
+            border-color: #eadbe9;
+            background: rgba(255,255,255,.5);
+        }
+
+        body.playful-theme #page-workroom .workspace-profile-action {
+            border: 1px solid rgba(240,101,149,.16);
+            background: linear-gradient(135deg, #ffc2cd, #d0bfff);
+            color: #563b60;
+            box-shadow: 3px 4px 0 rgba(83,58,96,.1);
+        }
+
+        body.playful-theme #page-workroom .workspace-profile-action:hover,
+        body.playful-theme #page-workroom .workspace-profile-action:focus-visible {
+            background: linear-gradient(135deg, #ffadc0, #bea5fa);
+            color: #30213a;
+        }
+
+        /* Unified playful header action frames. */
+        body.playful-theme #page-workroom .workspace-switcher,
+        body.playful-theme #page-workroom .team-button,
+        body.playful-theme #page-workroom .bell-btn {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            padding: 0;
+            border: 1px solid #dccbe7;
+            border-radius: 12px;
+            background: #fffdf6;
+            color: #675a70;
+            box-shadow: 3px 4px 0 rgba(208,191,255,.28), 0 5px 13px rgba(66,47,78,.08);
+            display: grid;
+            place-items: center;
+            transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+        }
+
+        body.playful-theme #page-workroom .workspace-switcher:hover,
+        body.playful-theme #page-workroom .workspace-switcher[aria-expanded="true"],
+        body.playful-theme #page-workroom .team-button:hover,
+        body.playful-theme #page-workroom .team-button[aria-expanded="true"],
+        body.playful-theme #page-workroom .bell-btn:hover,
+        body.playful-theme #page-workroom .bell-btn[aria-expanded="true"] {
+            border-color: #ef9fba;
+            border-radius: 12px;
+            background: #fff0f4;
+            color: #d84f80;
+            box-shadow: 3px 4px 0 rgba(255,194,205,.38), 0 7px 15px rgba(77,50,87,.11);
+            transform: translateY(-1px);
+        }
+
+        body.playful-theme #page-workroom .team-button svg,
+        body.playful-theme #page-workroom .bell-btn svg {
+            width: 20px;
+            height: 20px;
+            color: currentColor;
+        }
+
+        body.playful-theme #page-workroom .team-button { color: #d85282; }
+        body.playful-theme #page-workroom .bell-btn { color: #7b6d83; }
+
+        body.playful-theme #page-workroom .workspace-switcher .workspace-switcher-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        /* Accent bridge: Playful follows the shared color picker like every other theme. */
+        body.playful-theme #page-workroom .sidebar-logo::after,
+        body.playful-theme #page-workroom .team-panel-title h3::after,
+        body.playful-theme #page-workroom .notif-dropdown-header h4::after {
+            color: var(--accent);
+        }
+
+        body.playful-theme #page-workroom .create-room-btn,
+        body.playful-theme #page-workroom .settings-icon,
+        body.playful-theme #page-workroom .create-dialog .btn-primary,
+        body.playful-theme #page-workroom .create-choice:has(input:checked) .create-choice-icon,
+        body.playful-theme #page-workroom .workspace-option-mark,
+        body.playful-theme #page-workroom .workspace-switcher-mark {
+            background: linear-gradient(135deg, var(--accent), #b197fc);
+        }
+
+        body.playful-theme #page-workroom .create-room-btn:hover,
+        body.playful-theme #page-workroom .create-dialog .btn-primary:hover {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 86%, #fff), #9f82f7);
+        }
+
+        body.playful-theme #page-workroom .sidebar-item.active::after {
+            background: var(--accent);
+        }
+
+        body.playful-theme #page-workroom .team-button {
+            color: var(--accent);
+        }
+
+        body.playful-theme #page-workroom .workspace-switcher:hover,
+        body.playful-theme #page-workroom .workspace-switcher[aria-expanded="true"],
+        body.playful-theme #page-workroom .team-button:hover,
+        body.playful-theme #page-workroom .team-button[aria-expanded="true"],
+        body.playful-theme #page-workroom .bell-btn:hover,
+        body.playful-theme #page-workroom .bell-btn[aria-expanded="true"] {
+            border-color: color-mix(in srgb, var(--accent) 56%, #fff);
+            background: color-mix(in srgb, var(--accent) 10%, #fffdf6);
+            color: var(--accent);
+            box-shadow: 3px 4px 0 color-mix(in srgb, var(--accent) 22%, transparent), 0 7px 15px rgba(77,50,87,.11);
+        }
+
+        body.playful-theme #page-workroom .create-choice:has(input:checked),
+        body.playful-theme #page-workroom .create-dialog .modal-input:focus,
+        body.playful-theme #page-workroom .create-select-trigger:focus-visible,
+        body.playful-theme #page-workroom .create-select-trigger[aria-expanded="true"] {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent), 5px 7px 0 rgba(208,191,255,.22);
+        }
+
+        body.playful-theme #page-workroom .create-select-trigger[aria-expanded="true"] .create-select-chevron,
+        body.playful-theme #page-workroom .create-select-option[aria-selected="true"]::before {
+            color: var(--accent);
+            background-color: var(--accent);
+        }
+
+        body.playful-theme #page-workroom .settings-theme-playful.active,
+        body.playful-theme #page-workroom .workspace-profile-action {
+            border-color: color-mix(in srgb, var(--accent) 42%, #fff);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 35%, #fff), #d0bfff);
+        }
+
+        body.playful-theme button:focus-visible,
+        body.playful-theme input:focus-visible,
+        body.playful-theme [tabindex]:focus-visible {
+            outline-color: color-mix(in srgb, var(--accent) 48%, transparent);
+        }
+
+        /* Playful invite dialog. */
+        body.playful-theme #page-workroom #inviteModal {
+            background: rgba(48,39,58,.38);
+            backdrop-filter: blur(7px) saturate(115%);
+        }
+
+        body.playful-theme #page-workroom .invite-dialog {
+            position: relative;
+            overflow: visible;
+            border: 1px solid #e1d3e8;
+            border-radius: 9px 24px 9px 9px;
+            background: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(107,145,188,.075) 32px), #fffdf6;
+            color: #30293a;
+            box-shadow: 12px 14px 0 rgba(165,216,255,.24), 0 24px 60px rgba(52,38,64,.22);
+        }
+
+        body.playful-theme #page-workroom .invite-dialog::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            width: 92px;
+            height: 22px;
+            left: 50%;
+            top: -11px;
+            transform: translateX(-50%) rotate(-1.5deg);
+            background: rgba(255,224,102,.72);
+            pointer-events: none;
+        }
+
+        body.playful-theme #page-workroom .invite-dialog .modal-title { color: #30293a; font-size: 20px; letter-spacing: -.025em; }
+        body.playful-theme #page-workroom .invite-dialog .modal-title::after { content: ' ✦'; color: var(--accent); font-size: .72em; }
+        body.playful-theme #page-workroom .invite-form-row label { color: #706578; font-weight: 600; }
+
+        body.playful-theme #page-workroom .invite-form-row input,
+        body.playful-theme #page-workroom .invite-form-row select {
+            border-color: #dfd4e4;
+            background: rgba(255,255,255,.86);
+            color: #30293a;
+            box-shadow: 0 4px 12px rgba(61,45,72,.05);
+        }
+        body.playful-theme #page-workroom .invite-form-row input::placeholder { color: #9a91a0; }
+        body.playful-theme #page-workroom .invite-form-row input:focus,
+        body.playful-theme #page-workroom .invite-form-row select:focus {
+            border-color: var(--accent);
+            background: #fff;
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent), 0 8px 22px rgba(61,45,72,.08);
+        }
+
+        body.playful-theme #page-workroom .room-permission-list {
+            display: grid;
+            gap: 6px;
+            padding: 7px;
+            border-color: #ded2e3;
+            background: rgba(255,255,255,.58);
+        }
+        body.playful-theme #page-workroom .room-permission-item {
+            min-height: 36px;
+            padding: 8px 10px;
+            border: 1px solid rgba(75,58,88,.08);
+            border-radius: 8px 14px 8px 8px;
+            background: #ffe783;
+            color: #3c3442;
+            box-shadow: 2px 3px 0 rgba(72,53,83,.08);
+        }
+        body.playful-theme #page-workroom .room-permission-item:nth-child(4n + 2) { background: #bde3ff; }
+        body.playful-theme #page-workroom .room-permission-item:nth-child(4n + 3) { background: #ffd0d9; }
+        body.playful-theme #page-workroom .room-permission-item:nth-child(4n + 4) { background: #c8f5cf; }
+        body.playful-theme #page-workroom .room-permission-item input { accent-color: var(--accent); box-shadow: none; }
+
+        body.playful-theme #page-workroom .invite-note {
+            padding: 10px 12px;
+            border-left: 3px solid color-mix(in srgb, var(--accent) 65%, #fff);
+            border-radius: 3px 10px 10px 3px;
+            background: color-mix(in srgb, var(--accent) 7%, #fffdf6);
+            color: #6b6271;
+        }
+        body.playful-theme #page-workroom .invite-dialog .modal-actions { justify-content: flex-end; }
+        body.playful-theme #page-workroom .invite-dialog .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #b197fc);
+            color: #fff;
+            box-shadow: 0 8px 16px -9px color-mix(in srgb, var(--accent) 68%, transparent);
+        }
+        body.playful-theme #page-workroom .invite-dialog .btn-primary:hover { background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 86%, #fff), #9f82f7); }
+        body.playful-theme #page-workroom .invite-dialog .btn-secondary { border: 1px solid #ddcee8; background: #eadcff; color: #594c63; }
+        body.playful-theme #page-workroom .invite-dialog .btn-secondary:hover { background: #dcc7fb; color: #30293a; }
+
+        @media (max-width: 520px) {
+            body.playful-theme #page-workroom .invite-dialog .modal-actions { display: grid; grid-template-columns: 1fr 1fr; }
+            body.playful-theme #page-workroom .invite-dialog .btn { width: 100%; }
+        }
+
+        /* ===== LOGIN: POST-IT / PAPER THEME ===== */
+        #loginPage {
+            background:
+                radial-gradient(circle at 8% 12%, rgba(255,143,163,.18), transparent 24%),
+                radial-gradient(circle at 92% 88%, rgba(177,151,252,.2), transparent 24%),
+                #f7f5f0;
+        }
+
+        #loginPage::before {
+            width: 100%;
+            height: 100%;
+            inset: 0;
+            border-radius: 0;
+            background-image: radial-gradient(rgba(25,21,36,.08) .7px, transparent .7px);
+            background-size: 18px 18px;
+            filter: none;
+            opacity: .35;
+        }
+
+        .login-shell {
+            grid-template-columns: .94fr 1.06fr;
+            border: 1px solid rgba(44,37,55,.12);
+            background: #fffdfa;
+            box-shadow: 0 24px 70px -30px rgba(61,42,88,.28), 8px 8px 0 rgba(177,151,252,.18);
+        }
+
+        .login-visual {
+            isolation: isolate;
+            background: #fff9e8;
+            color: #17131e;
+            border-right: 1px solid rgba(45,35,61,.1);
+        }
+
+        .login-visual::before {
+            width: 140px;
+            height: 34px;
+            left: 50%;
+            right: auto;
+            top: 16px;
+            transform: translateX(-50%) rotate(-2deg);
+            border: 0;
+            border-radius: 2px;
+            background: rgba(255,229,154,.72);
+            box-shadow: none;
+        }
+
+        .login-visual::after {
+            width: 250px;
+            height: 250px;
+            left: -100px;
+            bottom: -80px;
+            background: #ff8fa3;
+            filter: blur(75px);
+            opacity: .17;
+        }
+
+        .login-paper-grid {
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(87,124,170,.075) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(87,124,170,.055) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.65), transparent 86%);
+        }
+
+        .login-brand { color: #17131e; }
+        .login-brand-mark {
+            border-radius: 4px 12px 4px 4px;
+            background: #ffd43b;
+            color: #17131e;
+            box-shadow: 4px 5px 0 rgba(23,19,30,.12);
+            transform: rotate(-3deg);
+        }
+
+        .login-visual-copy { max-width: 590px; }
+        .login-visual-copy h1 {
+            color: #0e0b14;
+            font-size: clamp(42px, 4vw, 64px);
+            line-height: 1.04;
+            text-shadow: 3px 3px 0 rgba(255,143,163,.18);
+        }
+        .login-eyebrow {
+            display: inline-flex;
+            padding: 7px 12px;
+            background: #d0bfff;
+            color: #3b2b65;
+            letter-spacing: .12em;
+            transform: rotate(-1deg);
+            box-shadow: 3px 3px 0 rgba(79,58,120,.12);
+        }
+        .login-visual-copy > p:not(.login-eyebrow) { color: #6b6474; }
+
+        .login-features {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: start;
+            gap: 12px;
+        }
+        .login-features li {
+            position: relative;
+            min-height: 104px;
+            padding: 20px 14px 14px;
+            align-items: flex-start;
+            flex-direction: column;
+            color: #2d2734;
+            box-shadow: 6px 8px 18px rgba(52,42,64,.12);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .login-features li::before {
+            content: '';
+            position: absolute;
+            width: 52px;
+            height: 14px;
+            left: 50%;
+            top: -7px;
+            transform: translateX(-50%) rotate(-2deg);
+            background: rgba(255,255,255,.6);
+        }
+        .login-features li:hover { transform: translateY(-4px) rotate(0deg); box-shadow: 8px 12px 22px rgba(52,42,64,.16); }
+        .login-features li:nth-child(1) { transform: rotate(-2deg); }
+        .login-features li:nth-child(2) { transform: rotate(1.5deg) translateY(5px); }
+        .login-features li:nth-child(3) { transform: rotate(-1deg); }
+        .login-features .feature-yellow { background: #ffe783; }
+        .login-features .feature-blue { background: #a5d8ff; }
+        .login-features .feature-pink { background: #ffc2cd; }
+        .login-features li span { width: 24px; height: 24px; background: rgba(255,255,255,.55); color: #332b3c; }
+        .login-features b { font-size: 12px; line-height: 1.5; }
+
+        .login-quote {
+            max-width: 430px;
+            padding: 18px 22px 16px;
+            border: 0;
+            background: #b2f2bb;
+            color: #26372a;
+            box-shadow: 7px 8px 20px rgba(43,61,46,.13);
+            transform: rotate(-1deg);
+        }
+        .login-quote::before {
+            content: '';
+            position: absolute;
+            width: 72px;
+            height: 15px;
+            left: 50%;
+            top: -8px;
+            transform: translateX(-50%) rotate(2deg);
+            background: rgba(255,255,255,.66);
+        }
+        .login-quote blockquote { color: #334938; }
+        .login-quote figcaption { color: #57725d; }
+
+        .login-floating-notes { position: absolute; z-index: 0; inset: 0; pointer-events: none; }
+        .login-note {
+            position: absolute;
+            display: grid;
+            place-items: center;
+            width: 68px;
+            height: 68px;
+            border-radius: 2px 18px 2px 2px;
+            color: rgba(46,37,57,.43);
+            font: 700 9px/1 'Inter', sans-serif;
+            letter-spacing: .08em;
+            box-shadow: 7px 9px 18px rgba(44,34,55,.1);
+            animation: loginNoteFloat 5s ease-in-out infinite;
+        }
+        .note-pink { top: 13%; right: 8%; background: #ffc2cd; transform: rotate(7deg); }
+        .note-blue { top: 30%; right: 4%; width: 52px; height: 52px; background: #a5d8ff; transform: rotate(-6deg); animation-delay: -1.4s; }
+        .note-yellow { bottom: 17%; right: 7%; background: #ffe066; transform: rotate(5deg); animation-delay: -2.7s; }
+        .note-purple { bottom: 6%; right: 28%; width: 48px; height: 48px; background: #d0bfff; transform: rotate(-5deg); animation-delay: -3.5s; }
+
+        .login-panel {
+            position: relative;
+            background:
+                repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(120,149,190,.055) 32px),
+                #fffdfa;
+        }
+        .login-panel::before {
+            content: '';
+            position: absolute;
+            width: 82px;
+            height: 22px;
+            left: 50%;
+            top: 14px;
+            transform: translateX(-50%) rotate(1.5deg);
+            background: rgba(255,213,222,.58);
+        }
+        .login-language { background: rgba(255,253,250,.88); border-color: #e5dfea; }
+        .login-language .lang-btn.active { background: linear-gradient(135deg, #ff8fa3, #b197fc); color: #fff; box-shadow: 0 3px 10px rgba(240,101,149,.2); }
+        .login-panel .login-kicker { color: #d85282; }
+        .login-panel .login-box h2 { color: #17131e; }
+        .login-panel .login-box .social-btn { background: #fff; border-color: #e5dfea; }
+        .login-panel .login-box .btn-facebook { background: #1877f2; border-color: #1877f2; }
+        .login-panel .login-box .login-input-wrap input { background: rgba(255,255,255,.78); border-color: #ddd5e4; }
+        .login-panel .login-box .login-input-wrap input:focus { border-color: #f06595; box-shadow: 0 0 0 4px rgba(240,101,149,.11); }
+        .login-options a, .login-signup a { color: #d85282; }
+        .login-check input { accent-color: #f06595; }
+        .login-panel .login-box .login-submit {
+            background: linear-gradient(135deg, #ff8fa3, #b197fc);
+            box-shadow: 0 13px 25px -12px rgba(240,101,149,.75);
+        }
+        .login-panel .login-box .login-submit:hover { background: linear-gradient(135deg, #ff7f98, #9f82f7); }
+        .login-back:hover { color: #d85282; }
+
+        @keyframes loginNoteFloat {
+            0%, 100% { translate: 0 0; }
+            50% { translate: 0 -8px; }
+        }
+
+        @media (max-width: 1100px) {
+            .login-features { grid-template-columns: 1fr; gap: 9px; }
+            .login-features li { min-height: 0; padding: 12px; flex-direction: row; align-items: center; }
+            .login-floating-notes { opacity: .48; }
+        }
+
+        @media (max-width: 900px) {
+            .login-panel { background: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(120,149,190,.06) 32px), #fffdfa; }
+            .login-mobile-brand .login-brand-mark { background: #ffd43b; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .login-note { animation: none; }
         }
