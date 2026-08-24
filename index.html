@@ -341,6 +341,10 @@
                 </div>
                 <div class="login-divider" data-login-copy="divider">หรือเข้าสู่ระบบด้วยอีเมล</div>
                 <form id="loginForm">
+                    <div id="signupNameField" hidden>
+                        <label for="signupName" data-login-copy="name">ชื่อที่แสดง</label>
+                        <div class="login-input-wrap"><span aria-hidden="true">☺</span><input type="text" id="signupName" placeholder="ชื่อของคุณ" autocomplete="name" maxlength="60"></div>
+                    </div>
                     <label for="loginEmail" data-login-copy="email">อีเมล</label>
                     <div class="login-input-wrap"><span aria-hidden="true">@</span><input type="email" id="loginEmail" placeholder="name@company.com" autocomplete="email" required></div>
                     <label for="loginPassword" data-login-copy="password">รหัสผ่าน</label>
@@ -348,7 +352,7 @@
                     <div class="login-options"><label class="login-check"><input type="checkbox"><span data-login-copy="remember">จดจำฉัน</span></label><a href="#" data-login-copy="forgot">ลืมรหัสผ่าน?</a></div>
                     <button class="login-submit" type="submit"><span data-login-copy="submit">เข้าสู่ระบบ</span><span aria-hidden="true">→</span></button>
                 </form>
-                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" data-login-copy="signup">สร้างบัญชี</a></p>
+                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" id="loginModeToggle" data-login-copy="signup" onclick="toggleLoginMode();return false;">สร้างบัญชี</a></p>
                 <p class="login-legal" data-login-copy="legal">เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</p>
                     </div>
                     <a href="#" class="login-back" onclick="showBento();return false;"><span>←</span><span data-login-copy="back">กลับหน้าหลัก</span></a>
@@ -1219,6 +1223,17 @@
             </div>
         </div>
 
+        <div class="modal-overlay" id="workroomConfirmModal">
+            <div class="modal-box workspace-profile-confirm" role="alertdialog" aria-modal="true" aria-labelledby="workroomConfirmTitle" aria-describedby="workroomConfirmMessage">
+                <div class="modal-title" id="workroomConfirmTitle"></div>
+                <p id="workroomConfirmMessage"></p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="workroomConfirmAccept" type="button"></button>
+                    <button class="btn btn-secondary" type="button" onclick="closeWorkroomConfirm()" data-i18n="commonCancel">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+
         <div class="modal-overlay" id="myTasksModal">
             <div class="modal-box my-tasks-dialog" role="dialog" aria-modal="true" aria-labelledby="myTasksTitle">
                 <div class="task-detail-head">
@@ -1726,3 +1741,4 @@
 </body>
 
 </html>
+
