@@ -536,7 +536,6 @@
                                 <div class="user-name" id="userName"></div>
                                 <div class="user-email" id="userEmail"></div>
                             </div>
-                            <div class="user-provider" id="userBadge"></div>
                             <button class="user-logout" onclick="event.stopPropagation();logout()" title="ออกจากระบบ">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -578,6 +577,12 @@
                             <div class="workspace-search-results" id="workspaceSearchResults" role="listbox"></div>
                         </div>
                         <div class="header-right">
+                            <button class="template-launch-button" onclick="openTemplateGallery()" title="เริ่มจากเทมเพลต">
+                                <span aria-hidden="true">✦</span><span data-i18n="wrTemplates">เทมเพลต</span>
+                            </button>
+                            <button class="my-tasks-button" id="myTasksButton" onclick="openMyTasks()" title="งานของฉัน">
+                                <span aria-hidden="true">✓</span><span data-i18n="wrMyTasks">งานของฉัน</span>
+                            </button>
                             <div class="workspace-control">
                                 <button class="workspace-switcher" id="workspaceSwitcher"
                                     onclick="toggleWorkspaceMenu(event)" aria-expanded="false"
@@ -660,9 +665,23 @@
                                 aria-labelledby="postitLibraryTitle">
                                 <div class="postit-library-header">
                                     <h1 class="postit-library-title" id="postitLibraryTitle">โปสต์อิท</h1>
-                                    <p class="postit-library-subtitle">กดกระดาษเพื่อเปิดอ่านเนื้อหา</p>
+                                    <p class="postit-library-subtitle">กดโปสต์อิทเพื่อเปิดและแก้ไขแบบเต็มหน้า</p>
                                 </div>
                                 <div class="postit-grid" id="postitGrid"></div>
+                            </section>
+
+                            <section id="postitFullEditor" class="postit-full-editor" style="display:none;" data-lenis-prevent aria-label="แก้ไขโปสต์อิท">
+                                <header class="postit-full-toolbar">
+                                    <button class="postit-back-button" onclick="closePostitFullEditor()" aria-label="กลับไปหน้ารวมโปสต์อิท">← <span>โปสต์อิททั้งหมด</span></button>
+                                    <div class="postit-autosave-state" id="postitAutosaveState"><span></span>บันทึกแล้ว</div>
+                                    <button class="postit-full-workflow" onclick="openCurrentPostitWorkflow()">สถานะและความคิดเห็น</button>
+                                </header>
+                                <div class="postit-full-paper" id="postitFullPaper">
+                                    <input class="postit-full-title" id="postitFullTitle" maxlength="100" placeholder="ตั้งชื่อโปสต์อิท" aria-label="ชื่อโปสต์อิท">
+                                    <div class="postit-inline-help"><span>◎</span><div><b>แบ่งงานจากไอเดียนี้ได้เลย</b><small>ชี้ที่หัวข้อหรือข้อความ แล้วกด “มอบหมาย” เพื่อเลือกทีม สถานะ และวันส่ง</small></div></div>
+                                    <div class="postit-full-blocks" id="postitFullBlocks"></div>
+                                    <button class="postit-add-paragraph" id="postitAddParagraph" onclick="addPostitParagraph()">＋ เพิ่มข้อความ</button>
+                                </div>
                             </section>
 
                             <div id="ideaEditor">
@@ -826,16 +845,16 @@
 
         <div class="modal-overlay" id="roomModal">
             <div class="modal-box create-dialog" role="dialog" aria-modal="true" aria-labelledby="createItemTitle">
-                <div class="modal-title" id="createItemTitle">สร้างรายการใหม่</div>
+                <div class="modal-title" id="createItemTitle" data-i18n="wrCreateItemTitle">สร้างรายการใหม่</div>
                 <div class="create-field">
-                    <span class="create-field-label">ต้องการสร้างอะไร</span>
+                    <span class="create-field-label" data-i18n="wrCreateWhat">ต้องการสร้างอะไร</span>
                     <div class="create-type-grid">
                         <label class="create-choice">
                             <input type="radio" name="createItemType" value="room" checked
                                 onchange="setCreateItemType('room')">
                             <span class="create-choice-icon">▣</span>
                             <span class="create-choice-copy">
-                                <span class="create-choice-title">ห้องทำงาน</span>
+                                <span class="create-choice-title" data-i18n="wrCreateRoomChoice">ห้องทำงาน</span>
                             </span>
                         </label>
                         <label class="create-choice">
@@ -843,19 +862,19 @@
                                 onchange="setCreateItemType('section')">
                             <span class="create-choice-icon">☷</span>
                             <span class="create-choice-copy">
-                                <span class="create-choice-title">หัวข้อห้อง</span>
+                                <span class="create-choice-title" data-i18n="wrCreateSectionChoice">หัวข้อห้อง</span>
                             </span>
                         </label>
                     </div>
                 </div>
                 <div class="create-field">
-                    <label class="create-field-label" for="newRoomName" id="newItemNameLabel">ชื่อห้องทำงาน</label>
-                    <input type="text" class="modal-input" id="newRoomName" placeholder="เช่น แผนงานโปรเจกต์"
+                    <label class="create-field-label" for="newRoomName" id="newItemNameLabel" data-i18n="wrCreateRoomName">ชื่อห้องทำงาน</label>
+                    <input type="text" class="modal-input" id="newRoomName" placeholder="เช่น แผนงานโปรเจกต์" data-i18n-placeholder="wrCreateRoomPlaceholder"
                         onkeydown="if(event.key==='Enter')createRoom()">
                 </div>
                 <div class="create-room-options" id="createRoomOptions">
                     <div class="create-field">
-                        <span class="create-field-label" id="newRoomSectionLabel">อยู่ใต้หัวข้อ</span>
+                        <span class="create-field-label" id="newRoomSectionLabel" data-i18n="wrUnderSection">อยู่ใต้หัวข้อ</span>
                         <div class="create-select-wrap" id="createSectionSelect">
                             <input type="hidden" id="newRoomSection">
                             <button type="button" class="create-select-trigger" id="createSectionTrigger"
@@ -873,28 +892,28 @@
                         </div>
                     </div>
                     <div class="create-field">
-                        <span class="create-field-label">การมองเห็น</span>
+                        <span class="create-field-label" data-i18n="wrVisibility">การมองเห็น</span>
                         <div class="visibility-grid">
                             <label class="create-choice">
                                 <input type="radio" name="newRoomPrivacy" value="shared" checked>
                                 <span class="create-choice-icon">♟</span>
                                 <span class="create-choice-copy">
-                                    <span class="create-choice-title">ใช้ร่วมกัน</span>
+                                    <span class="create-choice-title" data-i18n="wrShared">ใช้ร่วมกัน</span>
                                 </span>
                             </label>
                             <label class="create-choice">
                                 <input type="radio" name="newRoomPrivacy" value="private">
                                 <span class="create-choice-icon">🔒</span>
                                 <span class="create-choice-copy">
-                                    <span class="create-choice-title">ส่วนตัว</span>
+                                    <span class="create-choice-title" data-i18n="wrPrivate">ส่วนตัว</span>
                                 </span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-actions">
-                    <button class="btn btn-primary" onclick="createRoom()">สร้าง</button>
-                    <button class="btn btn-secondary" onclick="closeModal('roomModal')">ยกเลิก</button>
+                    <button class="btn btn-primary" onclick="createRoom()" data-i18n="wrCreateAction">สร้าง</button>
+                    <button class="btn btn-secondary" onclick="closeModal('roomModal')" data-i18n="commonCancel">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -1190,6 +1209,37 @@
 
         <div class="toast" id="toast"></div>
 
+        <div class="modal-overlay" id="taskDetailModal">
+            <div class="modal-box task-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="taskDetailTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">WORK ITEM</div><h2 id="taskDetailTitle">รายละเอียดงาน</h2></div>
+                    <button class="postit-reader-close" onclick="closeTaskDetail()" aria-label="ปิด">×</button>
+                </div>
+                <div id="taskDetailBody"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="myTasksModal">
+            <div class="modal-box my-tasks-dialog" role="dialog" aria-modal="true" aria-labelledby="myTasksTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">MY WORK</div><h2 id="myTasksTitle" data-i18n="wrTasksTitle">งานที่ต้องทำ</h2><p class="my-tasks-subtitle" data-i18n="wrTasksSubtitle">รวมเฉพาะงานที่มอบหมายให้คุณ งานที่อนุมัติแล้วจะเก็บไว้ด้านล่าง</p></div>
+                    <button class="postit-reader-close" onclick="closeModal('myTasksModal')" aria-label="ปิด">×</button>
+                </div>
+                <div class="my-tasks-filters" id="myTasksFilters"></div>
+                <div class="my-tasks-list" id="myTasksList"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="templateGalleryModal">
+            <div class="modal-box template-gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="templateGalleryTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว WorkRoom จะสร้างหน้าไอเดียให้พร้อมใช้</p></div>
+                    <button class="postit-reader-close" onclick="closeModal('templateGalleryModal')" aria-label="ปิด">×</button>
+                </div>
+                <div class="template-gallery-grid" id="templateGalleryGrid"></div>
+            </div>
+        </div>
+
         <div class="modal-overlay" id="postitReaderModal">
             <div class="modal-box postit-reader" role="dialog" aria-modal="true" aria-labelledby="postitReaderTitle">
                 <div class="postit-reader-head">
@@ -1197,10 +1247,16 @@
                         <div class="postit-reader-kicker">กระดาษโปสต์อิท</div>
                         <h2 class="postit-reader-title" id="postitReaderTitle"></h2>
                     </div>
-                    <button class="postit-reader-close" onclick="closeModal('postitReaderModal')"
-                        aria-label="ปิด">×</button>
+                    <div class="postit-reader-head-actions">
+                        <button class="postit-reader-edit" id="postitReaderEditButton" onclick="startPostitEdit()">✎ แก้ไข</button>
+                        <button class="postit-reader-close" onclick="closePostitReader()" aria-label="ปิด">×</button>
+                    </div>
                 </div>
                 <div class="postit-reader-body" id="postitReaderBody"></div>
+                <div class="postit-reader-actions" id="postitReaderActions" hidden>
+                    <button class="postit-edit-cancel" onclick="cancelPostitEdit()">ยกเลิก</button>
+                    <button class="postit-edit-save" onclick="savePostitEdit()">บันทึกการแก้ไข</button>
+                </div>
             </div>
         </div>
 
@@ -1664,7 +1720,7 @@
     <!-- APPLICATION SCRIPTS -->
     <script src="js/i18n.js"></script>
     <script src="js/bento.js"></script>
-    <script src="js/workroom.js?v=20260823-12"></script>
+    <script src="js/workroom.js?v=20260824-closeout-1"></script>
     <script src="js/auth.js"></script>
     <script src="js/app.js?v=20260823-2"></script>
 </body>
