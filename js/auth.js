@@ -128,7 +128,6 @@
                 var avatar = document.getElementById('userAvatar');
                 var nameEl = document.getElementById('userName');
                 var emailEl = document.getElementById('userEmail');
-                var badge = document.getElementById('userBadge');
 
                 avatar.innerHTML = '';
                 avatar.style.background = '';
@@ -150,11 +149,6 @@
 
                 if (nameEl) nameEl.textContent = name;
                 if (emailEl) emailEl.textContent = user.email || '';
-                var providerMap = { google: 'Google', facebook: 'Facebook', email: 'อีเมล' };
-                if (badge) {
-                    badge.textContent = providerMap[user.provider] || 'บัญชี';
-                    badge.className = 'user-provider provider-' + (user.provider || 'email');
-                }
                 card.style.display = 'flex';
             }
 
