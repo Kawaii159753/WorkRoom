@@ -593,4 +593,3 @@
                 || (navigator.connection && navigator.connection.saveData);
             window.__liteMotion = prefersReducedMotion || hasCoarsePointer || lowPowerDevice;
             document.documentElement.classList.toggle('lite-motion', window.__liteMotion);
-
