@@ -321,4 +321,3 @@
                     el.addEventListener('mouseleave', function () { c.classList.remove('hover'); });
                 });
             })();
-
