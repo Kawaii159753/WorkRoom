@@ -278,16 +278,18 @@
             }
 
             // Story entrance animations
-            gsap.from('.story-hero-title', { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.2 });
-            gsap.from('.story-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
-            gsap.from('.story-hero-desc', { y: 40, opacity: 0, duration: 1, delay: 0.4, ease: 'power3.out' });
+            if (document.querySelector('.story-hero-title')) gsap.from('.story-hero-title', { y: 60, opacity: 0, duration: 1.2, ease: 'power3.out', delay: 0.2 });
+            if (document.querySelector('.story-badge')) gsap.from('.story-badge', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+            if (document.querySelector('.story-hero-desc')) gsap.from('.story-hero-desc', { y: 40, opacity: 0, duration: 1, delay: 0.4, ease: 'power3.out' });
 
             gsap.utils.toArray('.timeline-item').forEach((item, i) => {
-                gsap.from(item.querySelector('.timeline-content'), {
+                var timelineContent = item.querySelector('.timeline-content');
+                var timelineDot = item.querySelector('.timeline-dot');
+                if (timelineContent) gsap.from(timelineContent, {
                     x: i % 2 === 0 ? -40 : 40, opacity: 0, duration: 0.8, delay: i * 0.1,
                     ease: 'power3.out', scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' }
                 });
-                gsap.from(item.querySelector('.timeline-dot'), {
+                if (timelineDot) gsap.from(timelineDot, {
                     scale: 0, opacity: 0, duration: 0.5, delay: i * 0.1 + 0.2,
                     ease: 'back.out(1.7)', scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' }
                 });
@@ -307,8 +309,8 @@
                 });
             });
 
-            gsap.from('.cta-title', { y: 60, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.sec-cta', start: 'top 80%' } });
-            gsap.from('.cta-desc', { y: 40, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out', scrollTrigger: { trigger: '.sec-cta', start: 'top 80%' } });
+            if (document.querySelector('.cta-title')) gsap.from('.cta-title', { y: 60, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.sec-cta', start: 'top 80%' } });
+            if (document.querySelector('.cta-desc')) gsap.from('.cta-desc', { y: 40, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out', scrollTrigger: { trigger: '.sec-cta', start: 'top 80%' } });
 
             // Story cursor hover effects
             (function () {
