@@ -87,6 +87,18 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 if (teamPanel) teamPanel.setAttribute('aria-label', uiText('wrTeamMembers'));
                 var teamClose = document.querySelector('#teamPanel .team-close');
                 if (teamClose) teamClose.setAttribute('aria-label', uiText('wrClose'));
+                var toolCopy = currentLang === 'en' ? {
+                    pencil:'Pencil', clear:'Clear drawing', eraser:'Eraser', save:'Save document', newPage:'New page', saveMenu:'Save document', download:'Save file to device', personal:'Save to My Post-its', team:'Save to Team Post-its', templateKicker:'START WITH A PLAN', tasksKicker:'MY WORK', postitKicker:'POST-IT'
+                } : {
+                    pencil:'ดินสอ', clear:'ลบภาพวาดทั้งหมด', eraser:'ยางลบ', save:'บันทึกเอกสาร', newPage:'หน้าใหม่', saveMenu:'บันทึกเอกสาร', download:'เซฟไฟล์ลงเครื่อง', personal:'บันทึกลงโปสต์อิทของฉัน', team:'บันทึกลงโปสต์อิทแบบทีม', templateKicker:'เริ่มต้นด้วยแผน', tasksKicker:'งานของฉัน', postitKicker:'กระดาษโปสต์อิท'
+                };
+                [[document.getElementById('ideaPencilBtn'),toolCopy.pencil],[document.querySelector('.idea-trash-btn'),toolCopy.clear],[document.getElementById('ideaEraserBtn'),toolCopy.eraser],[document.getElementById('ideaSaveBtn'),toolCopy.save],[document.getElementById('ideaNewPageBtn'),toolCopy.newPage]].forEach(function(pair){if(pair[0]){pair[0].title=pair[1];pair[0].setAttribute('aria-label',pair[1]);}});
+                var saveTitle=document.querySelector('.idea-save-menu-title'),saveOptions=document.querySelectorAll('.idea-save-option span');
+                if(saveTitle)saveTitle.textContent=toolCopy.saveMenu;
+                [toolCopy.download,toolCopy.personal,toolCopy.team].forEach(function(label,index){if(saveOptions[index])saveOptions[index].textContent=label;});
+                var templateKicker=document.querySelector('#templateGalleryModal .task-detail-kicker'),tasksKicker=document.querySelector('#myTasksModal .task-detail-kicker'),postitKicker=document.querySelector('#postitReaderModal .postit-reader-kicker');
+                if(templateKicker)templateKicker.textContent=toolCopy.templateKicker;if(tasksKicker)tasksKicker.textContent=toolCopy.tasksKicker;if(postitKicker)postitKicker.textContent=toolCopy.postitKicker;
+                document.querySelectorAll('.postit-reader-close').forEach(function(button){button.setAttribute('aria-label',uiText('wrClose'));});
                 var fullPostit = document.getElementById('postitFullEditor');
                 var postitIsOpen = fullPostit && fullPostit.style.display === 'block' && activePostitEditorId;
                 if (typeof renderEditor === 'function' && workroomInitialized && !postitIsOpen) renderEditor();
@@ -109,16 +121,16 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             const loginLanguageCopy = {
                 th: {
-                    eyebrow: 'พื้นที่สำหรับทีมของคุณ', visualTitle: 'จัดการงานทุกอย่าง<br>ในที่เดียว', visualText: 'โฟกัสกับงานที่สำคัญ เชื่อมต่อกับทีม และพาโปรเจกต์ไปข้างหน้าได้อย่างลื่นไหล',
-                    feature1: 'เวิร์กโฟลว์ที่ชัดเจน', feature2: 'ทำงานร่วมกันแบบเรียลไทม์', feature3: 'ข้อมูลของคุณปลอดภัย', quote: '“WorkRoom ทำให้ทุกคนเห็นภาพเดียวกัน และช่วยให้ทีมเราเดินหน้าได้เร็วขึ้น”', quoteBy: 'May — Product Lead',
+                    eyebrow: 'กลับเข้าสู่ WorkRoom', visualTitle: 'ไปต่อจากงาน<br>ที่คุณค้างไว้', visualText: 'เข้าสู่พื้นที่ของทีมเพื่อดูงานที่ได้รับมอบหมาย ความคิดเห็น และสิ่งที่ต้องตัดสินใจ',
+                    feature1: 'เวิร์กโฟลว์ที่ชัดเจน', feature2: 'รวมไอเดียและงานของทีมไว้ด้วยกัน', feature3: 'ติดตามสิ่งที่ต้องตัดสินใจ',
                     title: 'ยินดีต้อนรับกลับมา', subtitle: 'เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ', google: 'Google', facebook: 'Facebook', divider: 'หรือเข้าสู่ระบบด้วยอีเมล',
-                    email: 'อีเมล', password: 'รหัสผ่าน', passwordPlaceholder: 'กรอกรหัสผ่าน', remember: 'จดจำฉัน', forgot: 'ลืมรหัสผ่าน?', submit: 'เข้าสู่ระบบ', noAccount: 'ยังไม่มีบัญชี?', signup: 'สร้างบัญชี', legal: 'เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว', back: 'กลับหน้าหลัก', show: 'แสดงรหัสผ่าน', hide: 'ซ่อนรหัสผ่าน'
+                    name: 'ชื่อที่แสดง', namePlaceholder: 'ชื่อของคุณ', email: 'อีเมล', password: 'รหัสผ่าน', passwordPlaceholder: 'กรอกรหัสผ่าน', remember: 'จดจำฉัน', recoveryPending: 'ระบบกู้รหัสผ่านจะเปิดเมื่อเชื่อมต่อหลังบ้าน', submit: 'เข้าสู่ระบบ', createSubmit: 'สร้างบัญชี', noAccount: 'ยังไม่มีบัญชี?', signup: 'สร้างบัญชี', haveAccount: 'มีบัญชีอยู่แล้ว?', signin: 'เข้าสู่ระบบ', legalPrefix: 'เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับ', terms: 'ข้อกำหนดการใช้งาน', legalAnd: 'และ', privacy: 'นโยบายความเป็นส่วนตัว', back: 'กลับหน้าหลัก', show: 'แสดงรหัสผ่าน', hide: 'ซ่อนรหัสผ่าน'
                 },
                 en: {
-                    eyebrow: 'Your team workspace', visualTitle: 'All your work,<br>in one place', visualText: 'Focus on what matters, stay connected with your team, and move every project forward.',
-                    feature1: 'Clear, focused workflows', feature2: 'Real-time collaboration', feature3: 'Your data stays secure', quote: '“WorkRoom gives everyone the same view and helps our team move faster.”', quoteBy: 'May — Product Lead',
+                    eyebrow: 'Back to WorkRoom', visualTitle: 'Continue where<br>you left off', visualText: 'Enter your team space to review assigned work, feedback, and decisions that need attention.',
+                    feature1: 'Clear, focused workflows', feature2: 'Ideas and team tasks in one place', feature3: 'Track decisions that need attention',
                     title: 'Welcome back', subtitle: 'Sign in to manage your work and collaborate with your team.', google: 'Google', facebook: 'Facebook', divider: 'or sign in with email',
-                    email: 'Email', password: 'Password', passwordPlaceholder: 'Enter your password', remember: 'Remember me', forgot: 'Forgot password?', submit: 'Sign in', noAccount: "Don't have an account?", signup: 'Create account', legal: 'By signing in, you agree to our Terms of Service and Privacy Policy.', back: 'Back to home', show: 'Show password', hide: 'Hide password'
+                    name: 'Display name', namePlaceholder: 'Your name', email: 'Email', password: 'Password', passwordPlaceholder: 'Enter your password', remember: 'Remember me', recoveryPending: 'Password recovery will be available after backend connection', submit: 'Sign in', createSubmit: 'Create account', noAccount: "Don't have an account?", signup: 'Create account', haveAccount: 'Already have an account?', signin: 'Sign in', legalPrefix: 'By signing in, you agree to our', terms: 'Terms of Service', legalAnd: 'and', privacy: 'Privacy Policy', back: 'Back to home', show: 'Show password', hide: 'Hide password'
                 }
             };
 
@@ -131,10 +143,39 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 });
                 var password = document.getElementById('loginPassword');
                 if (password) password.placeholder = copy.passwordPlaceholder;
+                var signupName = document.getElementById('signupName');
+                if (signupName) signupName.placeholder = copy.namePlaceholder;
+                var logoutButton = document.getElementById('userLogoutButton');
+                if (logoutButton) {
+                    var logoutLabel = currentLang === 'en' ? 'Sign out' : 'ออกจากระบบ';
+                    logoutButton.title = logoutLabel;
+                    logoutButton.setAttribute('aria-label', logoutLabel);
+                }
+                var modeToggle = document.getElementById('loginModeToggle');
+                var submitCopy = document.querySelector('.login-submit [data-login-copy="submit"]');
+                var noAccountCopy = document.querySelector('.login-signup [data-login-copy="noAccount"]');
+                if (loginAuthMode === 'signup') {
+                    if (modeToggle) modeToggle.textContent = copy.signin;
+                    if (submitCopy) submitCopy.textContent = copy.createSubmit;
+                    if (noAccountCopy) noAccountCopy.textContent = copy.haveAccount;
+                }
                 var toggle = document.querySelector('.password-toggle');
                 if (toggle) toggle.setAttribute('aria-label', password && password.type === 'text' ? copy.hide : copy.show);
                 var language = document.querySelector('.login-language');
                 if (language) language.setAttribute('aria-label', lang === 'en' ? 'Change language' : 'เปลี่ยนภาษา');
+            }
+
+            var loginAuthMode = 'signin';
+            function toggleLoginMode() {
+                loginAuthMode = loginAuthMode === 'signin' ? 'signup' : 'signin';
+                var field = document.getElementById('signupNameField');
+                var nameInput = document.getElementById('signupName');
+                var password = document.getElementById('loginPassword');
+                if (field) field.hidden = loginAuthMode !== 'signup';
+                if (nameInput) nameInput.required = loginAuthMode === 'signup';
+                if (password) password.autocomplete = loginAuthMode === 'signup' ? 'new-password' : 'current-password';
+                refreshLoginLanguage();
+                if (loginAuthMode === 'signup' && nameInput) nameInput.focus();
             }
 
             function toggleLoginPassword(button) {
@@ -317,13 +358,22 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                     showToast(currentLang === 'en' ? 'Enter a valid email and at least 8 password characters' : 'กรอกอีเมลและรหัสผ่านอย่างน้อย 8 ตัวอักษร');
                     return;
                 }
-                var name = email.split('@')[0] || 'สมาชิก';
+                var requestedName = (document.getElementById('signupName').value || '').trim();
+                if (loginAuthMode === 'signup' && !requestedName) {
+                    showToast(currentLang === 'en' ? 'Enter your display name' : 'กรอกชื่อที่แสดง');
+                    document.getElementById('signupName').focus();
+                    return;
+                }
+                var name = requestedName || email.split('@')[0] || (currentLang === 'en' ? 'Member' : 'สมาชิก');
                 completeLogin({ name: name, email: email, picture: null, provider: 'email' });
                 document.getElementById('loginPassword').value = '';
+                document.getElementById('signupName').value = '';
+                if (loginAuthMode === 'signup') toggleLoginMode();
             });
 
             // ========== ROOMS ==========
             function switchRoom(roomId, el) {
+                toggleMobileSidebar(false);
                 saveActiveWorkspaceData();
                 currentRoomId = roomId;
                 document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
@@ -334,6 +384,15 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 renderEditor();
                 renderPageHistory();
                 applyWorkspaceRole();
+            }
+
+            function toggleMobileSidebar(forceOpen) {
+                var app = document.getElementById('mainApp');
+                if (!app) return;
+                var shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !app.classList.contains('mobile-sidebar-open');
+                app.classList.toggle('mobile-sidebar-open', shouldOpen);
+                var toggle = app.querySelector('.mobile-sidebar-toggle');
+                if (toggle) toggle.setAttribute('aria-expanded', String(shouldOpen));
             }
 
             function openCreateItemModal() {
@@ -1790,16 +1849,29 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 if (typeof loginWithGoogle === 'function') loginWithGoogle();
                 else showToast('บริการ Google ยังไม่พร้อมใช้งาน');
             }
+            var workroomConfirmAction = null;
+            function openWorkroomConfirm(options, action) {
+                options = options || {};
+                workroomConfirmAction = typeof action === 'function' ? action : null;
+                document.getElementById('workroomConfirmTitle').textContent = options.title || '';
+                document.getElementById('workroomConfirmMessage').textContent = options.message || '';
+                var accept = document.getElementById('workroomConfirmAccept');
+                accept.textContent = options.accept || (currentLang === 'en' ? 'Confirm' : 'ยืนยัน');
+                accept.onclick = function () { var callback = workroomConfirmAction; closeWorkroomConfirm(); if (callback) callback(); };
+                openModal('workroomConfirmModal');
+                setTimeout(function () { accept.focus(); }, 30);
+            }
+            function closeWorkroomConfirm() { workroomConfirmAction = null; closeModal('workroomConfirmModal'); }
             function logoutAllDevices() {
                 var user = currentUser || {};
-                if (!confirm('ออกจากระบบบัญชีนี้ในทุกอุปกรณ์ใช่ไหม?')) return;
-                try { localStorage.setItem('workroomSessionRevoked:' + normalizeEmail(user.email), String(Date.now())); } catch (e) { }
-                closeModal('accountModal');
-                logout();
+                openWorkroomConfirm(currentLang === 'en' ? { title:'Sign out on all devices?', message:'You will need to sign in again on every device.', accept:'Sign out' } : { title:'ออกจากระบบทุกอุปกรณ์?', message:'คุณจะต้องเข้าสู่ระบบใหม่บนอุปกรณ์ทุกเครื่อง', accept:'ออกจากระบบ' }, function () {
+                    try { localStorage.setItem('workroomSessionRevoked:' + normalizeEmail(user.email), String(Date.now())); } catch (e) { }
+                    closeModal('accountModal'); logout();
+                });
             }
             function deleteAccount() {
                 var lang = currentLang || 'th';
-                if (!confirm(lang === 'th' ? 'คุณแน่ใจหรือว่าต้องการลบบัญชี?' : 'Are you sure you want to delete your account?')) return;
+                openWorkroomConfirm(lang === 'en' ? { title:'Delete account?', message:'Your local WorkRoom data and access will be removed from this device.', accept:'Delete account' } : { title:'ลบบัญชี?', message:'ข้อมูล WorkRoom และการเข้าถึงของบัญชีนี้จะถูกลบออกจากอุปกรณ์นี้', accept:'ลบบัญชี' }, function () {
                 var account = getCurrentAccount();
                 var state = account.email ? readJson(collaborationKey(account.email), null) : null;
                 try {
@@ -1816,6 +1888,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 closeModal('accountModal');
                 showToast(lang === 'th' ? 'ลบบัญชีสำเร็จ' : 'Account deleted');
                 setTimeout(function () { if (typeof showBento === 'function') showBento(true); updateNavLogin(); }, 700);
+                });
             }
 
             var acctCancelButton = document.getElementById('acctCancelBtn');
@@ -2050,7 +2123,10 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 }
                 Object.keys(rooms).forEach(function (roomId) {
                     var roomName = (rooms[roomId] && rooms[roomId].name) || 'ไม่มีชื่อ';
-                    add({ kind: 'room', title: roomName, meta: 'ห้อง', roomId: roomId }, roomName);
+                    var displayRoomName = workroomRoomName(roomId);
+                    var defaultNames = workroomDefaultRoomNames[roomId];
+                    var roomSearchText = [roomName, displayRoomName, defaultNames && defaultNames.th, defaultNames && defaultNames.en].filter(Boolean).join(' ');
+                    add({ kind: 'room', title: displayRoomName, meta: currentLang === 'en' ? 'Room' : 'ห้อง', roomId: roomId }, roomSearchText);
 
                     if (roomId === 'room-1') {
                         ideaPages.forEach(function (page) {
@@ -2101,7 +2177,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 if (!input.value.trim()) { panel.classList.remove('show'); input.setAttribute('aria-expanded', 'false'); panel.innerHTML = ''; return; }
                 panel.innerHTML = workspaceSearchResults.length ? workspaceSearchResults.map(function (item, index) {
                     return '<button class="workspace-search-item' + (index === workspaceSearchIndex ? ' selected' : '') + '" role="option" aria-selected="' + String(index === workspaceSearchIndex) + '" onclick="openWorkspaceSearchResult(' + index + ')"><span class="workspace-search-icon">' + searchResultIcon(item.kind) + '</span><span class="workspace-search-copy"><span class="workspace-search-title">' + escapeHtml(item.title || 'ไม่มีชื่อ') + '</span><span class="workspace-search-meta">' + escapeHtml(item.meta || '') + '</span></span></button>';
-                }).join('') : '<div class="workspace-search-empty">ไม่พบห้อง เอกสาร ไฟล์ หรือลิงก์ที่ค้นหา</div>';
+                }).join('') : '<div class="workspace-search-empty">' + (currentLang === 'en' ? 'No matching rooms, documents, files, or links' : 'ไม่พบห้อง เอกสาร ไฟล์ หรือลิงก์ที่ค้นหา') + '</div>';
                 panel.classList.add('show'); input.setAttribute('aria-expanded', 'true');
             }
             function handleSearch(val) {
@@ -2192,7 +2268,10 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 document.getElementById('ideaEditor').style.display = 'none';
                 var collection = ensureRoomPageCollection(currentRoomId);
                 let page = collection ? roomPages[currentRoomId] : { title: 'หน้าใหม่', blocks: [{ type: 'text', content: '' }] };
-                var displayTitle = workroomSystemText(page.title || 'ไม่มีชื่อ');
+                var cleanStoredTitle = firstLinePageTitle(page.title);
+                var isDefaultPageTitle = !cleanStoredTitle || !/[0-9A-Za-zก-๙]/.test(cleanStoredTitle) || /^(?:หน้าใหม่|New page)$/i.test(cleanStoredTitle);
+                var displayTitle = isDefaultPageTitle ? (currentLang === 'en' ? 'New page' : 'หน้าใหม่') : workroomSystemText(cleanStoredTitle);
+                if (isDefaultPageTitle) page.title = '';
                 document.getElementById('pageTitle').value = displayTitle;
                 if (breadcrumb) breadcrumb.innerHTML = escapeHtml(roomName) + ' <span>/</span> ' + escapeHtml(displayTitle);
                 document.getElementById('normalEditor').scrollTop = 0;
@@ -3680,9 +3759,9 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 Object.keys(roomPages).forEach(function (roomId) {
                     var pages = roomPageCollections[roomId] && roomPageCollections[roomId].pages;
                     var sources = pages || [roomPages[roomId]];
-                    sources.forEach(function (page) { (page.blocks || []).forEach(function (block, blockIndex) { if (block.type === 'table') ensureTaskRows(block).forEach(function (row, rowIndex) { result.push({ row: normalizeCloseoutTask(row), roomId: roomId, blockIndex: blockIndex, rowIndex: rowIndex, isIdea: roomId === 'room-1' }); }); }); });
+                    sources.forEach(function (page) { (page.blocks || []).forEach(function (block, blockIndex) { if (block.type === 'table') ensureTaskRows(block).forEach(function (row, rowIndex) { result.push({ row: normalizeCloseoutTask(row), roomId: roomId, pageId: page.id || null, blockIndex: blockIndex, rowIndex: rowIndex, isIdea: roomId === 'room-1' }); }); }); });
                 });
-                ideaPages.forEach(function (page) { (page.blocks || []).forEach(function (block, blockIndex) { if (block.type === 'table') ensureTaskRows(block).forEach(function (row, rowIndex) { if (!result.some(function (x) { return x.row === row; })) result.push({ row: normalizeCloseoutTask(row), roomId: 'room-1', blockIndex: blockIndex, rowIndex: rowIndex, isIdea: true }); }); }); });
+                ideaPages.forEach(function (page) { (page.blocks || []).forEach(function (block, blockIndex) { if (block.type === 'table') ensureTaskRows(block).forEach(function (row, rowIndex) { if (!result.some(function (x) { return x.row === row; })) result.push({ row: normalizeCloseoutTask(row), roomId: 'room-1', pageId: page.id || null, blockIndex: blockIndex, rowIndex: rowIndex, isIdea: true }); }); }); });
                 return result;
             }
             function openMyTasks() { myTasksFilter = 'active'; showCompletedTasks = false; renderMyTasks(); openModal('myTasksModal'); }
@@ -3719,8 +3798,9 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             function confirmDeleteTaskFlow(event, blockIndex, isIdea) {
                 if (event) { event.preventDefault(); event.stopPropagation(); }
-                if (!window.confirm('ลบแผนงานทั้งตาราง?\nงาน สถานะ ผู้รับผิดชอบ และความคิดเห็นในตารางนี้จะถูกลบทั้งหมด')) return;
-                deleteTaskFlowBlock(null, blockIndex, isIdea);
+                openWorkroomConfirm(currentLang === 'en' ? { title:'Delete this task board?', message:'Tasks, statuses, assignees, and comments in this board will all be deleted.', accept:'Delete board' } : { title:'ลบแผนงานทั้งตาราง?', message:'งาน สถานะ ผู้รับผิดชอบ และความคิดเห็นในตารางนี้จะถูกลบทั้งหมด', accept:'ลบแผนงาน' }, function () {
+                    deleteTaskFlowBlock(null, blockIndex, isIdea);
+                });
             }
 
             // ===== Unified artifact workflow: idea, file and post-it =====
@@ -3928,7 +4008,12 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                     else if (item.normal) setTimeout(function () { openArtifactWorkflow(item.kind,item.index); },80);
                     else if (item.kind === 'postit-block') setTimeout(function () { openPostitFullEditor(item.postitId); setTimeout(function () { openArtifactWorkflow('postit-block',item.index,item.postitId); },80); },80);
                     else setTimeout(function () { openArtifactWorkflow('postit',0,item.postitId); },80);
-                } else { switchRoom(item.roomId); setTimeout(function () { openTaskDetail(item.blockIndex,item.rowIndex,item.isIdea); },80); }
+                } else {
+                    switchRoom(item.roomId);
+                    if (item.isIdea && item.pageId) switchIdeaPage(item.pageId);
+                    else if (item.pageId) switchRoomPage(item.pageId);
+                    setTimeout(function () { openTaskDetail(item.blockIndex,item.rowIndex,item.isIdea); },80);
+                }
             }
             renderMyTasks = function () {
                 var c=currentLang==='en'?{filter:'View current work',active:'To do',review:'Waiting for feedback',revision:'In revision',due:'Due soon/overdue',current:'Current work',results:'Filtered results',unit:'tasks',empty:'No tasks in this list',other:'Try another filter',clear:'Everything is done. Great work!',completed:'Completed work',history:'Kept as history and can be reopened anytime',noneApproved:'No approved work yet',doing:'In progress',overview:'Tasks leave the main list when changed to “Approved”',open:'Open details',untitled:'Untitled task'}:{filter:'ดูงานที่กำลังทำ',active:'ต้องทำ',review:'รอความเห็น',revision:'กำลังแก้ไข',due:'ใกล้/เลยกำหนด',current:'งานที่ต้องทำตอนนี้',results:'ผลลัพธ์ที่กรอง',unit:'งาน',empty:'ไม่มีงานในรายการนี้',other:'ลองเลือกตัวกรองอื่น',clear:'งานที่ต้องทำเสร็จหมดแล้ว เยี่ยมมาก!',completed:'งานที่เสร็จแล้ว',history:'เก็บเป็นประวัติ เปิดกลับมาแก้ต่อได้เสมอ',noneApproved:'ยังไม่มีงานที่อนุมัติแล้ว',doing:'กำลังทำ',overview:'งานจะหายจากรายการหลักเมื่อเปลี่ยนเป็น “อนุมัติแล้ว”',open:'เปิดรายละเอียด',untitled:'งานไม่มีชื่อ'};
@@ -4050,7 +4135,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var item=getActivePostitEditorItem();if(item)renderPostitFullBlocks(item);
             }
             function postitBlockAssignmentButton(block,index,readonly){
-                var wf=block.workflow,button=document.createElement('button');button.type='button';button.className='postit-block-assignment'+(wf?' assigned':'');
+                var wf=block.workflow,button=document.createElement('button');button.type='button';button.className='postit-block-assignment'+(wf?' assigned '+closeoutStatus(wf.status):'');
                 if(wf){
                     ensureArtifactWorkflow(block,'postit-block',getActivePostitEditorItem());
                     var people=wf.assignees.slice(0,3).map(function(email){var member=closeoutMembers().find(function(item){return normalizeEmail(item.email)===normalizeEmail(email);});return '<i title="'+escapeHtml(member?(member.name||member.email):email)+'">'+escapeHtml(closeoutInitial(member||{name:email}))+'</i>';}).join('');
