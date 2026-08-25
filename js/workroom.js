@@ -4201,4 +4201,3 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             function closePostitFullEditor(){clearTimeout(postitAutosaveTimer);if(activePostitEditorId)saveActiveWorkspaceData();activePostitEditorId=null;activePostitEditorRoomId=null;renderEditor();}
             openPostit=function(id){openPostitFullEditor(id);};
             editPostitFromCard=function(event,id){if(event){event.preventDefault();event.stopPropagation();}openPostitFullEditor(id);};
-
