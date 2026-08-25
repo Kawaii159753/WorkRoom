@@ -12,9 +12,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Prompt:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
+        integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="css/style.css?v=20260825-audit-3">
 
 </head>
@@ -334,7 +340,7 @@
                     </button>
                 </div>
                 <div class="login-divider" id="socialLoginDivider" data-login-copy="divider" hidden>หรือเข้าสู่ระบบด้วยอีเมล</div>
-                <form id="loginForm">
+                <form id="loginForm" method="post" action="#" autocomplete="on">
                     <div id="signupNameField" hidden>
                         <label for="signupName" data-login-copy="name">ชื่อที่แสดง</label>
                         <div class="login-input-wrap"><span aria-hidden="true">☺</span><input type="text" id="signupName" placeholder="ชื่อของคุณ" autocomplete="name" maxlength="60"></div>
@@ -1708,4 +1714,3 @@
 </body>
 
 </html>
-
