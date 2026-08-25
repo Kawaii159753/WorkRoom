@@ -20,6 +20,21 @@
         let fbInitialized = false; // กัน FB.init ซ้ำ
         let googlePromptTimer = null;
 
+        function syncSocialLoginAvailability() {
+            var options = document.getElementById('socialLoginOptions');
+            var divider = document.getElementById('socialLoginDivider');
+            var available = Boolean(GOOGLE_CLIENT_ID || FACEBOOK_APP_ID);
+            if (options) options.hidden = !available;
+            if (divider) divider.hidden = !available;
+            var googleButton = document.querySelector('.btn-google');
+            var facebookButton = document.querySelector('.btn-facebook');
+            if (googleButton) googleButton.hidden = !GOOGLE_CLIENT_ID;
+            if (facebookButton) facebookButton.hidden = !FACEBOOK_APP_ID;
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncSocialLoginAvailability);
+        else syncSocialLoginAvailability();
+
         function socialToast(msg) {
             // ใช้ showToast เดิมของแอพถ้ามี (เป็น global function)
             if (typeof showToast === 'function') return showToast(msg);
@@ -288,3 +303,4 @@
             if (provider === 'google') loginWithGoogle();
             else if (provider === 'facebook') loginWithFacebook();
         }
+

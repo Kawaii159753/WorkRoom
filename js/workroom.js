@@ -121,16 +121,16 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             const loginLanguageCopy = {
                 th: {
-                    eyebrow: 'พื้นที่สำหรับทีมของคุณ', visualTitle: 'จัดการงานทุกอย่าง<br>ในที่เดียว', visualText: 'โฟกัสกับงานที่สำคัญ เชื่อมต่อกับทีม และพาโปรเจกต์ไปข้างหน้าได้อย่างลื่นไหล',
-                    feature1: 'เวิร์กโฟลว์ที่ชัดเจน', feature2: 'ทำงานร่วมกันแบบเรียลไทม์', feature3: 'ข้อมูลของคุณปลอดภัย', quote: '“WorkRoom ทำให้ทุกคนเห็นภาพเดียวกัน และช่วยให้ทีมเราเดินหน้าได้เร็วขึ้น”', quoteBy: 'May — Product Lead',
+                    eyebrow: 'กลับเข้าสู่ WorkRoom', visualTitle: 'ไปต่อจากงาน<br>ที่คุณค้างไว้', visualText: 'เข้าสู่พื้นที่ของทีมเพื่อดูงานที่ได้รับมอบหมาย ความคิดเห็น และสิ่งที่ต้องตัดสินใจ',
+                    feature1: 'เวิร์กโฟลว์ที่ชัดเจน', feature2: 'รวมไอเดียและงานของทีมไว้ด้วยกัน', feature3: 'ติดตามสิ่งที่ต้องตัดสินใจ',
                     title: 'ยินดีต้อนรับกลับมา', subtitle: 'เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ', google: 'Google', facebook: 'Facebook', divider: 'หรือเข้าสู่ระบบด้วยอีเมล',
-                    name: 'ชื่อที่แสดง', namePlaceholder: 'ชื่อของคุณ', email: 'อีเมล', password: 'รหัสผ่าน', passwordPlaceholder: 'กรอกรหัสผ่าน', remember: 'จดจำฉัน', forgot: 'ลืมรหัสผ่าน?', submit: 'เข้าสู่ระบบ', createSubmit: 'สร้างบัญชี', noAccount: 'ยังไม่มีบัญชี?', signup: 'สร้างบัญชี', haveAccount: 'มีบัญชีอยู่แล้ว?', signin: 'เข้าสู่ระบบ', legal: 'เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว', back: 'กลับหน้าหลัก', show: 'แสดงรหัสผ่าน', hide: 'ซ่อนรหัสผ่าน'
+                    name: 'ชื่อที่แสดง', namePlaceholder: 'ชื่อของคุณ', email: 'อีเมล', password: 'รหัสผ่าน', passwordPlaceholder: 'กรอกรหัสผ่าน', remember: 'จดจำฉัน', recoveryPending: 'ระบบกู้รหัสผ่านจะเปิดเมื่อเชื่อมต่อหลังบ้าน', submit: 'เข้าสู่ระบบ', createSubmit: 'สร้างบัญชี', noAccount: 'ยังไม่มีบัญชี?', signup: 'สร้างบัญชี', haveAccount: 'มีบัญชีอยู่แล้ว?', signin: 'เข้าสู่ระบบ', legalPrefix: 'เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับ', terms: 'ข้อกำหนดการใช้งาน', legalAnd: 'และ', privacy: 'นโยบายความเป็นส่วนตัว', back: 'กลับหน้าหลัก', show: 'แสดงรหัสผ่าน', hide: 'ซ่อนรหัสผ่าน'
                 },
                 en: {
-                    eyebrow: 'Your team workspace', visualTitle: 'All your work,<br>in one place', visualText: 'Focus on what matters, stay connected with your team, and move every project forward.',
-                    feature1: 'Clear, focused workflows', feature2: 'Real-time collaboration', feature3: 'Your data stays secure', quote: '“WorkRoom gives everyone the same view and helps our team move faster.”', quoteBy: 'May — Product Lead',
+                    eyebrow: 'Back to WorkRoom', visualTitle: 'Continue where<br>you left off', visualText: 'Enter your team space to review assigned work, feedback, and decisions that need attention.',
+                    feature1: 'Clear, focused workflows', feature2: 'Ideas and team tasks in one place', feature3: 'Track decisions that need attention',
                     title: 'Welcome back', subtitle: 'Sign in to manage your work and collaborate with your team.', google: 'Google', facebook: 'Facebook', divider: 'or sign in with email',
-                    name: 'Display name', namePlaceholder: 'Your name', email: 'Email', password: 'Password', passwordPlaceholder: 'Enter your password', remember: 'Remember me', forgot: 'Forgot password?', submit: 'Sign in', createSubmit: 'Create account', noAccount: "Don't have an account?", signup: 'Create account', haveAccount: 'Already have an account?', signin: 'Sign in', legal: 'By signing in, you agree to our Terms of Service and Privacy Policy.', back: 'Back to home', show: 'Show password', hide: 'Hide password'
+                    name: 'Display name', namePlaceholder: 'Your name', email: 'Email', password: 'Password', passwordPlaceholder: 'Enter your password', remember: 'Remember me', recoveryPending: 'Password recovery will be available after backend connection', submit: 'Sign in', createSubmit: 'Create account', noAccount: "Don't have an account?", signup: 'Create account', haveAccount: 'Already have an account?', signin: 'Sign in', legalPrefix: 'By signing in, you agree to our', terms: 'Terms of Service', legalAnd: 'and', privacy: 'Privacy Policy', back: 'Back to home', show: 'Show password', hide: 'Hide password'
                 }
             };
 
@@ -145,6 +145,12 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 if (password) password.placeholder = copy.passwordPlaceholder;
                 var signupName = document.getElementById('signupName');
                 if (signupName) signupName.placeholder = copy.namePlaceholder;
+                var logoutButton = document.getElementById('userLogoutButton');
+                if (logoutButton) {
+                    var logoutLabel = currentLang === 'en' ? 'Sign out' : 'ออกจากระบบ';
+                    logoutButton.title = logoutLabel;
+                    logoutButton.setAttribute('aria-label', logoutLabel);
+                }
                 var modeToggle = document.getElementById('loginModeToggle');
                 var submitCopy = document.querySelector('.login-submit [data-login-copy="submit"]');
                 var noAccountCopy = document.querySelector('.login-signup [data-login-copy="noAccount"]');
@@ -367,6 +373,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
 
             // ========== ROOMS ==========
             function switchRoom(roomId, el) {
+                toggleMobileSidebar(false);
                 saveActiveWorkspaceData();
                 currentRoomId = roomId;
                 document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
@@ -377,6 +384,15 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 renderEditor();
                 renderPageHistory();
                 applyWorkspaceRole();
+            }
+
+            function toggleMobileSidebar(forceOpen) {
+                var app = document.getElementById('mainApp');
+                if (!app) return;
+                var shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !app.classList.contains('mobile-sidebar-open');
+                app.classList.toggle('mobile-sidebar-open', shouldOpen);
+                var toggle = app.querySelector('.mobile-sidebar-toggle');
+                if (toggle) toggle.setAttribute('aria-expanded', String(shouldOpen));
             }
 
             function openCreateItemModal() {
@@ -2252,7 +2268,10 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 document.getElementById('ideaEditor').style.display = 'none';
                 var collection = ensureRoomPageCollection(currentRoomId);
                 let page = collection ? roomPages[currentRoomId] : { title: 'หน้าใหม่', blocks: [{ type: 'text', content: '' }] };
-                var displayTitle = workroomSystemText(page.title || 'ไม่มีชื่อ');
+                var cleanStoredTitle = firstLinePageTitle(page.title);
+                var isDefaultPageTitle = !cleanStoredTitle || !/[0-9A-Za-zก-๙]/.test(cleanStoredTitle) || /^(?:หน้าใหม่|New page)$/i.test(cleanStoredTitle);
+                var displayTitle = isDefaultPageTitle ? (currentLang === 'en' ? 'New page' : 'หน้าใหม่') : workroomSystemText(cleanStoredTitle);
+                if (isDefaultPageTitle) page.title = '';
                 document.getElementById('pageTitle').value = displayTitle;
                 if (breadcrumb) breadcrumb.innerHTML = escapeHtml(roomName) + ' <span>/</span> ' + escapeHtml(displayTitle);
                 document.getElementById('normalEditor').scrollTop = 0;
@@ -4116,7 +4135,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 var item=getActivePostitEditorItem();if(item)renderPostitFullBlocks(item);
             }
             function postitBlockAssignmentButton(block,index,readonly){
-                var wf=block.workflow,button=document.createElement('button');button.type='button';button.className='postit-block-assignment'+(wf?' assigned':'');
+                var wf=block.workflow,button=document.createElement('button');button.type='button';button.className='postit-block-assignment'+(wf?' assigned '+closeoutStatus(wf.status):'');
                 if(wf){
                     ensureArtifactWorkflow(block,'postit-block',getActivePostitEditorItem());
                     var people=wf.assignees.slice(0,3).map(function(email){var member=closeoutMembers().find(function(item){return normalizeEmail(item.email)===normalizeEmail(email);});return '<i title="'+escapeHtml(member?(member.name||member.email):email)+'">'+escapeHtml(closeoutInitial(member||{name:email}))+'</i>';}).join('');
