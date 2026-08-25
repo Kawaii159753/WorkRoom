@@ -303,4 +303,3 @@
             if (provider === 'google') loginWithGoogle();
             else if (provider === 'facebook') loginWithFacebook();
         }
-
