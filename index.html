@@ -12,10 +12,16 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Prompt:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-    <link rel="stylesheet" href="css/style.css?v=playful-20260823-10">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
+        integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="css/style.css?v=20260825-audit-3">
 
 </head>
 
@@ -37,14 +43,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="downloadApp()" aria-label="Download">
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">ดาวน์โหลด</span>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
                 </button>
                 <div class="lang-toggle" id="langToggle">
                     <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
@@ -172,7 +178,7 @@
                     <div class="card-title" data-i18n="heroCardDeptTitle">Department Rooms</div>
                     <div class="card-subtitle" data-i18n="heroCardDeptSubtitle"
                         style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.5;">Access
-                        files from every department in one place</div>
+                        team work and related references in one place</div>
                     <div
                         style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;margin-top:18px;">
                         <div class="dept-chip"
@@ -186,7 +192,7 @@
                             🎨 Design</div>
                     </div>
                     <div class="card-desc" data-i18n="heroCardDeptDesc" style="margin-top:auto;padding-top:14px;">
-                        Organized by team, always in sync</div>
+                        Organized by team, ready to connect</div>
                 </div>
 
                 <!-- การ์ดกลางล่างซ้าย: ห้องส่วนตัว -->
@@ -203,7 +209,7 @@
                     <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;">
                         <div class="card-title" data-i18n="heroCardTeamTitle">Shared</div>
                         <div style="font-size:2.4rem;font-weight:800;color:#fff;line-height:1;">👥</div>
-                        <div class="card-desc" data-i18n="heroCardTeamDesc">Build together. In real time.</div>
+                        <div class="card-desc" data-i18n="heroCardTeamDesc">Bring team ideas and tasks together.</div>
                     </div>
                 </div>
 
@@ -286,27 +292,21 @@
                         <span class="login-note note-yellow">DO IT</span>
                         <span class="login-note note-purple">CREATE</span>
                     </div>
-                    <a href="#" class="login-brand" onclick="showBento();return false;">
-                        <span class="login-brand-mark" aria-hidden="true">W</span><span>WorkRoom</span>
-                    </a>
+                    <a href="#" class="login-brand" onclick="showBento();return false;">WorkRoom</a>
                     <div class="login-visual-copy">
-                        <p class="login-eyebrow" data-login-copy="eyebrow">พื้นที่สำหรับทีมของคุณ</p>
-                        <h1 data-login-copy="visualTitle">จัดการงานทุกอย่าง<br>ในที่เดียว</h1>
-                        <p data-login-copy="visualText">โฟกัสกับงานที่สำคัญ เชื่อมต่อกับทีม และพาโปรเจกต์ไปข้างหน้าได้อย่างลื่นไหล</p>
+                        <p class="login-eyebrow" data-login-copy="eyebrow">กลับเข้าสู่ WorkRoom</p>
+                        <h1 data-login-copy="visualTitle">ไปต่อจากงาน<br>ที่คุณค้างไว้</h1>
+                        <p data-login-copy="visualText">เข้าสู่พื้นที่ของทีมเพื่อดูงานที่ได้รับมอบหมาย ความคิดเห็น และสิ่งที่ต้องตัดสินใจ</p>
                         <ul class="login-features">
                             <li class="feature-yellow"><span>✓</span><b data-login-copy="feature1">เวิร์กโฟลว์ที่ชัดเจน</b></li>
-                            <li class="feature-blue"><span>✓</span><b data-login-copy="feature2">ทำงานร่วมกันแบบเรียลไทม์</b></li>
-                            <li class="feature-pink"><span>✓</span><b data-login-copy="feature3">ข้อมูลของคุณปลอดภัย</b></li>
+                            <li class="feature-blue"><span>✓</span><b data-login-copy="feature2">รวมไอเดียและงานของทีมไว้ด้วยกัน</b></li>
+                            <li class="feature-pink"><span>✓</span><b data-login-copy="feature3">ติดตามสิ่งที่ต้องตัดสินใจ</b></li>
                         </ul>
                     </div>
-                    <figure class="login-quote">
-                        <blockquote data-login-copy="quote">“WorkRoom ทำให้ทุกคนเห็นภาพเดียวกัน และช่วยให้ทีมเราเดินหน้าได้เร็วขึ้น”</blockquote>
-                        <figcaption data-login-copy="quoteBy">May — Product Lead</figcaption>
-                    </figure>
                 </section>
                 <section class="login-panel">
                     <header class="login-panel-header">
-                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;"><span class="login-brand-mark">W</span><span>WorkRoom</span></a>
+                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;">WorkRoom</a>
                         <div class="login-language" role="group" aria-label="เปลี่ยนภาษา">
                             <span aria-hidden="true">◎</span>
                             <button type="button" class="lang-btn active" data-lang="th" onclick="setLang('th')">ไทย</button>
@@ -317,7 +317,7 @@
                 <p class="login-kicker">WORKROOM ACCOUNT</p>
                 <h2 data-login-copy="title">ยินดีต้อนรับกลับมา</h2>
                 <p class="login-subtitle" data-login-copy="subtitle">เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ</p>
-                <div class="social-btns">
+                <div class="social-btns" id="socialLoginOptions" hidden>
                     <button type="button" class="social-btn btn-google" onclick="socialLogin('google')">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path fill="#4285F4"
@@ -339,17 +339,21 @@
                         <span class="sbtn-label" data-login-copy="facebook">Facebook</span>
                     </button>
                 </div>
-                <div class="login-divider" data-login-copy="divider">หรือเข้าสู่ระบบด้วยอีเมล</div>
-                <form id="loginForm">
+                <div class="login-divider" id="socialLoginDivider" data-login-copy="divider" hidden>หรือเข้าสู่ระบบด้วยอีเมล</div>
+                <form id="loginForm" method="post" action="#" autocomplete="on">
+                    <div id="signupNameField" hidden>
+                        <label for="signupName" data-login-copy="name">ชื่อที่แสดง</label>
+                        <div class="login-input-wrap"><span aria-hidden="true">☺</span><input type="text" id="signupName" placeholder="ชื่อของคุณ" autocomplete="name" maxlength="60"></div>
+                    </div>
                     <label for="loginEmail" data-login-copy="email">อีเมล</label>
                     <div class="login-input-wrap"><span aria-hidden="true">@</span><input type="email" id="loginEmail" placeholder="name@company.com" autocomplete="email" required></div>
                     <label for="loginPassword" data-login-copy="password">รหัสผ่าน</label>
                     <div class="login-input-wrap"><span aria-hidden="true">●</span><input type="password" id="loginPassword" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" minlength="8" required><button class="password-toggle" type="button" onclick="toggleLoginPassword(this)" aria-label="แสดงรหัสผ่าน">◉</button></div>
-                    <div class="login-options"><label class="login-check"><input type="checkbox"><span data-login-copy="remember">จดจำฉัน</span></label><a href="#" data-login-copy="forgot">ลืมรหัสผ่าน?</a></div>
+                    <div class="login-options"><label class="login-check"><input type="checkbox"><span data-login-copy="remember">จดจำฉัน</span></label><span class="login-recovery-note" data-login-copy="recoveryPending">ระบบกู้รหัสผ่านจะเปิดเมื่อเชื่อมต่อหลังบ้าน</span></div>
                     <button class="login-submit" type="submit"><span data-login-copy="submit">เข้าสู่ระบบ</span><span aria-hidden="true">→</span></button>
                 </form>
-                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" data-login-copy="signup">สร้างบัญชี</a></p>
-                <p class="login-legal" data-login-copy="legal">เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</p>
+                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" id="loginModeToggle" data-login-copy="signup" onclick="toggleLoginMode();return false;">สร้างบัญชี</a></p>
+                <p class="login-legal"><span data-login-copy="legalPrefix">เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับ</span> <a href="terms.html" target="_blank" rel="noopener" data-login-copy="terms">ข้อกำหนดการใช้งาน</a> <span data-login-copy="legalAnd">และ</span> <a href="privacy.html" target="_blank" rel="noopener" data-login-copy="privacy">นโยบายความเป็นส่วนตัว</a></p>
                     </div>
                     <a href="#" class="login-back" onclick="showBento();return false;"><span>←</span><span data-login-copy="back">กลับหน้าหลัก</span></a>
                 </section>
@@ -536,7 +540,7 @@
                                 <div class="user-name" id="userName"></div>
                                 <div class="user-email" id="userEmail"></div>
                             </div>
-                            <button class="user-logout" onclick="event.stopPropagation();logout()" title="ออกจากระบบ">
+                            <button class="user-logout" id="userLogoutButton" onclick="event.stopPropagation();logout()" title="ออกจากระบบ" aria-label="ออกจากระบบ">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -558,10 +562,12 @@
                         </div>
                     </div>
                 </aside>
+                <button class="mobile-sidebar-backdrop" type="button" onclick="toggleMobileSidebar(false)" aria-label="ปิดเมนูห้อง" data-i18n-aria-label="wrCloseNavigation"></button>
 
                 <main class="main-area">
                     <header class="header">
                         <div class="header-left">
+                            <button class="mobile-sidebar-toggle" type="button" onclick="toggleMobileSidebar()" aria-label="เปิดเมนูห้อง" data-i18n-aria-label="wrOpenNavigation" aria-controls="sidebarContent" aria-expanded="false">☰</button>
                             <div class="header-breadcrumb" id="headerBreadcrumb">ไอเดีย <span>/</span> ไม่มีชื่อ</div>
                         </div>
                         <div class="search-box">
@@ -572,7 +578,7 @@
                             <input type="text" id="searchInput" placeholder="ค้นหา..." data-i18n-placeholder="wrSearch"
                                 oninput="handleSearch(this.value)" onkeydown="handleSearchKeydown(event)"
                                 onfocus="handleSearch(this.value)" autocomplete="off"
-                                aria-label="ค้นหาห้อง เอกสาร ไฟล์ และลิงก์" aria-controls="workspaceSearchResults"
+                                aria-label="ค้นหาห้อง เอกสาร ไฟล์ และลิงก์" data-i18n-aria-label="wrSearchLabel" aria-controls="workspaceSearchResults"
                                 aria-expanded="false">
                             <div class="workspace-search-results" id="workspaceSearchResults" role="listbox"></div>
                         </div>
@@ -1027,7 +1033,7 @@
                         </div>
                         <div class="account-profile-info">
                             <div class="account-profile-name" id="acctDisplayName">kawaii</div>
-                            <div class="account-profile-status" data-i18n="acctFreeMember">สมาชิกบัญชีฟรี</div>
+                            <div class="account-profile-status" data-i18n="acctFreeMember">บัญชี WorkRoom</div>
                         </div>
                     </div>
                     <div class="account-field-group" style="margin-top:16px;">
@@ -1219,6 +1225,17 @@
             </div>
         </div>
 
+        <div class="modal-overlay" id="workroomConfirmModal">
+            <div class="modal-box workspace-profile-confirm" role="alertdialog" aria-modal="true" aria-labelledby="workroomConfirmTitle" aria-describedby="workroomConfirmMessage">
+                <div class="modal-title" id="workroomConfirmTitle"></div>
+                <p id="workroomConfirmMessage"></p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="workroomConfirmAccept" type="button"></button>
+                    <button class="btn btn-secondary" type="button" onclick="closeWorkroomConfirm()" data-i18n="commonCancel">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+
         <div class="modal-overlay" id="myTasksModal">
             <div class="modal-box my-tasks-dialog" role="dialog" aria-modal="true" aria-labelledby="myTasksTitle">
                 <div class="task-detail-head">
@@ -1278,14 +1295,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="downloadApp()" aria-label="Download">
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">ดาวน์โหลด</span>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
                 </button>
                 <div class="lang-toggle" id="langToggleStory">
                     <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
@@ -1349,8 +1366,8 @@
                             style="width:100%;height:100%;object-fit:cover;">
                     </div>
                     <h4>KAWAII</h4>
-                    <span class="team-role"><span class="role-highlight" data-i18n="team1RolePrefix">ผู้ก่อตั้ง</span>
-                        <span data-i18n="team1Role">ตำแหน่งที่ทำ Design Engineer / Design Technologist</span></span>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team1RolePrefix">ออกแบบผลิตภัณฑ์</span>
+                        <span data-i18n="team1Role">ดูแลประสบการณ์ใช้งานและหน้าตา WorkRoom</span></span>
                 </div>
                 <div class="team-card">
                     <div class="team-avatar"
@@ -1359,8 +1376,8 @@
                             style="width:100%;height:100%;object-fit:cover;">
                     </div>
                     <h4>Paru</h4>
-                    <span class="team-role"><span class="role-highlight" data-i18n="team2RolePrefix">CEO</span>
-                        <span data-i18n="team2Role">ตำแหน่งที่ทำ Back-End Developer</span></span>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team2RolePrefix">พัฒนาระบบ</span>
+                        <span data-i18n="team2Role">ดูแลระบบหลังบ้านและโครงสร้างข้อมูล</span></span>
                 </div>
             </div>
         </section>
@@ -1384,12 +1401,12 @@
                 <div class="value-card vc-blue">
                     <div class="value-icon">🔒</div>
                     <h3 data-i18n="val3Title">ความปลอดภัยก่อนเสมอ</h3>
-                    <p data-i18n="val3Desc">ข้อมูลและไอเดียของคุณคือสิ่งสำคัญที่สุด เราปกป้องมันด้วยมาตรฐานสูงสุด</p>
+                    <p data-i18n="val3Desc">ความเป็นส่วนตัวและสิทธิ์การเข้าถึงคือข้อกำหนดสำคัญในการพัฒนาระบบหลังบ้านของ WorkRoom</p>
                 </div>
                 <div class="value-card vc-green">
                     <div class="value-icon">🌱</div>
                     <h3 data-i18n="val4Title">เติบโตไปด้วยกัน</h3>
-                    <p data-i18n="val4Desc">เราไม่หยุดพัฒนา และเราอยากเห็นผู้ใช้ของเราเติบโตไปพร้อมๆ กับเราเช่นกัน</p>
+                    <p data-i18n="val4Desc">เราพัฒนาผ่านการทดสอบอย่างรอบคอบ ความคิดเห็นที่ตรงไปตรงมา และการตัดสินใจที่ชัดเจน</p>
                 </div>
             </div>
         </section>
@@ -1397,8 +1414,7 @@
         <!-- CTA -->
         <section class="section sec-cta">
             <h2 class="cta-title" data-i18n="ctaTitle">มาร่วมสร้าง<br>เรื่องราวต่อไปด้วยกัน</h2>
-            <p class="cta-desc" data-i18n="ctaDesc">ไม่ว่าคุณจะเป็นทีมเล็กหรือองค์กรใหญ่ WorkRoom
-                พร้อมเป็นพื้นที่ให้ความคิดสร้างสรรค์ของคุณเติบโต</p>
+            <p class="cta-desc" data-i18n="ctaDesc">ลองสำรวจต้นแบบปัจจุบัน และดูว่า WorkRoom จะช่วยให้ทีมสร้างสรรค์ขนาดเล็กทำงานได้เป็นระบบขึ้นอย่างไร</p>
             <a href="#" class="glow-btn" data-i18n="startCreate"
                 onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
         </section>
@@ -1417,14 +1433,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="downloadApp()" aria-label="Download">
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">ดาวน์โหลด</span>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
                 </button>
                 <div class="lang-toggle" id="langToggleBlog">
                     <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
@@ -1450,7 +1466,7 @@
                 <button class="blog-filter-btn" data-filter="behind" onclick="filterBlog('behind')"
                     data-i18n="blogFilterBehind">เบื้องหลัง</button>
                 <button class="blog-filter-btn" data-filter="case" onclick="filterBlog('case')"
-                    data-i18n="blogFilterCase">เคสตัวอย่าง</button>
+                    data-i18n="blogFilterCase">แนวทางการใช้งาน</button>
                 <button class="blog-filter-btn" data-filter="general" onclick="filterBlog('general')"
                     data-i18n="blogFilterGeneral">ความรู้ทั่วไป</button>
             </div>
@@ -1479,8 +1495,7 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
-                        <h3 class="blog-card-title" data-i18n="blog2Title">วิธีใช้ Post-it ดิจิตอลให้ทำงานเร็วขึ้น 2
-                            เท่า</h3>
+                        <h3 class="blog-card-title" data-i18n="blog2Title">วิธีใช้ Post-it ดิจิทัลให้ทำงานเป็นระบบขึ้น</h3>
                         <p class="blog-card-excerpt" data-i18n="blog2Excerpt">เปลี่ยนจากกระดาษโน้ตกระจัดกระจาย
                             สู่ระบบดิจิตอลที่ค้นหาได้ แชร์ได้ และไม่มีวันหายไปตามลม</p>
                         <div class="blog-card-meta">
@@ -1497,8 +1512,7 @@
                         <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
                         <h3 class="blog-card-title" data-i18n="blog3Title">จดไอเดียอย่างไรให้เป็นระบบ
                             ไม่ใช่แค่จดแล้วทิ้ง</h3>
-                        <p class="blog-card-excerpt" data-i18n="blog3Excerpt">เทคนิค PARA Method
-                            ที่ช่วยให้คุณแยกแยะไอเดียตามโครงสร้างที่เข้าใจง่าย ใช้ซ้ำได้ และเชื่อมโยงกันได้</p>
+                        <p class="blog-card-excerpt" data-i18n="blog3Excerpt">ใช้ PARA เป็นแนวทางวางโครงห้องและข้อมูลอ้างอิง โดย WorkRoom จะไม่จัดหมวดเหล่านี้ให้อัตโนมัติ</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate3">5 ส.ค. 2026</span>
                             <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
@@ -1513,8 +1527,7 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
-                        <h3 class="blog-card-title" data-i18n="blog4Title">จากโปรโตไทพ์จนถึงเวอร์ชัน 2.0: เส้นทาง 6
-                            เดือนของ WorkRoom</h3>
+                        <h3 class="blog-card-title" data-i18n="blog4Title">จากไอเดียสู่ต้นแบบ: เราวางโครง WorkRoom อย่างไร</h3>
                         <p class="blog-card-excerpt" data-i18n="blog4Excerpt">
                             ย้อนรอยการพัฒนาตั้งแต่โค้ดแรกจนถึงฟีเจอร์ครบครัน ผ่านอุปสรรคและบทเรียนที่ทีมเล็กๆ
                             เรียนรู้ไปด้วยกัน</p>
@@ -1530,8 +1543,7 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
-                        <h3 class="blog-card-title" data-i18n="blog5Title">ฟีเจอร์ใหม่ล่าสุด: ระบบ Whiteboard ที่ทีมขอมา
-                        </h3>
+                        <h3 class="blog-card-title" data-i18n="blog5Title">ทำไม Whiteboard จึงอยู่ในห้องไอเดีย</h3>
                         <p class="blog-card-excerpt" data-i18n="blog5Excerpt">
                             ทำไมเราถึงตัดสินใจรวมกระดานวาดเข้ากับห้องไอเดีย และกระบวนการออกแบบที่ทำให้ใช้งานง่ายที่สุด
                         </p>
@@ -1547,11 +1559,8 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
-                        <h3 class="blog-card-title" data-i18n="blog6Title">เราแก้ปัญหา 'ไอเดียหาย' ยังไง?
-                            เบื้องหลังการออกแบบห้องเก็บไอเดีย</h3>
-                        <p class="blog-card-excerpt" data-i18n="blog6Excerpt">
-                            วิธีคิดเบื้องหลังการสร้างห้องทำงานที่ช่วยให้ไอเดียไม่สูญหายอีกต่อไป ตั้งแต่ UX Research
-                            จนถึงการทดสอบจริง</p>
+                        <h3 class="blog-card-title" data-i18n="blog6Title">ทำไมเราออกแบบห้องเก็บไอเดียให้กลับมาทำงานต่อได้ง่าย</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog6Excerpt">หลักการออกแบบที่ช่วยให้จด ค้นหา มอบหมาย และกลับมาทำงานต่อจากไอเดียเดิมได้ง่ายขึ้น</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate6">1 ส.ค. 2026</span>
                             <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
@@ -1559,17 +1568,15 @@
                     </div>
                 </article>
 
-                <!-- Case studies -->
+                <!-- Use cases -->
                 <article class="blog-card" data-category="case">
                     <div class="blog-card-img"
                         style="background: linear-gradient(135deg, rgba(255,143,163,0.15), rgba(116,192,252,0.15));">📂
                     </div>
                     <div class="blog-card-body">
-                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">เคสตัวอย่าง</span>
-                        <h3 class="blog-card-title" data-i18n="blog7Title">
-                            ทีมคอนเทนต์ใช้ห้องแผนกยังไงให้ไม่ต้องขอไฟล์กันไปมา</h3>
-                        <p class="blog-card-excerpt" data-i18n="blog7Excerpt">เคสจากทีมคอนเทนต์ 5 คนที่ลดเวลาค้นหาไฟล์ลง
-                            70% หลังจากย้ายมาใช้ห้องแผนกใน WorkRoom</p>
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog7Title">วิธีใช้ห้องแผนกให้ทีมคอนเทนต์ไม่ต้องขอไฟล์กันไปมา</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog7Excerpt">แนวทางจัดบรีฟ ความคิดเห็น รูปภาพ และลิงก์ไปยังไฟล์ภายนอก เพื่อให้ทุกคนรู้ว่าต้องหางานจากที่ไหน</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate7">14 ส.ค. 2026</span>
                             <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
@@ -1581,11 +1588,9 @@
                         style="background: linear-gradient(135deg, rgba(255,212,59,0.15), rgba(140,233,154,0.15));">👥
                     </div>
                     <div class="blog-card-body">
-                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">เคสตัวอย่าง</span>
-                        <h3 class="blog-card-title" data-i18n="blog8Title">สตาร์ทอัพ 5 คน จัดการโปรเจกต์ด้วย WorkRoom
-                            ได้อย่างไร</h3>
-                        <p class="blog-card-excerpt" data-i18n="blog8Excerpt">จากสแตนด์อัพทุกเช้าที่ใช้เวลา 30 นาที
-                            สู่การอัปเดตงานแบบอะซิงโครนัสที่ทีมติดตามได้ตลอดเวลา</p>
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog8Title">แนวทางจัดโปรเจกต์สำหรับทีมเล็ก 5 คนด้วย WorkRoom</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog8Excerpt">ตัวอย่างการจัดขั้นตอนมอบหมายงาน อัปเดตความคืบหน้า รับความคิดเห็น และเก็บการตัดสินใจให้ทีมเห็นร่วมกัน</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate8">7 ส.ค. 2026</span>
                             <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
@@ -1597,9 +1602,8 @@
                         style="background: linear-gradient(135deg, rgba(177,151,252,0.15), rgba(255,169,77,0.15));">🎨
                     </div>
                     <div class="blog-card-body">
-                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">เคสตัวอย่าง</span>
-                        <h3 class="blog-card-title" data-i18n="blog9Title">นักออกแบบเก็บ Mood Board
-                            ไว้ในที่เดียวกับเอกสารงาน</h3>
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog9Title">วิธีจัด Mood Board ให้อยู่กับเอกสารงานในหน้าเดียว</h3>
                         <p class="blog-card-excerpt" data-i18n="blog9Excerpt">วิธีรวมแรงบันดาลใจ ร่างแบบ
                             และเอกสารส่งมอบงานให้อยู่ในพื้นที่เดียวกัน ไม่ต้องสลับแอปให้ปวดหัว</p>
                         <div class="blog-card-meta">
@@ -1664,49 +1668,33 @@
         <!-- CTA -->
         <section class="section sec-blog-cta">
             <h2 class="cta-title" data-i18n="blogCtaTitle">อยากลองใช้ WorkRoom<br>ด้วยตัวเอง?</h2>
-            <p class="cta-desc" data-i18n="blogCtaDesc">เริ่มต้นฟรีวันนี้ แล้วสัมผัสประสบการณ์การจัดการไอเดียแบบใหม่</p>
+            <p class="cta-desc" data-i18n="blogCtaDesc">ลองใช้เวอร์ชันต้นแบบและสำรวจวิธีจัดการไอเดียของ WorkRoom</p>
             <a href="#" class="glow-btn" data-i18n="startCreate"
                 onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
         </section>
+
+        <div class="blog-guide-modal" id="blogGuideModal" hidden>
+            <div class="blog-guide-backdrop" onclick="closeBlogGuide()"></div>
+            <article class="blog-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="blogGuideTitle">
+                <button type="button" class="blog-guide-close" onclick="closeBlogGuide()" aria-label="ปิด" data-i18n-aria-label="closeLabel">×</button>
+                <span class="blog-guide-label" id="blogGuideLabel">WORKROOM GUIDE</span>
+                <h2 id="blogGuideTitle"></h2>
+                <p id="blogGuideIntro"></p>
+                <ol id="blogGuideSteps"></ol>
+                <div class="blog-guide-tip" id="blogGuideTip"></div>
+            </article>
+        </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="bento-footer">
+    <footer class="bento-footer" id="marketingFooter">
         <div class="footer-inner">
             <div class="footer-logo">WorkRoom</div>
-            <div class="footer-tagline" data-i18n="footerTagline">Connect with us</div>
-            <div class="footer-socials">
-                <a href="#" class="footer-social social-ig" title="Instagram" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                </a>
-                <a href="#" class="footer-social social-fb" title="Facebook" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                </a>
-                <a href="#" class="footer-social social-yt" title="YouTube" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg>
-                </a>
-                <a href="#" class="footer-social social-x" title="X" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                </a>
-                <a href="#" class="footer-social social-tik" title="TikTok" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                    </svg>
-                </a>
+            <div class="footer-tagline" data-i18n="footerTagline">WorkRoom เวอร์ชันต้นแบบ</div>
+            <div class="footer-legal">
+                <a href="terms.html" data-i18n="footerTerms">ข้อกำหนดการใช้งาน</a>
+                <span aria-hidden="true">·</span>
+                <a href="privacy.html" data-i18n="footerPrivacy">นโยบายความเป็นส่วนตัว</a>
             </div>
             <div class="footer-bottom" data-i18n="footerCopyright">© 2026 WorkRoom. All rights reserved.</div>
         </div>
@@ -1718,11 +1706,11 @@
     <!-- ==================== PAGE SWITCHER ==================== -->
 
     <!-- APPLICATION SCRIPTS -->
-    <script src="js/i18n.js"></script>
+    <script src="js/i18n.js?v=20260825-guide-1"></script>
     <script src="js/bento.js"></script>
-    <script src="js/workroom.js?v=20260824-closeout-1"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/app.js?v=20260823-2"></script>
+    <script src="js/workroom.js?v=20260825-audit-3"></script>
+    <script src="js/auth.js?v=20260825-audit-2"></script>
+    <script src="js/app.js?v=20260825-guide-1"></script>
 </body>
 
 </html>
