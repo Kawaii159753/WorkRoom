@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkRoom (TeChin) · Fullstack Architecture Diagrams</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #ff8fa3;
+    --pink-light: #ffc2cd;
+    --yellow: #ffd43b;
+    --yellow-light: #ffe066;
+    --purple: #b197fc;
+    --purple-light: #d0bfff;
+    --blue: #74c0fc;
+    --blue-light: #a5d8ff;
+    --green: #8ce99a;
+    --green-light: #b2f2bb;
+    --orange: #ffa94d;
+    --cyan: #3bc9db;
+    --dark: #0a0a12;
+    --dark-purple: #120a1e;
+    --card-bg: rgba(18, 10, 30, 0.75);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --text-muted: #9e9cb5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    margin: 0;
+    background-color: var(--dark);
+    background-image: 
+      radial-gradient(circle at 10% 15%, rgba(177, 151, 252, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 90% 30%, rgba(255, 143, 163, 0.10) 0%, transparent 45%),
+      radial-gradient(circle at 50% 85%, rgba(116, 192, 252, 0.09) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: #f1f0f7;
+    font-family: 'Inter', 'Prompt', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--pink); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--pink-light); }
+  
+  .container {
+    width: 1540px;
+    max-width: 95vw;
+    margin: 0 auto;
+    padding: 56px 32px 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 36px;
+  }
+
+  .badge-tag {
+    font: 600 13px/1 'IBM Plex Mono', monospace;
+    color: var(--pink);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: rgba(255, 143, 163, 0.12);
+    border: 1px solid rgba(255, 143, 163, 0.3);
+  }
+
+  .title {
+    font: 800 44px/1.15 'Inter', 'Prompt', sans-serif;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #ffc2cd 30%, #ff8fa3 65%, #b197fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    font: 400 16px/1.6 'Inter', 'Prompt', sans-serif;
+    color: var(--text-muted);
+    max-width: 960px;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .section-num {
+    font: 700 13px/1 'IBM Plex Mono', monospace;
+    color: #0a0a12;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    padding: 7px 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(255, 143, 163, 0.35);
+  }
+
+  .section-title {
+    font: 700 26px/1.2 'Inter', 'Prompt', sans-serif;
+    color: #fff;
+  }
+
+  .section-sub {
+    font: 400 15px/1.2 'Inter', 'Prompt', sans-serif;
+    color: var(--text-muted);
+  }
+
+  .card-box {
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    background: var(--card-bg);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+  }
+
+  .node-flow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .node-pill {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font: 600 14px/1.3 'Inter', 'Prompt', sans-serif;
+  }
+
+  .node-pill.entry {
+    border: 1px solid rgba(255, 212, 59, 0.45);
+    background: rgba(255, 212, 59, 0.08);
+    color: var(--yellow);
+  }
+
+  .node-pill.core {
+    border: 1px solid rgba(177, 151, 252, 0.45);
+    background: rgba(177, 151, 252, 0.08);
+    color: var(--purple-light);
+  }
+
+  .node-pill.accent {
+    border: 1px solid rgba(255, 143, 163, 0.5);
+    background: rgba(255, 143, 163, 0.12);
+    color: var(--pink);
+  }
+
+  .node-pill.cyan {
+    border: 1px solid rgba(59, 201, 219, 0.5);
+    background: rgba(59, 201, 219, 0.1);
+    color: var(--cyan);
+  }
+
+  .node-pill.green {
+    border: 1px solid rgba(140, 233, 154, 0.5);
+    background: rgba(140, 233, 154, 0.1);
+    color: var(--green);
+  }
+
+  .node-sub {
+    font: 400 11px/1.3 'IBM Plex Mono', monospace;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .arrow {
+    color: var(--purple);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .panel {
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .panel.purple-border {
+    border-color: rgba(177, 151, 252, 0.35);
+    background: rgba(177, 151, 252, 0.04);
+  }
+
+  .panel.pink-border {
+    border-color: rgba(255, 143, 163, 0.35);
+    background: rgba(255, 143, 163, 0.04);
+  }
+
+  .panel.yellow-border {
+    border-color: rgba(255, 212, 59, 0.35);
+    background: rgba(255, 212, 59, 0.04);
+  }
+
+  .panel.cyan-border {
+    border-color: rgba(59, 201, 219, 0.35);
+    background: rgba(59, 201, 219, 0.04);
+  }
+
+  .panel.green-border {
+    border-color: rgba(140, 233, 154, 0.35);
+    background: rgba(140, 233, 154, 0.04);
+  }
+
+  .panel-label {
+    font: 600 12px/1 'IBM Plex Mono', monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .panel-label.pink { color: var(--pink); }
+  .panel-label.purple { color: var(--purple); }
+  .panel-label.yellow { color: var(--yellow); }
+  .panel-label.blue { color: var(--blue); }
+  .panel-label.green { color: var(--green); }
+  .panel-label.cyan { color: var(--cyan); }
+
+  .item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .item-card {
+    padding: 10px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    font: 500 13.5px/1.3 'Inter', 'Prompt', sans-serif;
+  }
+
+  .item-card.pink {
+    border-color: rgba(255, 143, 163, 0.3);
+    background: rgba(255, 143, 163, 0.06);
+  }
+
+  .item-card.purple {
+    border-color: rgba(177, 151, 252, 0.3);
+    background: rgba(177, 151, 252, 0.06);
+  }
+
+  .item-card.yellow {
+    border-color: rgba(255, 212, 59, 0.3);
+    background: rgba(255, 212, 59, 0.06);
+  }
+
+  .item-card.cyan {
+    border-color: rgba(59, 201, 219, 0.3);
+    background: rgba(59, 201, 219, 0.06);
+  }
+
+  .item-card.green {
+    border-color: rgba(140, 233, 154, 0.3);
+    background: rgba(140, 233, 154, 0.06);
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font: 400 12px/1 'IBM Plex Mono', monospace;
+    color: var(--purple-light);
+  }
+
+  .tag-pill {
+    padding: 4px 8px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .note-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+    font: 400 13px/1.6 'IBM Plex Mono', 'Prompt', monospace;
+    color: var(--text-muted);
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .badge-role {
+    font: 600 11px/1 'IBM Plex Mono', monospace;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .role-owner { background: rgba(255, 143, 163, 0.2); color: var(--pink); border: 1px solid var(--pink); }
+  .role-editor { background: rgba(116, 192, 252, 0.2); color: var(--blue); border: 1px solid var(--blue); }
+  .role-viewer { background: rgba(140, 233, 154, 0.2); color: var(--green); border: 1px solid var(--green); }
+
+  @media (max-width: 1200px) {
+    .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge-tag">WorkRoom · Fullstack Monorepo Architecture · v3.2.0</div>
+    <div class="title">Fullstack System &amp; Codebase Architecture</div>
+    <div class="subtitle">
+      แผนผังสถาปัตยกรรมระบบฉบับสมบูรณ์ — โครงสร้างแบบ Monorepo (10 Frontend Modules + Express/TypeScript API + Supabase PostgreSQL + Secrets Vault Isolation)
+    </div>
+  </div>
+
+  <!-- ============ 01. FULLSTACK MONOREPO OVERVIEW ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">Fullstack Monorepo High-Level Topology</div>
+      <div class="section-sub">ภาพรวมการเชื่อมต่อ Client, API Server, Secrets Vault และ Cloud Database</div>
+    </div>
+
+    <div class="card-box">
+      <div style="display: grid; grid-template-columns: 1.2fr 48px 1.4fr 48px 1.2fr; align-items: center;">
+        
+        <!-- Frontend -->
+        <div class="panel purple-border">
+          <div class="panel-label purple">Frontend Client (frontend/)</div>
+          <div class="item-list">
+            <div class="item-card purple">
+              <strong>10 Domain ES Modules (js/modules/)</strong>
+              <div class="node-sub">state · rooms · team · notif · modals · comments · search · editor · whiteboard · workflows</div>
+            </div>
+            <div class="item-card purple">
+              <strong>api.js &amp; socket.io client</strong>
+              <div class="node-sub">Fetch Wrapper (Credentials: true) · Live Presence</div>
+            </div>
+            <div class="item-card purple">
+              <strong>bento.js &amp; auth.js</strong>
+              <div class="node-sub">GSAP 2.5D Scroll · OAuth Controller</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
+
+        <!-- Backend -->
+        <div class="panel pink-border">
+          <div class="panel-label pink">Backend Service (backend/)</div>
+          <div class="item-list">
+            <div class="item-card pink">
+              <strong>Express 4 + TypeScript (ES2022)</strong>
+              <div class="node-sub">Helmet · CORS · CookieParser · RateLimiter</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Modular REST API (/api/v1/*)</strong>
+              <div class="node-sub">Auth (Argon2+JWT) · Workspaces · Workflows · Comments</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Socket.IO Realtime Collaboration</strong>
+              <div class="node-sub">Workspace Rooms · Cursor LERP Sync · Live Mutations</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Secrets Vault (secrets/)</strong>
+              <div class="node-sub">database.env · auth.env · app.env (Git Ignored)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
+
+        <!-- Cloud & DB -->
+        <div class="panel green-border">
+          <div class="panel-label green">Cloud Database (Supabase)</div>
+          <div class="item-list">
+            <div class="item-card green">
+              <strong>PostgreSQL 17.6 Engine</strong>
+              <div class="node-sub">14 Relational Tables · Foreign Keys · Indexes</div>
+            </div>
+            <div class="item-card green">
+              <strong>Sydney Pooler (ap-southeast-2)</strong>
+              <div class="node-sub">Port 6543 (Transaction) / Port 5432 (Session)</div>
+            </div>
+            <div class="item-card green">
+              <strong>Seed Data Active</strong>
+              <div class="node-sub">demo@workroom.io · My First Team Workspace</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-footer">
+        <div>🔒 <strong>Zero-Trust Architecture:</strong> สิทธิ์และ Role (Owner, Editor, Viewer) ถูกบังคับใช้ (Enforced) ที่เซิร์ฟเวอร์ Backend ทุก Request</div>
+        <div>🔐 <strong>Isolated Secrets Vault:</strong> แยกไฟล์รหัสผ่านใน <code>backend/secrets/</code> ป้องกันการรั่วไหลขึ้น Git 100%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02. FRONTEND 10 DOMAIN MODULES ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">Frontend Modular Architecture (frontend/js/modules/)</div>
+      <div class="section-sub">โครงสร้างโมดูล 10 หมวดหมู่ที่ถูกแยกออกจากไฟล์ยักษ์ 4,200+ บรรทัด เพื่อให้อ่านและแก้ไขง่าย</div>
+    </div>
+
+    <div class="card-box">
+      <div class="grid-4">
+        
+        <div class="panel purple-border">
+          <div class="panel-label purple">1. State &amp; Storage</div>
+          <div class="item-card purple">
+            <strong>state.js</strong>
+            <div class="node-sub">Reactive Store · LocalStorage sync · Initial Rooms &amp; Sections data</div>
+          </div>
+        </div>
+
+        <div class="panel purple-border">
+          <div class="panel-label purple">2. Rooms &amp; Navigation</div>
+          <div class="item-card purple">
+            <strong>rooms.js</strong>
+            <div class="node-sub">Room CRUD · Privacy toggle · Room Drag &amp; Drop · Section management</div>
+          </div>
+        </div>
+
+        <div class="panel purple-border">
+          <div class="panel-label purple">3. Team &amp; Workspaces</div>
+          <div class="item-card purple">
+            <strong>team.js</strong>
+            <div class="node-sub">Workspace Switcher · Member Invite · Role RBAC enforcement</div>
+          </div>
+        </div>
+
+        <div class="panel purple-border">
+          <div class="panel-label purple">4. Notifications</div>
+          <div class="item-card purple">
+            <strong>notifications.js</strong>
+            <div class="node-sub">Notification center popup · Unread Badge counter · Read states</div>
+          </div>
+        </div>
+
+        <div class="panel pink-border">
+          <div class="panel-label pink">5. Modals &amp; Dialogs</div>
+          <div class="item-card pink">
+            <strong>modals.js</strong>
+            <div class="node-sub">Settings Modal · Account profile · Toast notification system</div>
+          </div>
+        </div>
+
+        <div class="panel pink-border">
+          <div class="panel-label pink">6. Discussions</div>
+          <div class="item-card pink">
+            <strong>comments.js</strong>
+            <div class="node-sub">Mention engine (@username) · Thread replies · Task discussions</div>
+          </div>
+        </div>
+
+        <div class="panel pink-border">
+          <div class="panel-label pink">7. Search Engine</div>
+          <div class="item-card pink">
+            <strong>search.js</strong>
+            <div class="node-sub">Universal search across rooms, pages, blocks, files, and post-its</div>
+          </div>
+        </div>
+
+        <div class="panel pink-border">
+          <div class="panel-label pink">8. Document Editor</div>
+          <div class="item-card pink">
+            <strong>editor.js</strong>
+            <div class="node-sub">Rich document blocks · Slash command menu (/) · Drag-and-drop images</div>
+          </div>
+        </div>
+
+        <div class="panel yellow-border">
+          <div class="panel-label yellow">9. Whiteboard Canvas</div>
+          <div class="item-card yellow">
+            <strong>whiteboard.js</strong>
+            <div class="node-sub">Drawing canvas engine · Pen &amp; Eraser tools · Stroke vector storage</div>
+          </div>
+        </div>
+
+        <div class="panel yellow-border">
+          <div class="panel-label yellow">10. Workflows &amp; Tasks</div>
+          <div class="item-card yellow">
+            <strong>workflows.js</strong>
+            <div class="node-sub">Task Pipeline (Review/Revision/Approved) · Post-its · Templates</div>
+          </div>
+        </div>
+
+        <div class="panel cyan-border">
+          <div class="panel-label cyan">11. REST &amp; Socket API</div>
+          <div class="item-card cyan">
+            <strong>api.js</strong>
+            <div class="node-sub">Unified API Client · Socket.IO Realtime presence &amp; Live cursors</div>
+          </div>
+        </div>
+
+        <div class="panel cyan-border">
+          <div class="panel-label cyan">12. App Shell &amp; Motion</div>
+          <div class="item-card cyan">
+            <strong>app.js &amp; bento.js</strong>
+            <div class="node-sub">View Router (Bento/Workroom) · Custom Magnetic Cursor Engine</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-footer">
+        <div>💡 <strong>Clean Separation of Concerns:</strong> แต่ละโมดูลรับผิดชอบเฉพาะหน้าที่ของตัวเอง ช่วยให้การบำรุงรักษาและการขยายระบบในอนาคตทำได้รวดเร็วและปลอดภัย</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03. SECRETS & SECURITY VAULT ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">Secrets Vault &amp; Security Architecture (backend/secrets/)</div>
+      <div class="section-sub">การจัดเก็บคีย์ลับและรหัสผ่านแยกตามประเภท พร้อมการล็อกด้วย .gitignore</div>
+    </div>
+
+    <div class="card-box">
+      <div class="grid-3">
+        
+        <!-- Database Secrets -->
+        <div class="panel green-border">
+          <div class="panel-label green">1. Database Secrets (database.env)</div>
+          <div class="item-list">
+            <div class="item-card green">
+              <code>DATABASE_URL</code>
+              <div class="node-sub">Port 6543 (Transaction Pooler with pgbouncer=true)</div>
+            </div>
+            <div class="item-card green">
+              <code>DIRECT_URL</code>
+              <div class="node-sub">Port 5432 (Session Mode for Prisma Migrations)</div>
+            </div>
+            <div class="item-card green">
+              <code>SUPABASE_ANON_KEY</code>
+              <div class="node-sub">Client Public Publishable Key</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auth Secrets -->
+        <div class="panel purple-border">
+          <div class="panel-label purple">2. Auth Security (auth.env)</div>
+          <div class="item-list">
+            <div class="item-card purple">
+              <code>JWT_SECRET</code>
+              <div class="node-sub">HS256 Token Signing Secret (32+ chars)</div>
+            </div>
+            <div class="item-card purple">
+              <code>COOKIE_SECRET</code>
+              <div class="node-sub">HttpOnly Session Cookie Signing Key</div>
+            </div>
+            <div class="item-card purple">
+              <code>JWT_EXPIRES_IN="7d"</code>
+              <div class="node-sub">Token Lifetime Window</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Server Config -->
+        <div class="panel pink-border">
+          <div class="panel-label pink">3. Server Config (app.env)</div>
+          <div class="item-list">
+            <div class="item-card pink">
+              <code>PORT=4000</code>
+              <div class="node-sub">Express Backend Listening Port</div>
+            </div>
+            <div class="item-card pink">
+              <code>CLIENT_URL="http://localhost:3000"</code>
+              <div class="node-sub">CORS Origin Allowed Domain</div>
+            </div>
+            <div class="item-card pink">
+              <code>NODE_ENV="development"</code>
+              <div class="node-sub">Runtime Profile</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-footer">
+        <div>🛡️ <strong>Auto-Loading Engine:</strong> <code>src/config/env.ts</code> จะค้นหาและโหลดไฟล์ในโฟลเดอร์ <code>secrets/</code> เข้าสู่ <code>process.env</code> อัตโนมัติเมื่อเซิร์ฟเวอร์เริ่มทำงาน</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04. DATABASE RELATIONAL SCHEMA ============ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div class="section-title">Database Schema &amp; Relational Models (Prisma + Supabase)</div>
+      <div class="section-sub">ผังโครงสร้างตารางฐานข้อมูล PostgreSQL 14 ตารางหลัก พร้อม Foreign Keys และ Constraints</div>
+    </div>
+
+    <div class="card-box">
+      <div class="grid-4">
+        
+        <!-- User & Auth -->
+        <div class="panel purple-border">
+          <div class="panel-label purple">Users &amp; Memberships</div>
+          <div class="item-list">
+            <div class="item-card purple">
+              <strong>User</strong>
+              <div class="node-sub">id (UUID) · email (Unique) · passwordHash · displayName · avatarUrl</div>
+            </div>
+            <div class="item-card purple">
+              <strong>WorkspaceMember</strong>
+              <div class="node-sub">workspaceId · userId · role (OWNER/EDITOR/VIEWER) · allowedRoomIds[]</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workspace & Rooms -->
+        <div class="panel pink-border">
+          <div class="panel-label pink">Workspaces &amp; Rooms</div>
+          <div class="item-list">
+            <div class="item-card pink">
+              <strong>Workspace</strong>
+              <div class="node-sub">id (UUID) · name · slug (Unique) · description</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Section &amp; Room</strong>
+              <div class="node-sub">sectionId · name · icon · isPrivate · position (Float)</div>
+            </div>
+            <div class="item-card pink">
+              <strong>RoomPermission</strong>
+              <div class="node-sub">roomId · userId · canEdit · canView</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canvas & Pages -->
+        <div class="panel yellow-border">
+          <div class="panel-label yellow">Canvas, Pages &amp; PostIts</div>
+          <div class="item-list">
+            <div class="item-card yellow">
+              <strong>Page &amp; Block</strong>
+              <div class="node-sub">pageId · type · content (JSONB) · position · version</div>
+            </div>
+            <div class="item-card yellow">
+              <strong>PostIt</strong>
+              <div class="node-sub">roomId · title · content (JSONB) · color · positionX/Y · version</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workflows & Collab -->
+        <div class="panel green-border">
+          <div class="panel-label green">Workflows &amp; Audit Logs</div>
+          <div class="item-list">
+            <div class="item-card green">
+              <strong>Workflow &amp; Assignees</strong>
+              <div class="node-sub">status (REVIEW/REVISION/APPROVED) · dueDate · version · assignees[]</div>
+            </div>
+            <div class="item-card green">
+              <strong>Comment &amp; Notification</strong>
+              <div class="node-sub">workflowId · parentCommentId · content · isResolved · type · readAt</div>
+            </div>
+            <div class="item-card green">
+              <strong>ActivityLog &amp; Files</strong>
+              <div class="node-sub">action · metadata (JSONB) · storageKey · mimeType · sizeBytes</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-footer">
+        <div>🔑 <strong>ACID Guarantees:</strong> Prisma Transaction <code>prisma.$transaction(...)</code> ใช้ในการสร้าง Workspace, ปรับสถานะงาน และบันทึกประวัติ Activity Log</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
