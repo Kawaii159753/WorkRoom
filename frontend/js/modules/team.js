@@ -48,6 +48,7 @@
             function safeImageSource(value) {
                 var source = String(value || '').trim();
                 if (/^data:image\/(?:png|jpe?g|gif|webp);base64,[a-z0-9+/=\s]+$/i.test(source)) return source;
+                if (!source.includes('..') && /^(?:\.\/)?assets\/images\/[a-z0-9_./-]+\.(?:png|jpe?g|gif|webp)(?:\?[a-z0-9_.=&-]+)?$/i.test(source)) return source;
                 try {
                     var parsed = new URL(source, location.href);
                     return /^https?:$/.test(parsed.protocol) ? parsed.href : '';
@@ -148,7 +149,9 @@
 
                 // Keep the first personal workspace consistent for existing users,
                 // while preserving every profile image they have chosen themselves.
-                if (state.workspaces[0] && !safeImageSource(state.workspaces[0].icon)) {
+                var firstWorkspaceIcon = state.workspaces[0] && String(state.workspaces[0].icon || '');
+                var usesLegacyDefault = firstWorkspaceIcon.indexOf('assets/images/workroom-default-workspace.png') === 0;
+                if (state.workspaces[0] && (!safeImageSource(firstWorkspaceIcon) || usesLegacyDefault)) {
                     state.workspaces[0].icon = DEFAULT_WORKSPACE_ICON;
                     writeJson(collaborationKey(account.email), state);
                 }
@@ -370,7 +373,9 @@
                             workspaceId: targetWorkspace.id,
                             image: canvas.toDataURL('image/webp', .86)
                         };
-                        document.getElementById('workspaceProfilePreview').src = pendingWorkspaceProfile.image;
+                        var workspaceProfilePreview = document.getElementById('workspaceProfilePreview');
+                        workspaceProfilePreview.src = pendingWorkspaceProfile.image;
+                        workspaceProfilePreview.hidden = false;
                         document.getElementById('workspaceProfileConfirmName').textContent = targetWorkspace.name;
                         document.getElementById('workspaceMenu').classList.remove('show');
                         document.getElementById('workspaceSwitcher').setAttribute('aria-expanded', 'false');
@@ -385,7 +390,9 @@
             function cancelWorkspaceProfileChange() {
                 pendingWorkspaceProfile = null;
                 workspaceProfileTargetId = null;
-                document.getElementById('workspaceProfilePreview').removeAttribute('src');
+                var workspaceProfilePreview = document.getElementById('workspaceProfilePreview');
+                workspaceProfilePreview.removeAttribute('src');
+                workspaceProfilePreview.hidden = true;
                 closeModal('workspaceProfileConfirmModal');
             }
 
@@ -576,4 +583,3 @@
                     ? activeWorkspace.members.map(function (member) { return { name: member.name || member.email, email: member.email, picture: member.picture || null }; })
                     : [];
             }
-

@@ -3,8 +3,8 @@
  * Provides unified HTTP REST client and Socket.IO real-time collaboration bindings.
  */
 
-const API_BASE_URL = window.WORKROOM_API_URL || 'http://localhost:4000/api/v1';
-const SOCKET_BASE_URL = window.WORKROOM_SOCKET_URL || 'http://localhost:4000';
+const API_BASE_URL = window.WORKROOM_API_URL || `${window.location.origin}/api/v1`;
+const SOCKET_BASE_URL = window.WORKROOM_SOCKET_URL || window.location.origin;
 
 class ApiError extends Error {
   constructor(code, message, status, fieldErrors = {}) {

@@ -1,6 +1,9 @@
 node_modules
 dist
+dist-seed
 .env
+.env.*
+!.env.example
 .env.local
 *.log
 .DS_Store

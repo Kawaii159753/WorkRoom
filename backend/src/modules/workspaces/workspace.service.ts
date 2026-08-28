@@ -3,6 +3,17 @@ import { ERROR_CODES, ROLES, WorkspaceRoleType } from '../../constants/index.js'
 import { AppError } from '../../middleware/errorHandler.js';
 
 export class WorkspaceService {
+  private static async assertRoomsBelongToWorkspace(workspaceId: string, roomIds: string[]) {
+    if (roomIds.length === 0) return;
+    const uniqueIds = [...new Set(roomIds)];
+    const roomCount = await prisma.room.count({
+      where: { workspaceId, id: { in: uniqueIds } },
+    });
+    if (roomCount !== uniqueIds.length) {
+      throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Every allowed room must belong to this workspace', 400);
+    }
+  }
+
   static async listUserWorkspaces(userId: string) {
     const memberships = await prisma.workspaceMember.findMany({
       where: { userId },
@@ -71,7 +82,19 @@ export class WorkspaceService {
     });
   }
 
-  static async getWorkspaceDetails(workspaceId: string) {
+  static async getWorkspaceDetails(
+    workspaceId: string,
+    viewer: { userId: string; role: WorkspaceRoleType; allowedRoomIds: string[] }
+  ) {
+    const roomVisibility = viewer.role === ROLES.OWNER
+      ? undefined
+      : {
+          OR: [
+            { isPrivate: false },
+            { id: { in: viewer.allowedRoomIds } },
+            { permissions: { some: { userId: viewer.userId, canView: true } } },
+          ],
+        };
     const workspace = await prisma.workspace.findUnique({
       where: { id: workspaceId },
       include: {
@@ -91,6 +114,7 @@ export class WorkspaceService {
           orderBy: { position: 'asc' },
           include: {
             rooms: {
+              where: roomVisibility,
               orderBy: { position: 'asc' },
             },
           },
@@ -118,6 +142,7 @@ export class WorkspaceService {
     role: WorkspaceRoleType,
     allowedRoomIds: string[] = []
   ) {
+    await this.assertRoomsBelongToWorkspace(workspaceId, allowedRoomIds);
     const targetUser = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     });
@@ -173,6 +198,7 @@ export class WorkspaceService {
     role: WorkspaceRoleType,
     allowedRoomIds?: string[]
   ) {
+    if (allowedRoomIds) await this.assertRoomsBelongToWorkspace(workspaceId, allowedRoomIds);
     // If demoting from owner, check if other owners exist
     if (role !== ROLES.OWNER) {
       const ownerCount = await prisma.workspaceMember.count({

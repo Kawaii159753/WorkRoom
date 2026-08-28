@@ -15,16 +15,22 @@
                 let postitLibrary = document.getElementById('postitLibrary');
                 var isPostitRoom = isPostitRoomId(currentRoomId);
                 if (postitLibrary) postitLibrary.style.display = isPostitRoom ? 'block' : 'none';
+                var templateButton = document.querySelector('.template-launch-button');
+                if (templateButton) templateButton.style.display = isPostitRoom ? 'none' : '';
                 var newPageButton = document.getElementById('ideaNewPageBtn');
                 if (newPageButton) newPageButton.style.display = isPostitRoom ? 'none' : '';
                 if (ideaToolbar) {
                     var canUseTools = !activeWorkspace || activeWorkspace.role !== 'viewer';
-                    ideaToolbar.style.display = canUseTools ? 'flex' : 'none';
+                    ideaToolbar.style.display = canUseTools && !isPostitRoom ? 'flex' : 'none';
                     ideaToolbar.classList.remove('expanded');
                     var toolbarToggle = document.getElementById('ideaToolbarToggle');
                     if (toolbarToggle) toolbarToggle.setAttribute('aria-expanded', 'false');
                 }
                 if (currentRoomId === 'room-1') {
+                    syncActiveIdeaPageRefs();
+                    var ideaCanvas = document.getElementById('ideaCanvas');
+                    var ideaCanvasWrap = document.querySelector('.idea-canvas-wrap');
+                    if (ideaCanvas && ideaCanvasWrap && ideaCanvas.parentElement !== ideaCanvasWrap) ideaCanvasWrap.insertBefore(ideaCanvas, ideaCanvasWrap.firstChild);
                     editorContainer.classList.add('idea-mode');
                     if (editorScroll) editorScroll.classList.add('idea-mode-scroll');
                     document.getElementById('normalEditor').style.display = 'none';
@@ -58,6 +64,11 @@
                 document.getElementById('ideaEditor').style.display = 'none';
                 var collection = ensureRoomPageCollection(currentRoomId);
                 let page = collection ? roomPages[currentRoomId] : { title: 'หน้าใหม่', blocks: [{ type: 'text', content: '' }] };
+                if (!Array.isArray(page.strokes)) page.strokes = [];
+                wbStrokes = page.strokes;
+                var normalCanvasWrap = document.getElementById('normalCanvasWrap');
+                var normalCanvas = document.getElementById('ideaCanvas');
+                if (normalCanvas && normalCanvasWrap && normalCanvas.parentElement !== normalCanvasWrap) normalCanvasWrap.insertBefore(normalCanvas, normalCanvasWrap.firstChild);
                 var cleanStoredTitle = firstLinePageTitle(page.title);
                 var isDefaultPageTitle = !cleanStoredTitle || !/[0-9A-Za-zก-๙]/.test(cleanStoredTitle) || /^(?:หน้าใหม่|New page)$/i.test(cleanStoredTitle);
                 var displayTitle = isDefaultPageTitle ? (currentLang === 'en' ? 'New page' : 'หน้าใหม่') : workroomSystemText(cleanStoredTitle);
@@ -69,6 +80,7 @@
                 let container = document.getElementById('editorBlocks');
                 container.innerHTML = '';
                 page.blocks.forEach((block, index) => createBlockElement(block, index, container, false));
+                setTimeout(function () { if (typeof resizeWhiteboardCanvas === 'function') resizeWhiteboardCanvas(); }, 0);
                 applyWorkspaceRole();
             }
 
@@ -1061,4 +1073,3 @@
                 menu.style.top = e.clientY + 'px';
                 menu.classList.add('show');
             }
-

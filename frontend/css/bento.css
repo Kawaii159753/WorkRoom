@@ -426,6 +426,22 @@
             z-index: 2;
         }
 
+        @media (min-width: 769px) {
+            .bento-navbar { padding-inline: clamp(28px, 3vw, 64px); }
+            .hero-grid {
+                width: min(88vw, 1200px);
+                max-width: 1200px;
+                grid-template-rows: repeat(3, clamp(160px, 10vw, 210px));
+                gap: clamp(16px, 1.3vw, 24px);
+            }
+            .hero-grid .bento-card { padding: clamp(24px, 2vw, 36px); }
+            .wall-bento {
+                width: min(92vw, 1280px);
+                max-width: 1280px;
+                grid-auto-rows: clamp(120px, 8vw, 150px);
+            }
+        }
+
         .hero-grid .bento-card {
             padding: 28px;
             display: flex;

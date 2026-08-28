@@ -11,15 +11,17 @@ interface AuthenticatedSocket extends Socket {
 }
 
 export function initSocketServer(httpServer: HttpServer) {
+  const allowedOrigins = env.CLIENT_URL.split(',').map((value) => value.trim()).filter(Boolean);
   const io = new SocketIOServer(httpServer, {
     cors: {
-      origin: env.CLIENT_URL,
+      origin: allowedOrigins,
       credentials: true,
     },
+    maxHttpBufferSize: 100_000,
   });
 
   // Authentication Handshake Middleware
-  io.use((socket: AuthenticatedSocket, next) => {
+  io.use(async (socket: AuthenticatedSocket, next) => {
     try {
       const token =
         socket.handshake.auth?.token ||
@@ -33,6 +35,8 @@ export function initSocketServer(httpServer: HttpServer) {
       }
 
       const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string; email: string };
+      const user = await prisma.user.findUnique({ where: { id: decoded.userId }, select: { id: true, email: true } });
+      if (!user || user.email !== decoded.email) return next(new Error('Authentication error: Invalid token'));
       socket.userId = decoded.userId;
       socket.userEmail = decoded.email;
       next();
@@ -81,6 +85,7 @@ export function initSocketServer(httpServer: HttpServer) {
 
     // Leave Workspace Room
     socket.on('workspace:leave', (data: { workspaceId: string }) => {
+      if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
       const roomKey = `workspace:${data.workspaceId}`;
       socket.leave(roomKey);
       socket.to(roomKey).emit('presence:user_left', {
@@ -92,7 +97,8 @@ export function initSocketServer(httpServer: HttpServer) {
 
     // Realtime Cursor / Pointer Position Sync
     socket.on('cursor:move', (data: { workspaceId: string; roomId?: string; pageId?: string; x: number; y: number }) => {
-      if (!data.workspaceId) return;
+      if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
+      if (!Number.isFinite(data.x) || !Number.isFinite(data.y)) return;
       socket.to(`workspace:${data.workspaceId}`).emit('cursor:updated', {
         userId: socket.userId,
         ...data,
@@ -101,7 +107,10 @@ export function initSocketServer(httpServer: HttpServer) {
 
     // Entity Live Updates (Page, Block, Workflow)
     socket.on('entity:update', (data: { workspaceId: string; entityType: string; entityId: string; patch: unknown; version: number }) => {
-      if (!data.workspaceId) return;
+      if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
+      if (typeof data.entityType !== 'string' || data.entityType.length > 50) return;
+      if (typeof data.entityId !== 'string' || data.entityId.length > 200) return;
+      if (!Number.isInteger(data.version) || data.version < 0) return;
       socket.to(`workspace:${data.workspaceId}`).emit('entity:changed', {
         actorId: socket.userId,
         ...data,

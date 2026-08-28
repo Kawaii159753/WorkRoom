@@ -2,27 +2,31 @@
  * WorkRoom Whiteboard Canvas Engine & Drawing Tools
  */
             // ========== WHITEBOARD ==========
+            var whiteboardLastWidth = 0, whiteboardLastHeight = 0;
+            function resizeWhiteboardCanvas() {
+                var canvas = document.getElementById('ideaCanvas');
+                var wrap = canvas && canvas.parentElement;
+                if (!wrap || !canvas || wrap.offsetParent === null) return;
+                var rect = wrap.getBoundingClientRect();
+                var nextWidth = Math.max(1, Math.round(rect.width));
+                var nextHeight = Math.max(1, Math.round(rect.height));
+                if (nextWidth === whiteboardLastWidth && nextHeight === whiteboardLastHeight) { renderWhiteboard(); return; }
+                whiteboardLastWidth = nextWidth;
+                whiteboardLastHeight = nextHeight;
+                canvas.width = nextWidth;
+                canvas.height = nextHeight;
+                renderWhiteboard();
+            }
             function initWhiteboard() {
                 let canvas = document.getElementById('ideaCanvas');
-                let wrap = document.querySelector('.idea-canvas-wrap');
-                var lastWidth = 0, lastHeight = 0;
-                function resize() {
-                    if (!wrap || !canvas) return;
-                    let rect = wrap.getBoundingClientRect();
-                    var nextWidth = Math.max(1, Math.round(rect.width));
-                    var nextHeight = Math.max(1, Math.round(rect.height));
-                    if (nextWidth === lastWidth && nextHeight === lastHeight) return;
-                    lastWidth = nextWidth;
-                    lastHeight = nextHeight;
-                    canvas.width = nextWidth;
-                    canvas.height = nextHeight;
-                    renderWhiteboard();
-                }
-                resize();
-                window.addEventListener('resize', resize);
+                resizeWhiteboardCanvas();
+                window.addEventListener('resize', resizeWhiteboardCanvas);
                 if ('ResizeObserver' in window) {
-                    var whiteboardResizeObserver = new ResizeObserver(resize);
-                    whiteboardResizeObserver.observe(wrap);
+                    var whiteboardResizeObserver = new ResizeObserver(resizeWhiteboardCanvas);
+                    var ideaWrap = document.querySelector('.idea-canvas-wrap');
+                    var normalWrap = document.getElementById('normalCanvasWrap');
+                    if (ideaWrap) whiteboardResizeObserver.observe(ideaWrap);
+                    if (normalWrap) whiteboardResizeObserver.observe(normalWrap);
                 }
 
                 canvas.addEventListener('mousedown', startWbDraw);
@@ -355,7 +359,9 @@
 
             function clearWhiteboard() {
                 wbStrokes = [];
-                var activePage = ideaPages.find(function (page) { return page.id === activeIdeaPageId; });
+                var activePage = currentRoomId === 'room-1'
+                    ? ideaPages.find(function (page) { return page.id === activeIdeaPageId; })
+                    : roomPages[currentRoomId];
                 if (activePage) activePage.strokes = wbStrokes;
                 renderWhiteboard();
                 scheduleWorkspaceSave();
@@ -373,4 +379,3 @@
             } else {
                 syncInitialWorkroomLanguage();
             }
-

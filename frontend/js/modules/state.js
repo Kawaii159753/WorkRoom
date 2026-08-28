@@ -7,7 +7,10 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 'ไอเดีย': 'Ideas', 'โปสต์ของฉัน': 'My Post-its', 'โปสต์แบบทีม': 'Team Post-its',
                 'โปรเจ็กลับ': 'Private Project', 'ฝ่ายคอนเทนต์': 'Content Team', 'ฝ่ายพัฒนาเว็ป': 'Web Development',
                 'ห้องทั่วไป': 'General', 'ห้องส่วนตัว': 'Private rooms', 'ห้องแผนก': 'Departments',
-                'ไอเดียสำหรับโปรเจกต์ใหม่': 'Ideas for a new project', 'วิธีการใช้งาน': 'How to use',
+                'ไอเดียสำหรับโปรเจกต์ใหม่': 'Ideas for a new project',
+                'ออกแบบความคิดของคุณให้เป็นธุรกิจจริง': 'Turn your ideas into a real business',
+                'จดบันทึกสร้างสรรค์ความคิดต่าง ๆ ในหัวของคุณ': 'Capture the creative ideas in your mind',
+                'วิธีการใช้งาน': 'How to use',
                 'ยินดีต้อนรับสู่ห้องไอเดีย! ที่นี่คุณสามารถจดบันทึกความคิดสร้างสรรค์ทั้งหมดของคุณได้': 'Welcome to the Ideas room! Save all your creative thoughts here.',
                 'คุณสามารถ ใส่รูปภาพประกอบ หรือ วาดเขียนไอเดียได้อย่างอิสระ': 'Add images or freely sketch your ideas.',
                 'แนวคิดหลัก': 'Main ideas', 'พัฒนาแอปจัดการงานแบบใหม่': 'Build a new task management app',
@@ -232,7 +235,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             let collaborationSaveTimer = null;
             let workspaceProfileTargetId = null;
             let pendingWorkspaceProfile = null;
-            const DEFAULT_WORKSPACE_ICON = 'assets/images/workroom-default-workspace.png';
+            const DEFAULT_WORKSPACE_ICON = 'assets/images/workroom-default-workspace.png?v=20260829-sticky-default-1';
             const initialRooms = JSON.parse(JSON.stringify(rooms));
             const initialRoomPages = JSON.parse(JSON.stringify(roomPages));
             let roomPageCollections = {};
@@ -317,9 +320,14 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             let typewriterRunId = 0;
             function initTypewriter() {
                 const runId = ++typewriterRunId;
-                const text = workroomSystemText('ไอเดียสำหรับโปรเจกต์ใหม่');
+                const texts = [
+                    'ไอเดียสำหรับโปรเจกต์ใหม่',
+                    'ออกแบบความคิดของคุณให้เป็นธุรกิจจริง',
+                    'จดบันทึกสร้างสรรค์ความคิดต่าง ๆ ในหัวของคุณ'
+                ].map(workroomSystemText);
                 const el = document.getElementById('typewriterText');
                 if (!el) return;
+                let textIndex = 0;
                 let i = 0;
                 let deleting = false;
                 let pause = 0;
@@ -331,6 +339,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                         setTimeout(tick, 100);
                         return;
                     }
+                    const text = texts[textIndex];
                     if (!deleting) {
                         el.textContent = text.substring(0, i + 1);
                         i++;
@@ -344,6 +353,7 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                         i--;
                         if (i === 0) {
                             deleting = false;
+                            textIndex = (textIndex + 1) % texts.length;
                             pause = 6; // pause before retype
                         }
                         setTimeout(tick, 60);
@@ -351,4 +361,3 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 }
                 tick();
             }
-

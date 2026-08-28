@@ -2,6 +2,13 @@
  * WorkRoom Modals, Settings, Account & Toasts
  */
             // ========== SETTINGS FUNCTIONS ==========
+            function handleKeyboardClick(event, element) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                element.click();
+            }
+            window.handleKeyboardClick = handleKeyboardClick;
+
             function readSetting(key, fallback) {
                 try {
                     var value = localStorage.getItem(key);
@@ -241,13 +248,28 @@
             function openWorkroomConfirm(options, action) {
                 options = options || {};
                 workroomConfirmAction = typeof action === 'function' ? action : null;
+                var modal = document.getElementById('workroomConfirmModal');
+                if (modal.parentElement !== document.body) document.body.appendChild(modal);
+                modal.dataset.variant = options.variant || 'default';
                 document.getElementById('workroomConfirmTitle').textContent = options.title || '';
                 document.getElementById('workroomConfirmMessage').textContent = options.message || '';
+                var icon = document.getElementById('workroomConfirmIcon');
+                icon.hidden = !options.icon; icon.textContent = options.icon || '';
+                var account = document.getElementById('workroomConfirmAccount');
+                account.hidden = !options.accountName;
+                document.getElementById('workroomConfirmAccountName').textContent = options.accountName || '';
+                document.getElementById('workroomConfirmAccountEmail').textContent = options.accountEmail || '';
+                document.getElementById('workroomConfirmAvatar').textContent = String(options.accountName || '?').trim().charAt(0).toUpperCase();
+                var note = document.getElementById('workroomConfirmNote');
+                note.hidden = !options.note; note.textContent = options.note || '';
                 var accept = document.getElementById('workroomConfirmAccept');
+                var cancel = document.getElementById('workroomConfirmCancel');
                 accept.textContent = options.accept || (currentLang === 'en' ? 'Confirm' : 'ยืนยัน');
+                cancel.textContent = options.cancel || (currentLang === 'en' ? 'Cancel' : 'ยกเลิก');
+                accept.classList.toggle('workroom-confirm-danger', options.variant === 'logout' || options.variant === 'danger');
                 accept.onclick = function () { var callback = workroomConfirmAction; closeWorkroomConfirm(); if (callback) callback(); };
                 openModal('workroomConfirmModal');
-                setTimeout(function () { accept.focus(); }, 30);
+                setTimeout(function () { (options.focusCancel ? cancel : accept).focus(); }, 30);
             }
             function closeWorkroomConfirm() { workroomConfirmAction = null; closeModal('workroomConfirmModal'); }
             function logoutAllDevices() {
@@ -318,20 +340,101 @@
 
 
             // ========== MODALS ==========
-            function openModal(id) { document.getElementById(id).classList.add('active'); }
+            var modalReturnFocus = new WeakMap();
+            var viewportFitModalIds = { templateGalleryModal: true, myTasksModal: true };
+            var viewportFitFrame = 0;
+            function fitViewportModal(modal) {
+                if (!modal || !viewportFitModalIds[modal.id] || !modal.classList.contains('active')) return;
+                var dialog = modal.querySelector('.modal-box');
+                if (!dialog) return;
+                dialog.style.setProperty('--modal-fit-scale', '1');
+                var viewport = window.visualViewport;
+                var availableWidth = Math.max(1, (viewport ? viewport.width : window.innerWidth) - 24);
+                var availableHeight = Math.max(1, (viewport ? viewport.height : window.innerHeight) - 24);
+                var naturalWidth = Math.max(dialog.scrollWidth, dialog.offsetWidth, 1);
+                var naturalHeight = Math.max(dialog.scrollHeight, dialog.offsetHeight, 1);
+                var scale = Math.min(1, availableWidth / naturalWidth, availableHeight / naturalHeight);
+                dialog.style.setProperty('--modal-fit-scale', String(Math.max(0.1, scale)));
+            }
+            function scheduleViewportModalFit(modal) {
+                cancelAnimationFrame(viewportFitFrame);
+                viewportFitFrame = requestAnimationFrame(function () { fitViewportModal(modal); });
+            }
+            function modalFocusableElements(modal) {
+                return Array.from(modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+                    .filter(function (element) { return element.offsetParent !== null; });
+            }
+            function openModal(id) {
+                var modal = document.getElementById(id);
+                if (!modal) return;
+                modalReturnFocus.set(modal, document.activeElement);
+                modal.classList.add('active');
+                if (viewportFitModalIds[id]) {
+                    modal.classList.add('fit-without-scroll');
+                    scheduleViewportModalFit(modal);
+                }
+                var focusable = modalFocusableElements(modal);
+                var dialog = modal.querySelector('[role="dialog"], [role="alertdialog"]');
+                requestAnimationFrame(function () {
+                    if (focusable[0]) focusable[0].focus();
+                    else if (dialog) { dialog.setAttribute('tabindex', '-1'); dialog.focus(); }
+                });
+            }
             function closeModal(id) {
-                document.getElementById(id).classList.remove('active');
+                var modal = document.getElementById(id);
+                if (!modal) return;
+                modal.classList.remove('active');
+                var dialog = modal.querySelector('.modal-box');
+                if (dialog) dialog.style.removeProperty('--modal-fit-scale');
+                var returnTarget = modalReturnFocus.get(modal);
+                if (returnTarget && typeof returnTarget.focus === 'function' && document.contains(returnTarget)) returnTarget.focus();
+                modalReturnFocus.delete(modal);
                 if (id === 'roomModal') closeCreateSectionMenu();
                 if (id === 'workspaceProfileConfirmModal') {
                     pendingWorkspaceProfile = null;
                     workspaceProfileTargetId = null;
                     var preview = document.getElementById('workspaceProfilePreview');
-                    if (preview) preview.removeAttribute('src');
+                    if (preview) {
+                        preview.removeAttribute('src');
+                        preview.hidden = true;
+                    }
                 }
             }
 
             document.querySelectorAll('.modal-overlay').forEach(m => {
                 m.addEventListener('click', e => { if (e.target === m) closeModal(m.id); });
+            });
+
+            window.addEventListener('resize', function () {
+                var modal = document.querySelector('.modal-overlay.fit-without-scroll.active');
+                if (modal) scheduleViewportModalFit(modal);
+            });
+            if (window.visualViewport) window.visualViewport.addEventListener('resize', function () {
+                var modal = document.querySelector('.modal-overlay.fit-without-scroll.active');
+                if (modal) scheduleViewportModalFit(modal);
+            });
+            if ('MutationObserver' in window) {
+                new MutationObserver(function () {
+                    var modal = document.querySelector('.modal-overlay.fit-without-scroll.active');
+                    if (modal) scheduleViewportModalFit(modal);
+                }).observe(document.getElementById('mainApp') || document.body, { childList: true, subtree: true, characterData: true });
+            }
+
+            document.addEventListener('keydown', function (event) {
+                var modal = Array.from(document.querySelectorAll('.modal-overlay.active')).pop();
+                if (!modal) return;
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    closeModal(modal.id);
+                    return;
+                }
+                if (event.key !== 'Tab') return;
+                var focusable = modalFocusableElements(modal);
+                if (!focusable.length) { event.preventDefault(); return; }
+                var first = focusable[0];
+                var last = focusable[focusable.length - 1];
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
             });
 
             document.addEventListener('click', e => {
@@ -344,7 +447,10 @@
                 }
                 let dropdown = document.getElementById('notifDropdown');
                 let bell = document.querySelector('.bell-btn');
-                if (!dropdown.contains(e.target) && !bell.contains(e.target)) dropdown.classList.remove('show');
+                if (!dropdown.contains(e.target) && !bell.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                    bell.setAttribute('aria-expanded', 'false');
+                }
                 let slash = document.getElementById('slashMenu');
                 if (!slash.contains(e.target)) hideSlashMenu();
                 var mention = document.getElementById('mentionMenu');
@@ -375,4 +481,3 @@
 
             // ========== TOAST ==========
             function showToast(msg) { let t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
-

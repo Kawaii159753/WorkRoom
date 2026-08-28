@@ -24,7 +24,12 @@ export class WorkspaceController {
 
   static async getById(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const workspace = await WorkspaceService.getWorkspaceDetails(req.params.workspaceId);
+      const membership = req.workspaceMembership!;
+      const workspace = await WorkspaceService.getWorkspaceDetails(req.params.workspaceId, {
+        userId: req.user!.id,
+        role: membership.role,
+        allowedRoomIds: membership.allowedRoomIds,
+      });
       return sendSuccess(res, workspace);
     } catch (error) {
       next(error);

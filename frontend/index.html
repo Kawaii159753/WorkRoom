@@ -21,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
         integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm"
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="css/style.css?v=20260825-audit-3">
+    <link rel="stylesheet" href="css/style.css?v=20260829-logout-confirm-1">
 
 </head>
 
@@ -364,7 +364,7 @@
             <div class="app-frame">
                 <aside class="sidebar-left">
                     <div class="sidebar-logo">WorkRoom</div>
-                    <div class="sidebar-content" id="sidebarContent">
+                    <div class="sidebar-content" id="sidebarContent" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
                         <button class="create-room-btn" onclick="openCreateItemModal()" title="สร้างห้องใหม่">
                             <span data-i18n="wrCreateRoom">สร้างห้องใหม่</span>
                         </button>
@@ -373,20 +373,20 @@
                         </div>
                         <div id="pageHistoryList"></div>
                         <div class="sidebar-section" data-section="general">
-                            <div class="sidebar-item active" draggable="true" data-room="room-1"
-                                onclick="switchRoom('room-1',this)">
+                            <div class="sidebar-item active" draggable="true" data-room="room-1" role="button" tabindex="0"
+                                onclick="switchRoom('room-1',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">💡</span><span
                                         class="room-name">ไอเดีย</span></div>
 
                             </div>
-                            <div class="sidebar-item" draggable="true" data-room="room-2"
-                                onclick="switchRoom('room-2',this)">
+                            <div class="sidebar-item" draggable="true" data-room="room-2" role="button" tabindex="0"
+                                onclick="switchRoom('room-2',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">📁</span><span
                                         class="room-name">โปสต์ของฉัน</span></div>
 
                             </div>
-                            <div class="sidebar-item" draggable="true" data-room="room-3"
-                                onclick="switchRoom('room-3',this)">
+                            <div class="sidebar-item" draggable="true" data-room="room-3" role="button" tabindex="0"
+                                onclick="switchRoom('room-3',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">👥</span><span
                                         class="room-name">โปสต์แบบทีม</span></div>
 
@@ -398,8 +398,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg><span data-i18n="wrSectionPrivate">ห้องส่วนตัว</span></div>
-                            <div class="sidebar-item" draggable="true" data-room="room-4"
-                                onclick="switchRoom('room-4',this)">
+                            <div class="sidebar-item" draggable="true" data-room="room-4" role="button" tabindex="0"
+                                onclick="switchRoom('room-4',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">🔒</span><span
                                         class="room-name">โปรเจ็กลับ</span></div>
 
@@ -408,14 +408,14 @@
                         <div class="sidebar-section" data-section="department">
                             <div class="sidebar-section-title"><span>🏬</span><span
                                     data-i18n="wrSectionDepartment">ห้องแผนก</span></div>
-                            <div class="sidebar-item" draggable="true" data-room="room-5"
-                                onclick="switchRoom('room-5',this)">
+                            <div class="sidebar-item" draggable="true" data-room="room-5" role="button" tabindex="0"
+                                onclick="switchRoom('room-5',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">📂</span><span
                                         class="room-name">ฝ่ายคอนเทนต์</span></div>
 
                             </div>
-                            <div class="sidebar-item" draggable="true" data-room="room-6"
-                                onclick="switchRoom('room-6',this)">
+                            <div class="sidebar-item" draggable="true" data-room="room-6" role="button" tabindex="0"
+                                onclick="switchRoom('room-6',this)" onkeydown="handleKeyboardClick(event,this)">
                                 <div class="item-content"><span class="room-emoji">📂</span><span
                                         class="room-name">ฝ่ายพัฒนาเว็ป</span></div>
 
@@ -443,21 +443,21 @@
                                     </svg>
                                 </button>
                                 <div class="idea-color-bar">
-                                    <div class="idea-color-opt active" data-color="#f97316" style="background:#f97316"
-                                        onclick="setWbColor('#f97316')"></div>
-                                    <div class="idea-color-opt" data-color="#ec4899" style="background:#ec4899"
-                                        onclick="setWbColor('#ec4899')"></div>
+                                    <div class="idea-color-opt active" data-color="#f97316" style="background:#f97316" role="button" tabindex="0" aria-label="สีส้ม"
+                                        onclick="setWbColor('#f97316')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#ec4899" style="background:#ec4899" role="button" tabindex="0" aria-label="สีชมพู"
+                                        onclick="setWbColor('#ec4899')" onkeydown="handleKeyboardClick(event,this)"></div>
                                     <div class="idea-divider"></div>
-                                    <div class="idea-color-opt" data-color="#1f2937" style="background:#1f2937"
-                                        onclick="setWbColor('#1f2937')"></div>
-                                    <div class="idea-color-opt" data-color="#ef4444" style="background:#ef4444"
-                                        onclick="setWbColor('#ef4444')"></div>
-                                    <div class="idea-color-opt" data-color="#3b82f6" style="background:#3b82f6"
-                                        onclick="setWbColor('#3b82f6')"></div>
-                                    <div class="idea-color-opt" data-color="#22c55e" style="background:#22c55e"
-                                        onclick="setWbColor('#22c55e')"></div>
-                                    <div class="idea-color-opt" data-color="#f59e0b" style="background:#f59e0b"
-                                        onclick="setWbColor('#f59e0b')"></div>
+                                    <div class="idea-color-opt" data-color="#1f2937" style="background:#1f2937" role="button" tabindex="0" aria-label="สีดำ"
+                                        onclick="setWbColor('#1f2937')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#ef4444" style="background:#ef4444" role="button" tabindex="0" aria-label="สีแดง"
+                                        onclick="setWbColor('#ef4444')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#3b82f6" style="background:#3b82f6" role="button" tabindex="0" aria-label="สีฟ้า"
+                                        onclick="setWbColor('#3b82f6')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#22c55e" style="background:#22c55e" role="button" tabindex="0" aria-label="สีเขียว"
+                                        onclick="setWbColor('#22c55e')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#f59e0b" style="background:#f59e0b" role="button" tabindex="0" aria-label="สีเหลือง"
+                                        onclick="setWbColor('#f59e0b')" onkeydown="handleKeyboardClick(event,this)"></div>
                                     <button class="idea-trash-btn" onclick="clearWhiteboard()" title="ลบทั้งหมด">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -534,13 +534,13 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="user-card" id="userCard" style="display:none;" onclick="openAccountPage()">
+                        <div class="user-card" id="userCard" style="display:none;" role="button" tabindex="0" onclick="openAccountPage()" onkeydown="handleKeyboardClick(event,this)">
                             <div class="user-avatar" id="userAvatar"></div>
                             <div class="user-info">
                                 <div class="user-name" id="userName"></div>
                                 <div class="user-email" id="userEmail"></div>
                             </div>
-                            <button class="user-logout" id="userLogoutButton" onclick="event.stopPropagation();logout()" title="ออกจากระบบ" aria-label="ออกจากระบบ">
+                            <button class="user-logout" id="userLogoutButton" onclick="event.stopPropagation();requestLogout()" title="ออกจากระบบ" aria-label="ออกจากระบบ">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -549,7 +549,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="settings-btn" onclick="openSettingsModal()">
+                        <div class="settings-btn" role="button" tabindex="0" onclick="openSettingsModal()" onkeydown="handleKeyboardClick(event,this)">
                             <div class="item-content">
                                 <div class="settings-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -616,7 +616,7 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                                 </svg>
                             </button>
-                            <button class="bell-btn" onclick="toggleNotif(event)">
+                            <button class="bell-btn" onclick="toggleNotif(event)" aria-label="การแจ้งเตือน" aria-controls="notifDropdown" aria-expanded="false">
                                 <svg fill="currentColor" viewBox="0 0 24 24">
                                     <path
                                         d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-5.5 2c0 .55-.45 1-1 1s-1-.45-1-1h2zM12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" />
@@ -665,7 +665,9 @@
                                     <div class="idea-page-tabs" id="normalPageTabs" role="tablist"
                                         aria-label="หน้ากระดาษของห้อง"></div>
                                 </div>
-                                <div id="editorBlocks"></div>
+                                <div class="normal-canvas-wrap" id="normalCanvasWrap">
+                                    <div id="editorBlocks"></div>
+                                </div>
                             </div>
                             <section id="postitLibrary" class="postit-library" style="display:none;" data-lenis-prevent
                                 aria-labelledby="postitLibraryTitle">
@@ -988,8 +990,8 @@
         </div>
 
         <div class="modal-overlay" id="emojiModal">
-            <div class="modal-box">
-                <div class="modal-title">เปลี่ยนอิโมจิห้อง</div>
+            <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="emojiModalTitle">
+                <div class="modal-title" id="emojiModalTitle">เปลี่ยนอิโมจิห้อง</div>
                 <input type="text" class="modal-input" id="emojiInput" placeholder="ใส่อิโมจิ เช่น 🚀, 📊, 🎨..."
                     maxlength="2">
                 <div class="modal-actions">
@@ -1001,9 +1003,9 @@
 
         <!-- Account Profile Page -->
         <div class="modal-overlay" id="accountModal">
-            <div class="account-page" tabindex="0" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
+            <div class="account-page" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle" tabindex="-1" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
                 <div class="account-header">
-                    <button class="account-back" onclick="closeModal('accountModal')">
+                    <button class="account-back" onclick="closeModal('accountModal')" aria-label="กลับไป WorkRoom">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 12H5" />
@@ -1011,7 +1013,7 @@
                         </svg>
                     </button>
                     <div>
-                        <h2 class="account-title" data-i18n="acctTitle">บัญชีผู้ใช้ของฉัน</h2>
+                        <h2 class="account-title" id="accountModalTitle" data-i18n="acctTitle">บัญชีผู้ใช้ของฉัน</h2>
                         <p class="account-subtitle" data-i18n="acctSubtitle">จัดการข้อมูลบัญชีและการตั้งค่าความปลอดภัย
                         </p>
                     </div>
@@ -1098,7 +1100,7 @@
                 aria-labelledby="workspaceProfileConfirmTitle">
                 <div class="modal-title" id="workspaceProfileConfirmTitle">เปลี่ยนโปรไฟล์เซิร์ฟเวอร์</div>
                 <div class="workspace-profile-confirm-name" id="workspaceProfileConfirmName"></div>
-                <div class="workspace-profile-preview"><img id="workspaceProfilePreview"
+                <div class="workspace-profile-preview"><img id="workspaceProfilePreview" hidden
                         alt="ตัวอย่างโปรไฟล์เซิร์ฟเวอร์ใหม่"></div>
                 <div class="modal-actions">
                     <button class="btn btn-primary" onclick="confirmWorkspaceProfileChange()">บันทึก</button>
@@ -1108,10 +1110,10 @@
         </div>
 
         <div class="modal-overlay" id="settingsModal">
-            <div class="modal-box" style="position:relative;">
-                <button class="settings-close" onclick="closeModal('settingsModal')">✕</button>
+            <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" style="position:relative;">
+                <button class="settings-close" onclick="closeModal('settingsModal')" aria-label="ปิดการตั้งค่า">✕</button>
                 <div class="settings-sidebar">
-                    <div class="settings-sidebar-title" data-i18n="settingsTitle">ตั้งค่า</div>
+                    <div class="settings-sidebar-title" id="settingsModalTitle" data-i18n="settingsTitle">ตั้งค่า</div>
                     <button class="settings-tab-btn active" onclick="switchSettingsTab('notif',this)"><span
                             class="tab-icon">🔔</span><span data-i18n="settingsNotif">แจ้งเตือน</span></button>
                     <button class="settings-tab-btn" onclick="switchSettingsTab('appearance',this)"><span
@@ -1227,11 +1229,17 @@
 
         <div class="modal-overlay" id="workroomConfirmModal">
             <div class="modal-box workspace-profile-confirm" role="alertdialog" aria-modal="true" aria-labelledby="workroomConfirmTitle" aria-describedby="workroomConfirmMessage">
+                <div class="workroom-confirm-icon" id="workroomConfirmIcon" aria-hidden="true" hidden></div>
                 <div class="modal-title" id="workroomConfirmTitle"></div>
                 <p id="workroomConfirmMessage"></p>
+                <div class="workroom-confirm-account" id="workroomConfirmAccount" hidden>
+                    <span class="workroom-confirm-avatar" id="workroomConfirmAvatar"></span>
+                    <span><strong id="workroomConfirmAccountName"></strong><small id="workroomConfirmAccountEmail"></small></span>
+                </div>
+                <p class="workroom-confirm-note" id="workroomConfirmNote" hidden></p>
                 <div class="modal-actions">
+                    <button class="btn btn-secondary" id="workroomConfirmCancel" type="button" onclick="closeWorkroomConfirm()" data-i18n="commonCancel">ยกเลิก</button>
                     <button class="btn btn-primary" id="workroomConfirmAccept" type="button"></button>
-                    <button class="btn btn-secondary" type="button" onclick="closeWorkroomConfirm()" data-i18n="commonCancel">ยกเลิก</button>
                 </div>
             </div>
         </div>
@@ -1250,7 +1258,7 @@
         <div class="modal-overlay" id="templateGalleryModal">
             <div class="modal-box template-gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="templateGalleryTitle">
                 <div class="task-detail-head">
-                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว WorkRoom จะสร้างหน้าไอเดียให้พร้อมใช้</p></div>
+                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว WorkRoom จะสร้างหน้าใหม่ในห้องนี้ให้พร้อมใช้</p></div>
                     <button class="postit-reader-close" onclick="closeModal('templateGalleryModal')" aria-label="ปิด">×</button>
                 </div>
                 <div class="template-gallery-grid" id="templateGalleryGrid"></div>
@@ -1707,24 +1715,37 @@
 
     <!-- APPLICATION SCRIPTS -->
     <!-- REALTIME & API CLIENT SCRIPTS -->
+    <script>
+        (function () {
+            var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            window.WORKROOM_CONFIG = Object.assign({
+                apiUrl: local ? 'http://localhost:4000/api/v1' : location.origin + '/api/v1',
+                socketUrl: local ? 'http://localhost:4000' : location.origin,
+                googleClientId: '',
+                facebookAppId: ''
+            }, window.WORKROOM_CONFIG || {});
+            window.WORKROOM_API_URL = window.WORKROOM_CONFIG.apiUrl;
+            window.WORKROOM_SOCKET_URL = window.WORKROOM_CONFIG.socketUrl;
+        })();
+    </script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script type="module" src="js/api.js"></script>
 
     <!-- APPLICATION SCRIPTS -->
-    <script src="js/i18n.js?v=20260825-guide-1"></script>
+    <script src="js/i18n.js?v=20260829-room-templates-1"></script>
     <script src="js/bento.js"></script>
     <!-- WORKROOM DOMAIN MODULES -->
-    <script src="js/modules/state.js"></script>
-    <script src="js/modules/rooms.js"></script>
-    <script src="js/modules/team.js"></script>
+    <script src="js/modules/team.js?v=20260829-sticky-default-1"></script>
+    <script src="js/modules/state.js?v=20260829-typewriter-copy-1"></script>
+    <script src="js/modules/rooms.js?v=20260829-fluid-layout-1"></script>
     <script src="js/modules/notifications.js"></script>
-    <script src="js/modules/modals.js"></script>
+    <script src="js/modules/modals.js?v=20260829-logout-confirm-1"></script>
     <script src="js/modules/comments.js"></script>
     <script src="js/modules/search.js"></script>
-    <script src="js/modules/editor.js"></script>
-    <script src="js/modules/whiteboard.js"></script>
-    <script src="js/modules/workflows.js"></script>
-    <script src="js/auth.js?v=20260825-audit-2"></script>
+    <script src="js/modules/editor.js?v=20260829-room-templates-1"></script>
+    <script src="js/modules/whiteboard.js?v=20260828-all-page-drawing-1"></script>
+    <script src="js/modules/workflows.js?v=20260829-room-templates-1"></script>
+    <script src="js/auth.js?v=20260829-logout-confirm-1"></script>
     <script src="js/app.js?v=20260825-guide-1"></script>
 </body>
 

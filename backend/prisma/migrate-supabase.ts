@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  'postgresql://postgres.gtumrwijydgtvksxudvu:Work%21Room%402026@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres?sslmode=require';
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error('DATABASE_URL is required to run the database migration');
+}
 
 const schemaSql = `
 -- Extension for UUID generation

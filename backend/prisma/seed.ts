@@ -53,48 +53,75 @@ async function main() {
   console.log(` Created workspace: ${workspace.name}`);
 
   // 3. Create Section and Room
-  const section = await prisma.section.create({
-    data: {
-      workspaceId: workspace.id,
-      title: 'Planning & Product',
-      position: 0,
-    },
-  });
+  const section =
+    (await prisma.section.findFirst({
+      where: { workspaceId: workspace.id, title: 'Planning & Product' },
+    })) ??
+    (await prisma.section.create({
+      data: {
+        workspaceId: workspace.id,
+        title: 'Planning & Product',
+        position: 0,
+      },
+    }));
 
-  const room = await prisma.room.create({
-    data: {
-      workspaceId: workspace.id,
-      sectionId: section.id,
-      name: 'Sprint Backlog',
-      icon: '🚀',
-      position: 0,
-    },
-  });
+  const room =
+    (await prisma.room.findFirst({
+      where: { workspaceId: workspace.id, sectionId: section.id, name: 'Sprint Backlog' },
+    })) ??
+    (await prisma.room.create({
+      data: {
+        workspaceId: workspace.id,
+        sectionId: section.id,
+        name: 'Sprint Backlog',
+        icon: '🚀',
+        position: 0,
+      },
+    }));
 
   // 4. Create Sample Workflow Task
-  const workflow = await prisma.workflow.create({
-    data: {
-      workspaceId: workspace.id,
-      artifactType: ArtifactType.POSTIT_BLOCK,
-      artifactId: 'postit-1',
-      title: 'Design Backend Architecture & Database Models',
-      status: WorkflowStatus.REVIEW,
-      createdById: userDemo.id,
-      assignees: {
-        create: [{ userId: userChets.id }],
+  const workflow =
+    (await prisma.workflow.findFirst({
+      where: {
+        workspaceId: workspace.id,
+        artifactId: 'postit-1',
+        title: 'Design Backend Architecture & Database Models',
       },
-    },
-  });
+    })) ??
+    (await prisma.workflow.create({
+      data: {
+        workspaceId: workspace.id,
+        artifactType: ArtifactType.POSTIT_BLOCK,
+        artifactId: 'postit-1',
+        title: 'Design Backend Architecture & Database Models',
+        status: WorkflowStatus.REVIEW,
+        createdById: userDemo.id,
+        assignees: {
+          create: [{ userId: userChets.id }],
+        },
+      },
+    }));
 
   // 5. Create Sample Comment
-  await prisma.comment.create({
-    data: {
+  const seedComment = 'PostgreSQL schema with Prisma ORM and RBAC permissions are configured!';
+  const existingComment = await prisma.comment.findFirst({
+    where: {
       workspaceId: workspace.id,
       workflowId: workflow.id,
       authorId: userChets.id,
-      content: 'PostgreSQL schema with Prisma ORM and RBAC permissions are configured!',
+      content: seedComment,
     },
   });
+  if (!existingComment) {
+    await prisma.comment.create({
+      data: {
+        workspaceId: workspace.id,
+        workflowId: workflow.id,
+        authorId: userChets.id,
+        content: seedComment,
+      },
+    });
+  }
 
   console.log(' Database seed completed successfully!');
 }

@@ -7,8 +7,10 @@ import { WorkspaceController } from './workspace.controller.js';
 import {
   createWorkspaceSchema,
   inviteMemberSchema,
+  memberParamsSchema,
   updateMemberRoleSchema,
   updateWorkspaceSchema,
+  workspaceParamsSchema,
 } from './workspace.schemas.js';
 
 const router = Router();
@@ -21,6 +23,7 @@ router.post('/', requireAuth, validate(createWorkspaceSchema), WorkspaceControll
 router.get(
   '/:workspaceId',
   requireAuth,
+  validate(workspaceParamsSchema),
   requireWorkspaceRole([ROLES.OWNER, ROLES.EDITOR, ROLES.VIEWER]),
   WorkspaceController.getById
 );
@@ -28,8 +31,8 @@ router.get(
 router.patch(
   '/:workspaceId',
   requireAuth,
-  requireWorkspaceRole([ROLES.OWNER]),
   validate(updateWorkspaceSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
   WorkspaceController.update
 );
 
@@ -37,22 +40,23 @@ router.patch(
 router.post(
   '/:workspaceId/invites',
   requireAuth,
-  requireWorkspaceRole([ROLES.OWNER]),
   validate(inviteMemberSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
   WorkspaceController.invite
 );
 
 router.patch(
   '/:workspaceId/members/:userId',
   requireAuth,
-  requireWorkspaceRole([ROLES.OWNER]),
   validate(updateMemberRoleSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
   WorkspaceController.updateMember
 );
 
 router.delete(
   '/:workspaceId/members/:userId',
   requireAuth,
+  validate(memberParamsSchema),
   requireWorkspaceRole([ROLES.OWNER]),
   WorkspaceController.removeMember
 );

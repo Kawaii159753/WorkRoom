@@ -4,6 +4,7 @@
             // ========== ROOMS ==========
             function switchRoom(roomId, el) {
                 toggleMobileSidebar(false);
+                setMobileRoomFocus(true);
                 saveActiveWorkspaceData();
                 currentRoomId = roomId;
                 document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
@@ -24,6 +25,21 @@
                 var toggle = app.querySelector('.mobile-sidebar-toggle');
                 if (toggle) toggle.setAttribute('aria-expanded', String(shouldOpen));
             }
+
+            function setMobileRoomFocus(isFocused) {
+                var app = document.getElementById('mainApp');
+                if (!app) return;
+                var isMobile = window.matchMedia('(max-width: 720px), (max-height: 620px) and (max-width: 900px)').matches;
+                app.classList.toggle('mobile-room-focus', isMobile && isFocused);
+                var toggle = app.querySelector('.mobile-sidebar-toggle');
+                if (!toggle) return;
+                toggle.textContent = isMobile && isFocused ? '←' : '☰';
+                toggle.setAttribute('aria-label', isMobile && isFocused ? 'กลับไปเลือกห้อง' : 'เปิดเมนูห้อง');
+            }
+
+            window.addEventListener('resize', function () {
+                if (!window.matchMedia('(max-width: 720px), (max-height: 620px) and (max-width: 900px)').matches) setMobileRoomFocus(false);
+            });
 
             function openCreateItemModal() {
                 if (activeWorkspace && activeWorkspace.role === 'viewer') return showToast('คุณมีสิทธิ์ดูอย่างเดียว');
@@ -83,7 +99,7 @@
                     var firstId = 'room-page-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
                     collection = roomPageCollections[roomId] = {
                         activePageId: firstId,
-                        pages: [{ id: firstId, title: source.title, blocks: source.blocks || [{ type: 'text', content: '' }], createdAt: Date.now() }]
+                    pages: [{ id: firstId, title: source.title, blocks: source.blocks || [{ type: 'text', content: '' }], strokes: Array.isArray(source.strokes) ? source.strokes : [], createdAt: Date.now() }]
                     };
                 }
                 var active = collection.pages.find(function (page) { return page.id === collection.activePageId; }) || collection.pages[0];
@@ -96,7 +112,7 @@
                 if (activeWorkspace && activeWorkspace.role === 'viewer') return showToast('คุณมีสิทธิ์ดูอย่างเดียว');
                 var collection = ensureRoomPageCollection(currentRoomId);
                 if (!collection) return;
-                var page = { id: 'room-page-' + Date.now(), title: 'หน้ากระดาษใหม่', blocks: [{ type: 'text', content: '' }], createdAt: Date.now() };
+                var page = { id: 'room-page-' + Date.now(), title: 'หน้ากระดาษใหม่', blocks: [{ type: 'text', content: '' }], strokes: [], createdAt: Date.now() };
                 collection.pages.push(page);
                 collection.activePageId = page.id;
                 roomPages[currentRoomId] = page;
@@ -195,7 +211,7 @@
                     var isActive = id === currentRoomId;
                     var canReorder = !activeWorkspace || ['owner', 'editor'].includes(activeWorkspace.role);
                     var displayName = workroomRoomName(id);
-                    return '<div class="page-history-item' + (isActive ? ' active' : '') + '" draggable="' + String(canReorder) + '" data-room="' + escapeHtml(id) + '" title="' + (canReorder ? (currentLang === 'en' ? 'Drag to reorder rooms' : 'ลากเพื่อจัดลำดับห้อง') : escapeHtml(displayName)) + '" onclick="switchPage(\'' + escapeHtml(id) + '\',this)">'
+                    return '<div class="page-history-item' + (isActive ? ' active' : '') + '" draggable="' + String(canReorder) + '" data-room="' + escapeHtml(id) + '" role="button" tabindex="0" title="' + (canReorder ? (currentLang === 'en' ? 'Drag to reorder rooms' : 'ลากเพื่อจัดลำดับห้อง') : escapeHtml(displayName)) + '" onclick="switchPage(\'' + escapeHtml(id) + '\',this)" onkeydown="handleKeyboardClick(event,this)">'
                         + '<div class="page-history-icon">' + escapeHtml(room.emoji || '📄') + '</div>'
                         + '<div class="page-history-copy"><div class="page-history-name">' + escapeHtml(displayName) + '</div></div>'
                         + '<button class="page-history-edit" onclick="openRoomEdit(event,\'' + escapeHtml(id) + '\')" title="' + (currentLang === 'en' ? 'Edit room' : 'แก้ไขห้อง') + '" aria-label="' + (currentLang === 'en' ? 'Edit room ' : 'แก้ไขห้อง ') + escapeHtml(displayName) + '">'
@@ -224,6 +240,8 @@
 
             function switchPage(pageId, el) {
                 if (Date.now() < suppressRoomClickUntil) return;
+                toggleMobileSidebar(false);
+                setMobileRoomFocus(true);
                 saveActiveWorkspaceData();
                 currentRoomId = pageId;
                 document.querySelectorAll('.page-history-item').forEach(function (item) { item.classList.remove('active'); });
@@ -611,4 +629,3 @@
                     }
                 });
             }
-

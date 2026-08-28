@@ -68,6 +68,12 @@ cp .env.example .env
 docker compose up -d
 ```
 
+หากไม่มี Docker สามารถใช้ local PostgreSQL ที่มากับ Prisma ได้:
+```bash
+npm run db:local:start
+```
+จากนั้นคัดลอก TCP URL ที่แสดงไปใส่ `DATABASE_URL` และ `DIRECT_URL` ใน `.env`
+
 ### 4. รัน Database Migration & Seed Data
 ```bash
 # Push schema to database and generate Prisma Client
@@ -79,6 +85,8 @@ npm run db:migrate
 # เพิ่มข้อมูลทดสอบเริ่มต้น (Demo Users, Workspaces, Tasks)
 npm run db:seed
 ```
+
+คำสั่ง seed สามารถรันซ้ำได้โดยไม่สร้างข้อมูลตัวอย่างซ้ำ
 
 > **บัญชีสำหรับทดสอบจาก Seed:**
 > - อีเมล: `demo@workroom.io` / รหัสผ่าน: `Password123!` (Role: `OWNER`)

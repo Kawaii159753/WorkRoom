@@ -21,7 +21,7 @@ router.post(
   AuthController.login
 );
 
-router.post('/logout', requireAuth, AuthController.logout);
+router.post('/logout', AuthController.logout);
 router.get('/me', requireAuth, AuthController.getMe);
 
 export const authRouter = router;

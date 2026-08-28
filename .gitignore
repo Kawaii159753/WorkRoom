@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+WorkRoom-main/
+WorkRoom-main.zip
 .pnp
 .pnp.js
 
@@ -8,6 +10,7 @@ node_modules/
 .env.*
 *.env
 *.local
+!.env.example
 secrets/
 .secrets/
 !secrets/README.md
@@ -15,6 +18,7 @@ secrets/
 
 # Production Builds & Outputs
 dist/
+dist-seed/
 build/
 .next/
 out/

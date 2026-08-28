@@ -1506,3 +1506,607 @@
                 margin-left: 46px;
             }
         }
+
+/* ============================================================
+   RESPONSIVE ACCESS PARITY
+   Layout may change by viewport, but every action stays reachable.
+   ============================================================ */
+#mainApp,
+#mainApp .app-frame,
+#mainApp .main-area { min-width: 0; min-height: 0; }
+#mainApp .app-frame { height: 100vh; height: 100dvh; }
+#mainApp {
+    --workspace-paper-max: clamp(900px, 72vw, 1280px);
+    --workspace-gutter: clamp(12px, 2.4vw, 48px);
+}
+#mainApp .editor-scroll,
+#mainApp .editor-scroll.idea-mode-scroll { padding-inline: var(--workspace-gutter) !important; }
+#mainApp .editor-container,
+#mainApp .editor-container.idea-mode,
+#mainApp .idea-sheet { max-width: var(--workspace-paper-max) !important; }
+#mainApp .postit-full-toolbar,
+#mainApp .postit-full-paper {
+    max-width: min(1180px, calc(100vw - 2 * var(--workspace-gutter)));
+}
+#mainApp .sidebar-left {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+}
+#mainApp {
+    --sidebar-scroll-track: rgba(92, 65, 105, .07);
+    --sidebar-scroll-start: #d35f9b;
+    --sidebar-scroll-end: #a968d2;
+    --sidebar-scroll-hover-start: #e66caa;
+    --sidebar-scroll-hover-end: #b979df;
+    --sidebar-scroll-active-start: #c84f8d;
+    --sidebar-scroll-active-end: #9556c3;
+    --sidebar-scroll-shadow: rgba(154, 82, 188, .2);
+}
+body[data-workroom-theme="light"] #mainApp {
+    --sidebar-scroll-track: rgba(78, 58, 88, .08);
+    --sidebar-scroll-start: #d85f9d;
+    --sidebar-scroll-end: #a764cf;
+    --sidebar-scroll-hover-start: #e974b0;
+    --sidebar-scroll-hover-end: #b97add;
+    --sidebar-scroll-active-start: #c84b89;
+    --sidebar-scroll-active-end: #9250b9;
+    --sidebar-scroll-shadow: rgba(147, 76, 176, .2);
+}
+body[data-workroom-theme="dark"] #mainApp {
+    --sidebar-scroll-track: rgba(255, 255, 255, .055);
+    --sidebar-scroll-start: #716778;
+    --sidebar-scroll-end: #8f6ba5;
+    --sidebar-scroll-hover-start: #8a7c93;
+    --sidebar-scroll-hover-end: #a77fc0;
+    --sidebar-scroll-active-start: #655b6d;
+    --sidebar-scroll-active-end: #7d5a92;
+    --sidebar-scroll-shadow: rgba(0, 0, 0, .32);
+}
+#mainApp .sidebar-content {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sidebar-scroll-end) var(--sidebar-scroll-track);
+    scrollbar-gutter: stable;
+}
+#mainApp .sidebar-content::-webkit-scrollbar { width: 10px; }
+#mainApp .sidebar-content::-webkit-scrollbar-track {
+    margin-block: 8px;
+    border-radius: 999px;
+    background: var(--sidebar-scroll-track);
+}
+#mainApp .sidebar-content::-webkit-scrollbar-thumb {
+    min-height: 42px;
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--sidebar-scroll-start) 0%, var(--sidebar-scroll-end) 100%) padding-box;
+    box-shadow: 0 2px 8px var(--sidebar-scroll-shadow);
+}
+#mainApp .sidebar-content::-webkit-scrollbar-thumb:hover {
+    border-width: 2px;
+    background: linear-gradient(180deg, var(--sidebar-scroll-hover-start) 0%, var(--sidebar-scroll-hover-end) 100%) padding-box;
+}
+#mainApp .sidebar-content::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, var(--sidebar-scroll-active-start) 0%, var(--sidebar-scroll-active-end) 100%) padding-box;
+}
+#mainApp .sidebar-content::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+#mainApp .sidebar-content::-webkit-scrollbar-corner { background: transparent; }
+#mainApp .sidebar-bottom { flex: 0 0 auto; }
+body[data-workroom-theme="light"] #mainApp .user-name,
+body[data-workroom-theme="playful"] #mainApp .user-name,
+body.light-theme #mainApp .user-name,
+body.playful-theme #mainApp .user-name {
+    color: #2f2936 !important;
+}
+body[data-workroom-theme="light"] #mainApp .user-email,
+body[data-workroom-theme="playful"] #mainApp .user-email,
+body.light-theme #mainApp .user-email,
+body.playful-theme #mainApp .user-email {
+    color: #625b69 !important;
+}
+body[data-workroom-theme="dark"] #mainApp .user-name {
+    color: #f7f3fa !important;
+}
+body[data-workroom-theme="dark"] #mainApp .user-email {
+    color: #b8aebb !important;
+}
+body[data-workroom-theme="light"] #page-workroom .team-member-name,
+body[data-workroom-theme="playful"] #page-workroom .team-member-name,
+body.light-theme #page-workroom .team-member-name,
+body.playful-theme #page-workroom .team-member-name {
+    color: #29242f !important;
+}
+body[data-workroom-theme="light"] #page-workroom .team-member-status,
+body[data-workroom-theme="playful"] #page-workroom .team-member-status,
+body.light-theme #page-workroom .team-member-status,
+body.playful-theme #page-workroom .team-member-status,
+body[data-workroom-theme="light"] #page-workroom .team-section-label,
+body[data-workroom-theme="playful"] #page-workroom .team-section-label,
+body.light-theme #page-workroom .team-section-label,
+body.playful-theme #page-workroom .team-section-label {
+    color: #625b69 !important;
+}
+body[data-workroom-theme="light"] #page-workroom .team-role,
+body[data-workroom-theme="playful"] #page-workroom .team-role,
+body.light-theme #page-workroom .team-role,
+body.playful-theme #page-workroom .team-role {
+    color: #403947 !important;
+    background: #ece8ef !important;
+}
+body[data-workroom-theme="light"] #page-workroom .presence-dot,
+body[data-workroom-theme="playful"] #page-workroom .presence-dot,
+body.light-theme #page-workroom .presence-dot,
+body.playful-theme #page-workroom .presence-dot {
+    border-color: #fff !important;
+}
+#mainApp .normal-canvas-wrap {
+    position: relative;
+    width: 100%;
+    min-height: max(420px, calc(100vh - 330px));
+}
+#mainApp .normal-canvas-wrap #ideaCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    touch-action: none;
+}
+#mainApp .normal-canvas-wrap #editorBlocks {
+    position: relative;
+    z-index: 2;
+    min-height: inherit;
+    pointer-events: none;
+}
+#mainApp .normal-canvas-wrap #editorBlocks .editor-block,
+#mainApp .normal-canvas-wrap #editorBlocks .editor-block * { pointer-events: auto; }
+.modal-overlay.fit-without-scroll {
+    box-sizing: border-box;
+    padding: 12px;
+    overflow: hidden;
+}
+.modal-overlay.fit-without-scroll > .modal-box {
+    --modal-fit-scale: 1;
+    flex: 0 0 auto;
+    max-height: none !important;
+    overflow: visible !important;
+    transform: scale(var(--modal-fit-scale));
+    transform-origin: center center;
+    animation: none;
+}
+#workroomConfirmModal[data-variant="logout"] .workspace-profile-confirm {
+    width: min(440px, calc(100vw - 24px));
+    padding: 30px;
+    border: 1px solid #39323f;
+    border-radius: 18px 30px 18px 18px;
+    text-align: left;
+}
+.workroom-confirm-icon {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    margin: 0 0 18px;
+    place-items: center;
+    border-radius: 14px 22px 14px 14px;
+    background: rgba(240,101,149,.14);
+    color: #ff8aa9;
+    font-size: 27px;
+    font-weight: 800;
+}
+.workroom-confirm-icon[hidden],
+.workroom-confirm-account[hidden],
+.workroom-confirm-note[hidden] { display: none !important; }
+#workroomConfirmModal[data-variant="logout"] .modal-title {
+    margin-bottom: 8px;
+    color: #f8f5fa;
+    font-size: 22px;
+    line-height: 1.35;
+}
+#workroomConfirmModal[data-variant="logout"] #workroomConfirmMessage {
+    margin: 0;
+    color: #aaa1af;
+    font-size: 13px;
+    line-height: 1.65;
+}
+.workroom-confirm-account {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px solid #39323f;
+    border-radius: 12px;
+    background: #242027;
+}
+.workroom-confirm-avatar {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#f783ac,#9775fa);
+    color: #fff;
+    font-weight: 800;
+}
+.workroom-confirm-account > span:last-child { display: grid; min-width: 0; }
+.workroom-confirm-account strong,
+.workroom-confirm-account small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.workroom-confirm-account strong { color: #f5f1f7; font-size: 13px; }
+.workroom-confirm-account small { color: #9e95a3; font-size: 10px; }
+.workroom-confirm-note {
+    margin: 10px 2px 0;
+    color: #8e8593;
+    font-size: 10px;
+    line-height: 1.55;
+}
+#workroomConfirmModal[data-variant="logout"] .modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 22px;
+}
+#workroomConfirmModal[data-variant="logout"] .modal-actions .btn { width: 100%; min-width: 0; }
+.workroom-confirm-danger {
+    background: linear-gradient(135deg,#e64980,#d6336c) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(214,51,108,.2);
+}
+.workroom-confirm-danger:hover { background: linear-gradient(135deg,#f06595,#c2255c) !important; }
+body.light-theme #workroomConfirmModal[data-variant="logout"] .workspace-profile-confirm,
+body.playful-theme #workroomConfirmModal[data-variant="logout"] .workspace-profile-confirm,
+body[data-workroom-theme="light"] #workroomConfirmModal[data-variant="logout"] .workspace-profile-confirm,
+body[data-workroom-theme="playful"] #workroomConfirmModal[data-variant="logout"] .workspace-profile-confirm {
+    border-color: #e5dce8;
+    background: #fffdf8;
+    color: #302a35;
+}
+body.light-theme #workroomConfirmModal[data-variant="logout"] .modal-title,
+body.playful-theme #workroomConfirmModal[data-variant="logout"] .modal-title,
+body[data-workroom-theme="light"] #workroomConfirmModal[data-variant="logout"] .modal-title,
+body[data-workroom-theme="playful"] #workroomConfirmModal[data-variant="logout"] .modal-title { color: #302a35; }
+body.light-theme #workroomConfirmModal[data-variant="logout"] #workroomConfirmMessage,
+body.playful-theme #workroomConfirmModal[data-variant="logout"] #workroomConfirmMessage,
+body[data-workroom-theme="light"] #workroomConfirmModal[data-variant="logout"] #workroomConfirmMessage,
+body[data-workroom-theme="playful"] #workroomConfirmModal[data-variant="logout"] #workroomConfirmMessage { color: #6d6472; }
+body.light-theme .workroom-confirm-account,
+body.playful-theme .workroom-confirm-account,
+body[data-workroom-theme="light"] .workroom-confirm-account,
+body[data-workroom-theme="playful"] .workroom-confirm-account { border-color: #e6dde9; background: #f7f2f8; }
+body.light-theme .workroom-confirm-account strong,
+body.playful-theme .workroom-confirm-account strong,
+body[data-workroom-theme="light"] .workroom-confirm-account strong,
+body[data-workroom-theme="playful"] .workroom-confirm-account strong { color: #332d38; }
+body.light-theme .workroom-confirm-account small,
+body.playful-theme .workroom-confirm-account small,
+body[data-workroom-theme="light"] .workroom-confirm-account small,
+body[data-workroom-theme="playful"] .workroom-confirm-account small,
+body.light-theme .workroom-confirm-note,
+body.playful-theme .workroom-confirm-note,
+body[data-workroom-theme="light"] .workroom-confirm-note,
+body[data-workroom-theme="playful"] .workroom-confirm-note { color: #716976; }
+@media (max-width: 760px), (max-height: 700px) {
+    #templateGalleryModal.fit-without-scroll .template-gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        padding: 14px 16px 18px;
+    }
+    #templateGalleryModal.fit-without-scroll .task-detail-head {
+        padding: 16px 18px 12px;
+    }
+    #templateGalleryModal.fit-without-scroll .template-card {
+        min-height: 150px;
+        padding: 14px;
+    }
+    #templateGalleryModal.fit-without-scroll .template-card-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 17px;
+    }
+    #templateGalleryModal.fit-without-scroll .template-card strong {
+        margin-top: 8px;
+        font-size: 15px;
+    }
+    #templateGalleryModal.fit-without-scroll .template-card p {
+        margin-block: 3px 8px;
+        line-height: 1.45;
+    }
+}
+#mainApp button,
+#mainApp [role="button"],
+#mainApp input,
+#mainApp textarea,
+#mainApp select { max-width: 100%; }
+
+@media (max-width: 1100px) {
+    #mainApp { --workspace-paper-max: 900px; }
+    #mainApp .sidebar-left { width: clamp(220px, 24vw, 260px); }
+    #mainApp .header { padding-inline: 12px; gap: 8px; }
+    #mainApp .search-box { min-width: 140px; }
+    #mainApp .header-right {
+        min-width: 0;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+    }
+}
+
+@media (max-width: 720px) {
+    #mainApp {
+        --workspace-paper-max: 100%;
+        --workspace-gutter: clamp(4px, 2vw, 10px);
+    }
+    body { min-width: 0; overflow-x: hidden; }
+    #mainApp .sidebar-left {
+        width: min(92vw, 340px);
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    #mainApp .sidebar-content {
+        overscroll-behavior: contain;
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+    #mainApp .header {
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto auto;
+        height: auto;
+        min-height: 154px;
+        padding: max(8px, env(safe-area-inset-top)) 10px 8px;
+        align-content: start;
+        overflow: visible;
+    }
+    #mainApp .header-left { grid-column: 1; grid-row: 1; min-width: 0; }
+    #mainApp .header-breadcrumb {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #mainApp .header-right {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        margin: 0;
+        padding: 2px 0 5px;
+        display: flex;
+        justify-content: flex-start;
+        gap: 6px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x proximity;
+        scrollbar-width: thin;
+    }
+    #mainApp .header-right > * { flex: 0 0 auto; scroll-snap-align: start; }
+    #mainApp .search-box {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        width: 100%;
+        min-width: 0;
+    }
+    #mainApp .template-launch-button,
+    #mainApp .my-tasks-button { min-height: 44px; padding-inline: 12px; }
+    #mainApp .template-launch-button span:last-child,
+    #mainApp .my-tasks-button span:last-child { display: inline !important; }
+    #mainApp .mobile-sidebar-toggle,
+    #mainApp .workspace-switcher,
+    #mainApp .team-button,
+    #mainApp .bell-btn,
+    #mainApp .header-avatar,
+    #mainApp .idea-tool-btn,
+    #mainApp .idea-tool-toggle,
+    #mainApp .idea-trash-btn,
+    #mainApp .team-close,
+    #mainApp .page-history-edit { min-width: 44px; min-height: 44px; }
+    #mainApp .editor-scroll { min-height: 0; overscroll-behavior: contain; }
+    #mainApp .editor-container,
+    #mainApp .editor-container:not(.idea-mode) {
+        width: 100%; max-width: none;
+        padding-inline: clamp(8px, 3vw, 18px);
+    }
+    #mainApp .idea-workspace,
+    #mainApp .idea-sheet { width: 100%; max-width: 100%; min-width: 0; }
+    #mainApp .idea-sheet { border-radius: 12px; }
+    #mainApp .typewriter-title { min-height: 3.6em; }
+    #mainApp .idea-static-header,
+    #mainApp #normalEditor,
+    #mainApp #postitLibrary { padding-inline: clamp(12px, 4vw, 22px); }
+    #mainApp .idea-page-tabs-shell,
+    #mainApp .normal-page-tabs-shell,
+    #mainApp .idea-page-tabs {
+        max-width: 100%; overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+    }
+    #mainApp .idea-toolbar-bottom.expanded .idea-toolbar-items {
+        width: min(92vw, 420px);
+        max-width: calc(100vw - 24px);
+        overflow-x: auto;
+        overflow-y: visible;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+    }
+    #mainApp .workspace-menu,
+    #mainApp .notif-dropdown,
+    #mainApp .team-panel {
+        position: fixed; left: 8px; right: 8px;
+        width: auto; max-width: none;
+        max-height: min(72dvh, 620px);
+    }
+    #mainApp .workspace-menu,
+    #mainApp .notif-dropdown { top: max(92px, calc(env(safe-area-inset-top) + 84px)); }
+    #mainApp .team-panel {
+        top: max(8px, env(safe-area-inset-top));
+        bottom: max(8px, env(safe-area-inset-bottom));
+        max-height: none; overflow-y: auto;
+    }
+    #settingsModal .modal-box {
+        width: calc(100vw - 16px); max-width: none;
+        height: min(92dvh, 760px);
+        display: grid; grid-template-rows: auto minmax(0, 1fr);
+    }
+    #settingsModal .settings-sidebar {
+        width: 100%; padding: 12px 48px 10px 10px;
+        flex-direction: row; overflow-x: auto;
+        border-right: 0; border-bottom: 1px solid #333;
+        scrollbar-width: thin;
+    }
+    #settingsModal .settings-sidebar-title { display: none; }
+    #settingsModal .settings-tab-btn {
+        flex: 0 0 auto; min-height: 44px;
+        width: auto; white-space: nowrap;
+    }
+    #settingsModal .settings-content {
+        min-width: 0;
+        padding: 18px 16px max(24px, env(safe-area-inset-bottom));
+    }
+
+    /* Mobile room focus: keep every action available while giving the selected
+       room substantially more vertical writing space. */
+    #mainApp.mobile-room-focus .header {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 48px 48px;
+        min-height: 104px;
+        height: 104px;
+        padding: max(4px, env(safe-area-inset-top)) 8px 4px;
+        gap: 0;
+    }
+    #mainApp.mobile-room-focus .header-left {
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    #mainApp.mobile-room-focus .header-breadcrumb {
+        display: block;
+        flex: 1 1 auto;
+        color: var(--text-primary, #2f2835);
+        font-weight: 700;
+    }
+    #mainApp.mobile-room-focus .header-breadcrumb span { display: none; }
+    #mainApp.mobile-room-focus .header-right {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 2px 0;
+    }
+    #mainApp.mobile-room-focus .search-box { display: none; }
+    #mainApp.mobile-room-focus .editor-container,
+    #mainApp.mobile-room-focus .editor-container:not(.idea-mode) {
+        padding-inline: clamp(4px, 2vw, 10px);
+    }
+    #mainApp.mobile-room-focus .idea-sheet { border-radius: 8px; }
+}
+
+@media (max-width: 420px) {
+    #mainApp .header { min-height: 160px; padding-inline: 8px; }
+    #mainApp.mobile-room-focus .header { min-height: 104px; height: 104px; }
+    #mainApp .editor-title,
+    #mainApp .typewriter-title { font-size: clamp(24px, 9vw, 34px); }
+    #mainApp .idea-static-header { padding-top: 28px; }
+    #mainApp .postit-grid,
+    #mainApp .template-gallery-grid,
+    #mainApp .my-tasks-filter-row,
+    #mainApp .my-tasks-overview { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-height: 620px) and (max-width: 900px) {
+    #mainApp {
+        --workspace-paper-max: 100%;
+        --workspace-gutter: clamp(4px, 1.5vw, 10px);
+    }
+    #mainApp .app-frame { position: relative; }
+    #mainApp .sidebar-left {
+        position: fixed;
+        z-index: 60;
+        inset: 0 auto 0 0;
+        width: min(82vw, 300px);
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+        box-shadow: 14px 0 30px rgba(0,0,0,.28);
+    }
+    #mainApp.mobile-sidebar-open .sidebar-left { transform: translateX(0); }
+    #mainApp .mobile-sidebar-toggle {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+    }
+    #mainApp .mobile-sidebar-backdrop {
+        position: fixed;
+        z-index: 55;
+        inset: 0;
+        border: 0;
+        background: rgba(10,8,13,.5);
+        opacity: 0;
+        pointer-events: none;
+    }
+    #mainApp.mobile-sidebar-open .mobile-sidebar-backdrop {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    #mainApp .main-area { width: 100%; flex: 1 1 100%; }
+    #mainApp .header { min-height: 112px; }
+    #mainApp .search-box { min-height: 38px; }
+    #mainApp .sidebar-logo { padding-block: 12px; }
+    #mainApp .sidebar-bottom { padding-block: 6px; }
+    #mainApp .editor-container:not(.idea-mode),
+    #mainApp .idea-sheet {
+        height: calc(100dvh - 120px) !important;
+        min-height: calc(100dvh - 120px) !important;
+    }
+}
+
+@media (max-height: 620px) and (min-width: 500px) and (max-width: 720px) {
+    #mainApp .header {
+        grid-template-columns: auto minmax(180px, 1fr);
+        grid-template-rows: auto auto;
+        min-height: 104px;
+    }
+    #mainApp .header-left { grid-column: 1; grid-row: 1; }
+    #mainApp .search-box { grid-column: 2; grid-row: 1; }
+    #mainApp .header-right { grid-column: 1 / -1; grid-row: 2; }
+}
+
+#mainApp [role="button"]:focus-visible,
+#mainApp button:focus-visible,
+.modal-overlay button:focus-visible,
+.modal-overlay input:focus-visible,
+.modal-overlay select:focus-visible,
+.modal-overlay textarea:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--accent, #f06595) 45%, transparent);
+    outline-offset: 2px;
+}
+
+@media (hover: none), (pointer: coarse) {
+    #mainApp .page-history-edit,
+    #mainApp .postit-card-edit,
+    #mainApp .postit-block-assignment,
+    #mainApp .postit-block-delete,
+    #mainApp .image-block-delete,
+    #mainApp .embed-delete-btn,
+    #mainApp .divider-delete-btn {
+        opacity: 1; visibility: visible;
+        pointer-events: auto; transform: none;
+    }
+    #mainApp button,
+    #mainApp [role="button"],
+    #mainApp .sidebar-item,
+    #mainApp .settings-btn {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    #mainApp .sidebar-item,
+    #mainApp .settings-btn,
+    #mainApp .create-room-btn { min-height: 44px; }
+}

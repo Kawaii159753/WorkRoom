@@ -5,7 +5,7 @@ import { ERROR_CODES, ROLES, WORKFLOW_STATUS } from '../../constants/index.js';
 import { requireAuth } from '../../middleware/auth.js';
 import { AppError } from '../../middleware/errorHandler.js';
 import { validate } from '../../middleware/validate.js';
-import { requireWorkspaceRole } from '../../middleware/workspace.js';
+import { assertWorkspaceAccess, requireWorkspaceRole } from '../../middleware/workspace.js';
 import { AuthenticatedRequest } from '../../types/index.js';
 import { sendSuccess } from '../../utils/response.js';
 
@@ -15,11 +15,11 @@ const createWorkflowSchema = z.object({
   body: z.object({
     workspaceId: z.string().uuid(),
     artifactType: z.enum(['POSTIT_BLOCK', 'IDEA', 'FILE', 'CUSTOM_TASK']),
-    artifactId: z.string(),
-    title: z.string().min(1),
+    artifactId: z.string().min(1).max(200),
+    title: z.string().trim().min(1).max(200),
     status: z.enum([WORKFLOW_STATUS.REVIEW, WORKFLOW_STATUS.REVISION, WORKFLOW_STATUS.APPROVED]).default(WORKFLOW_STATUS.REVIEW),
-    dueDate: z.string().optional().transform((d) => (d ? new Date(d) : undefined)),
-    assigneeIds: z.array(z.string().uuid()).default([]),
+    dueDate: z.string().refine((d) => !Number.isNaN(Date.parse(d)), 'Invalid due date').optional().transform((d) => (d ? new Date(d) : undefined)),
+    assigneeIds: z.array(z.string().uuid()).max(100).default([]),
   }),
 });
 
@@ -28,10 +28,18 @@ const updateWorkflowSchema = z.object({
     workflowId: z.string().uuid(),
   }),
   body: z.object({
-    title: z.string().min(1).optional(),
+    title: z.string().trim().min(1).max(200).optional(),
     status: z.enum([WORKFLOW_STATUS.REVIEW, WORKFLOW_STATUS.REVISION, WORKFLOW_STATUS.APPROVED]).optional(),
-    dueDate: z.string().nullable().optional().transform((d) => (d ? new Date(d) : d === null ? null : undefined)),
-    assigneeIds: z.array(z.string().uuid()).optional(),
+    dueDate: z.string().refine((d) => !Number.isNaN(Date.parse(d)), 'Invalid due date').nullable().optional().transform((d) => (d ? new Date(d) : d === null ? null : undefined)),
+    assigneeIds: z.array(z.string().uuid()).max(100).optional(),
+  }),
+});
+
+const listWorkflowSchema = z.object({
+  query: z.object({
+    workspaceId: z.string().uuid(),
+    assignee: z.literal('me').optional(),
+    status: z.enum([WORKFLOW_STATUS.REVIEW, WORKFLOW_STATUS.REVISION, WORKFLOW_STATUS.APPROVED]).optional(),
   }),
 });
 
@@ -39,13 +47,11 @@ const updateWorkflowSchema = z.object({
 router.get(
   '/',
   requireAuth,
+  validate(listWorkflowSchema),
+  requireWorkspaceRole([ROLES.OWNER, ROLES.EDITOR, ROLES.VIEWER]),
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
       const { workspaceId, assignee, status } = req.query;
-
-      if (!workspaceId || typeof workspaceId !== 'string') {
-        throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'workspaceId query param is required', 400);
-      }
 
       const whereClause: Record<string, unknown> = {
         workspaceId,
@@ -100,6 +106,15 @@ router.post(
     try {
       const { workspaceId, artifactType, artifactId, title, status, dueDate, assigneeIds } = req.body;
 
+      if (assigneeIds.length > 0) {
+        const memberCount = await prisma.workspaceMember.count({
+          where: { workspaceId, userId: { in: assigneeIds } },
+        });
+        if (memberCount !== new Set(assigneeIds).size) {
+          throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Every assignee must belong to this workspace', 400);
+        }
+      }
+
       const workflow = await prisma.workflow.create({
         data: {
           workspaceId,
@@ -143,6 +158,17 @@ router.patch(
 
       if (!existing) {
         throw new AppError(ERROR_CODES.NOT_FOUND, 'Workflow not found', 404);
+      }
+
+      await assertWorkspaceAccess(req.user!.id, existing.workspaceId, [ROLES.OWNER, ROLES.EDITOR]);
+
+      if (assigneeIds && assigneeIds.length > 0) {
+        const memberCount = await prisma.workspaceMember.count({
+          where: { workspaceId: existing.workspaceId, userId: { in: assigneeIds } },
+        });
+        if (memberCount !== new Set(assigneeIds).size) {
+          throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Every assignee must belong to this workspace', 400);
+        }
       }
 
       // If updating status, log activity

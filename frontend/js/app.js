@@ -343,13 +343,7 @@
         }
 
         function downloadApp() {
-            // TODO: เปลี่ยนเป็น URL ของไฟล์ดาวน์โหลดจริง (ตัวติดตั้งแอป / Google Play / App Store)
-            var link = document.createElement('a');
-            link.href = 'index.html';
-            link.download = 'WorkRoom';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            showWorkroom();
         }
 
         window.addEventListener('popstate', function (event) {

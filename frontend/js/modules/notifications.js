@@ -6,6 +6,8 @@
                 e.stopPropagation();
                 let d = document.getElementById('notifDropdown');
                 d.classList.toggle('show');
+                var button = document.querySelector('.bell-btn');
+                if (button) button.setAttribute('aria-expanded', String(d.classList.contains('show')));
                 renderNotif();
                 if (d.classList.contains('show')) {
                     notifications.forEach(function (item) { item.read = true; });
@@ -55,4 +57,3 @@
                 updateBellBadge();
                 showToast(notifications.length ? 'เก็บคำเชิญที่ยังรอการตอบรับไว้' : 'ล้างการแจ้งเตือนแล้ว');
             }
-

@@ -335,8 +335,37 @@
             ];
             function templateDisplayCopy(id){var en={brief:['Project brief','Goals, audience, scope and deliverables'],brainstorm:['Brainstorm','Collect, group and choose ideas worth exploring'],'client-review':['Client review','Keep files, feedback and decisions together'],handoff:['Project handoff','Checklist for files, links, guides and final approval']};return currentLang==='en'?en[id]:null;}
             function renderTemplateGallery(){document.getElementById('templateGalleryGrid').innerHTML=WORKROOM_TEMPLATES.map(function(t){var translated=templateDisplayCopy(t.id),title=translated?translated[0]:t.title,desc=translated?translated[1]:t.desc;return '<button class="template-card" data-color="'+t.color+'" onclick="useWorkroomTemplate(\''+t.id+'\')"><span class="template-card-icon">'+t.icon+'</span><strong>'+title+'</strong><p>'+desc+'</p><span class="template-card-action">'+(currentLang==='en'?'Use template':'ใช้เทมเพลต')+' →</span></button>';}).join('');}
-            function openTemplateGallery() { renderTemplateGallery(); openModal('templateGalleryModal'); }
-            function useWorkroomTemplate(id) { if (activeWorkspace && activeWorkspace.role === 'viewer') return showToast('Viewer ไม่สามารถสร้างหน้าใหม่ได้'); var template = WORKROOM_TEMPLATES.find(function (t) { return t.id === id; }); if (!template) return; var page = { id:'idea-page-'+Date.now(), title:template.title, blocks:JSON.parse(JSON.stringify(template.blocks)), strokes:[], createdAt:Date.now() }; ideaPages.push(page); activeIdeaPageId=page.id; syncActiveIdeaPageRefs(); saveActiveWorkspaceData(); closeModal('templateGalleryModal'); switchRoom('room-1'); renderIdeaPageTabs(); renderIdeaBlocks(); showToast('สร้างหน้า “'+template.title+'” แล้ว'); }
+            function openTemplateGallery() {
+                if (isPostitRoomId(currentRoomId)) return;
+                renderTemplateGallery();
+                openModal('templateGalleryModal');
+            }
+            function useWorkroomTemplate(id) {
+                if (activeWorkspace && activeWorkspace.role === 'viewer') return showToast('Viewer ไม่สามารถสร้างหน้าใหม่ได้');
+                if (isPostitRoomId(currentRoomId)) { closeModal('templateGalleryModal'); return; }
+                var template = WORKROOM_TEMPLATES.find(function (t) { return t.id === id; });
+                if (!template) return;
+                var now = Date.now();
+                var page = { title:template.title, blocks:JSON.parse(JSON.stringify(template.blocks)), strokes:[], createdAt:now };
+                if (currentRoomId === 'room-1') {
+                    page.id = 'idea-page-' + now + '-' + Math.random().toString(36).slice(2, 6);
+                    ideaPages.push(page);
+                    activeIdeaPageId = page.id;
+                    syncActiveIdeaPageRefs();
+                } else {
+                    var targetRoomId = currentRoomId;
+                    var collection = ensureRoomPageCollection(targetRoomId);
+                    if (!collection) return;
+                    page.id = 'room-page-' + now + '-' + Math.random().toString(36).slice(2, 6);
+                    collection.pages.push(page);
+                    collection.activePageId = page.id;
+                    roomPages[targetRoomId] = page;
+                }
+                saveActiveWorkspaceData();
+                closeModal('templateGalleryModal');
+                renderEditor();
+                showToast('สร้างหน้า “' + template.title + '” ในห้องนี้แล้ว');
+            }
 
             var myTaskArtifactItems = [];
             function collectArtifactTasks() {
@@ -557,4 +586,3 @@
             function closePostitFullEditor(){clearTimeout(postitAutosaveTimer);if(activePostitEditorId)saveActiveWorkspaceData();activePostitEditorId=null;activePostitEditorRoomId=null;renderEditor();}
             openPostit=function(id){openPostitFullEditor(id);};
             editPostitFromCard=function(event,id){if(event){event.preventDefault();event.stopPropagation();}openPostitFullEditor(id);};
-

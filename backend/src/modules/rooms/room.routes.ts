@@ -5,7 +5,7 @@ import { ERROR_CODES, ROLES } from '../../constants/index.js';
 import { requireAuth } from '../../middleware/auth.js';
 import { AppError } from '../../middleware/errorHandler.js';
 import { validate } from '../../middleware/validate.js';
-import { requireWorkspaceRole } from '../../middleware/workspace.js';
+import { assertRoomAccess, requireWorkspaceRole } from '../../middleware/workspace.js';
 import { AuthenticatedRequest } from '../../types/index.js';
 import { sendSuccess } from '../../utils/response.js';
 
@@ -30,6 +30,13 @@ router.post(
     try {
       const { workspaceId, sectionId, name, icon, isPrivate } = req.body;
 
+      if (sectionId) {
+        const section = await prisma.section.findFirst({ where: { id: sectionId, workspaceId } });
+        if (!section) {
+          throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Section does not belong to this workspace', 400);
+        }
+      }
+
       const room = await prisma.room.create({
         data: {
           workspaceId,
@@ -52,6 +59,10 @@ router.get(
   requireAuth,
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
+      if (!z.string().uuid().safeParse(req.params.roomId).success) {
+        throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Invalid roomId', 400);
+      }
+      await assertRoomAccess(req.user!.id, req.params.roomId);
       const room = await prisma.room.findUnique({
         where: { id: req.params.roomId },
         include: {
