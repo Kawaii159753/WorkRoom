@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkRoom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Prompt:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"
+        integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="css/style.css?v=20260829-logout-confirm-1">
+
+</head>
+
+<body spellcheck="false">
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- ==================== BENTO PAGE ==================== -->
+    <div id="page-bento">
+        <!-- NAVBAR -->
+        <nav class="bento-navbar">
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <div class="nav-links">
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
+                <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
+                <a href="#" data-i18n="navBlog" onclick="showBlog(); return false;">บล็อก</a>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                </button>
+                <div class="lang-toggle" id="langToggle">
+                    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" data-lang="th" onclick="setLang('th')">TH</button>
+                </div>
+            </div>
+        </nav>
+
+
+
+
+
+        <!-- ANIMATED MESH BACKGROUND -->
+        <div class="mesh-bg">
+            <div class="mesh-orb"></div>
+            <div class="mesh-orb"></div>
+            <div class="mesh-orb"></div>
+            <div class="mesh-orb"></div>
+        </div>
+
+        <!-- PARTICLES -->
+        <div class="particles" id="particles"></div>
+
+        <!-- NOISE OVERLAY -->
+        <div class="noise"></div>
+
+        <!-- SECTION 1: HERO -->
+        <section class="section sec-hero">
+            <!-- Post-it Note -->
+            <div class="float-3d obj-blue" data-speed="0.2">
+                <div class="shape-body">
+                    <div class="shape-fold"></div>
+                </div>
+            </div>
+            <!-- Light Bulb (Idea) -->
+            <div class="float-3d obj-yellow" data-speed="-0.1">
+                <div class="bulb-rays">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="bulb-glass"></div>
+                <div class="bulb-base"></div>
+                <div class="bulb-thread"></div>
+            </div>
+            <!-- Chat Bubble (IG Style) -->
+            <div class="float-3d obj-pink" data-speed="0.15">
+                <div class="chat-body">
+                    <div class="chat-lines">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="chat-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Phone + Computer -->
+            <div class="float-3d obj-purple" data-speed="-0.15">
+                <div class="device-group">
+                    <div class="monitor">
+                        <div class="monitor-screen"></div>
+                    </div>
+                    <div class="phone">
+                        <div class="phone-screen"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Team / People -->
+            <div class="float-3d obj-green" data-speed="0.1">
+                <div class="team-group">
+                    <div class="person">
+                        <div class="person-head"></div>
+                        <div class="person-body"></div>
+                    </div>
+                    <div class="person">
+                        <div class="person-head"></div>
+                        <div class="person-body"></div>
+                    </div>
+                    <div class="person">
+                        <div class="person-head"></div>
+                        <div class="person-body"></div>
+                    </div>
+                    <div class="team-circle"></div>
+                </div>
+            </div>
+
+            <div class="hero-grid">
+                <!-- การ์ดใหญ่ซ้าย: โปสต์อิทจำลอง 3 ใบ -->
+                <div class="bento-card card-large card-pink" data-speed="0.04">
+                    <div
+                        style="position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+                        <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;">
+                            <div class="mini-postit"
+                                style="background:linear-gradient(135deg,#ffe066,#fcc419);transform:rotate(-8deg);top:18%;left:12%;">
+                                <div class="mini-postit-lines">
+                                    <span style="width:80%"></span><span style="width:55%"></span><span
+                                        style="width:70%"></span>
+                                </div>
+                            </div>
+                            <div class="mini-postit"
+                                style="background:linear-gradient(135deg,#ff8fa3,#f783ac);transform:rotate(6deg);top:28%;left:42%;z-index:2;">
+                                <div class="mini-postit-lines">
+                                    <span style="width:75%"></span><span style="width:60%"></span><span
+                                        style="width:85%"></span>
+                                </div>
+                            </div>
+                            <div class="mini-postit"
+                                style="background:linear-gradient(135deg,#74c0fc,#4dabf7);transform:rotate(-3deg);top:14%;left:62%;z-index:1;">
+                                <div class="mini-postit-lines">
+                                    <span style="width:70%"></span><span style="width:50%"></span><span
+                                        style="width:65%"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="card-title" data-i18n="heroCardMainTitle" style="margin-top:8px;">Your Ideas
+                            </div>
+                            <div class="card-desc" data-i18n="heroCardMainDesc" style="margin-top:4px;">Pinned,
+                                organized, always within reach</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- การ์ดขวาบน: คำอธิบายห้องแผนก -->
+                <div class="bento-card card-tall card-yellow" data-speed="0.07">
+                    <div class="card-title" data-i18n="heroCardDeptTitle">Department Rooms</div>
+                    <div class="card-subtitle" data-i18n="heroCardDeptSubtitle"
+                        style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.5;">Access
+                        team work and related references in one place</div>
+                    <div
+                        style="flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:10px;margin-top:18px;">
+                        <div class="dept-chip"
+                            style="background:rgba(255,212,59,0.15);border:1px solid rgba(255,212,59,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;font-weight:600;color:rgba(0,0,0,0.7);">
+                            📂 Content</div>
+                        <div class="dept-chip"
+                            style="background:rgba(255,212,59,0.15);border:1px solid rgba(255,212,59,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;font-weight:600;color:rgba(0,0,0,0.7);">
+                            💻 Development</div>
+                        <div class="dept-chip"
+                            style="background:rgba(255,212,59,0.15);border:1px solid rgba(255,212,59,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;font-weight:600;color:rgba(0,0,0,0.7);">
+                            🎨 Design</div>
+                    </div>
+                    <div class="card-desc" data-i18n="heroCardDeptDesc" style="margin-top:auto;padding-top:14px;">
+                        Organized by team, ready to connect</div>
+                </div>
+
+                <!-- การ์ดกลางล่างซ้าย: ห้องส่วนตัว -->
+                <div class="bento-card card-dark" data-speed="0.02">
+                    <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;">
+                        <div class="card-title" data-i18n="heroCardPrivateTitle">Private</div>
+                        <div style="font-size:2.4rem;font-weight:800;color:#fff;line-height:1;">🔒</div>
+                        <div class="card-desc" data-i18n="heroCardPrivateDesc">Just you. Your secret space.</div>
+                    </div>
+                </div>
+
+                <!-- การ์ดกลางล่างขวา: ห้องร่วมงาน -->
+                <div class="bento-card card-warm" data-speed="0.05">
+                    <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;">
+                        <div class="card-title" data-i18n="heroCardTeamTitle">Shared</div>
+                        <div style="font-size:2.4rem;font-weight:800;color:#fff;line-height:1;">👥</div>
+                        <div class="card-desc" data-i18n="heroCardTeamDesc">Bring team ideas and tasks together.</div>
+                    </div>
+                </div>
+
+                <!-- การ์ดล่างสุด: ประโยคสรุป -->
+                <div class="bento-card card-wide card-green" data-speed="0.03">
+                    <div style="display:flex;align-items:center;gap:20px;">
+                        <div
+                            style="width:56px;height:56px;background:linear-gradient(135deg,var(--green),var(--green-light));border-radius:18px;box-shadow:0 4px 25px rgba(140,233,154,0.3);display:flex;align-items:center;justify-content:center;font-size:24px;">
+                            🧠</div>
+                        <div>
+                            <div class="card-value" style="font-size:1.3rem;font-weight:700;line-height:1.3;"
+                                data-i18n="heroCardSummary">One place for every idea, sketch, and plan.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- SECTION 2: FLOATING NOTES -->
+        <section class="section sec-float">
+            <div class="float-notes-layer" id="floatLayer"></div>
+            <div class="sec-float-content" data-speed="0.02">
+                <h2 data-i18n="floatTitle">Ideas Floating<br>Everywhere</h2>
+                <p data-i18n="floatDesc">Capture every spark of creativity before it drifts away</p>
+                <button class="glow-btn" data-i18n="startCreate" onclick="showWorkroom()">เริ่มการสร้างสรรค์</button>
+            </div>
+        </section>
+
+
+
+        <!-- SECTION 3: HERO NOTE -->
+        <section class="section sec-hero-note">
+            <div class="orb orb-pink" data-speed="0.3"></div>
+            <div class="orb orb-blue" data-speed="-0.25"></div>
+            <div class="orb orb-yellow" data-speed="0.2"></div>
+
+            <div class="hero-sticky" id="heroSticky" data-speed="0.04">
+                <h2 data-i18n="writeItDown">Write It<br>Down</h2>
+                <div class="h-line"></div>
+                <p data-i18n="pinNow">Don't let great ideas slip away.<br>Pin them now.</p>
+            </div>
+        </section>
+
+
+
+        <!-- SECTION 4: CREATIVE WALL -->
+        <section class="section sec-wall" id="features">
+            <div class="wall-text" data-speed="0.03">
+                <h2 data-i18n="wallTitle">Your Creative Wall</h2>
+                <p data-i18n="wallDesc">Organize thoughts, sketches, and wireframes in one beautiful space</p>
+            </div>
+
+            <div class="wall-bento" id="wallBento"></div>
+
+        </section>
+
+
+
+
+
+    </div>
+
+    </div>
+
+
+
+
+    <!-- ==================== WORKROOM PAGE ==================== -->
+    <div id="page-workroom">
+
+        <div id="loginPage">
+            <div class="login-shell">
+                <section class="login-visual" aria-label="WorkRoom">
+                    <div class="login-paper-grid" aria-hidden="true"></div>
+                    <div class="login-floating-notes" aria-hidden="true">
+                        <span class="login-note note-pink">IDEA!</span>
+                        <span class="login-note note-blue">PLAN</span>
+                        <span class="login-note note-yellow">DO IT</span>
+                        <span class="login-note note-purple">CREATE</span>
+                    </div>
+                    <a href="#" class="login-brand" onclick="showBento();return false;">WorkRoom</a>
+                    <div class="login-visual-copy">
+                        <p class="login-eyebrow" data-login-copy="eyebrow">กลับเข้าสู่ WorkRoom</p>
+                        <h1 data-login-copy="visualTitle">ไปต่อจากงาน<br>ที่คุณค้างไว้</h1>
+                        <p data-login-copy="visualText">เข้าสู่พื้นที่ของทีมเพื่อดูงานที่ได้รับมอบหมาย ความคิดเห็น และสิ่งที่ต้องตัดสินใจ</p>
+                        <ul class="login-features">
+                            <li class="feature-yellow"><span>✓</span><b data-login-copy="feature1">เวิร์กโฟลว์ที่ชัดเจน</b></li>
+                            <li class="feature-blue"><span>✓</span><b data-login-copy="feature2">รวมไอเดียและงานของทีมไว้ด้วยกัน</b></li>
+                            <li class="feature-pink"><span>✓</span><b data-login-copy="feature3">ติดตามสิ่งที่ต้องตัดสินใจ</b></li>
+                        </ul>
+                    </div>
+                </section>
+                <section class="login-panel">
+                    <header class="login-panel-header">
+                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;">WorkRoom</a>
+                        <div class="login-language" role="group" aria-label="เปลี่ยนภาษา">
+                            <span aria-hidden="true">◎</span>
+                            <button type="button" class="lang-btn active" data-lang="th" onclick="setLang('th')">ไทย</button>
+                            <button type="button" class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                        </div>
+                    </header>
+                    <div class="login-box">
+                <p class="login-kicker">WORKROOM ACCOUNT</p>
+                <h2 data-login-copy="title">ยินดีต้อนรับกลับมา</h2>
+                <p class="login-subtitle" data-login-copy="subtitle">เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ</p>
+                <div class="social-btns" id="socialLoginOptions" hidden>
+                    <button type="button" class="social-btn btn-google" onclick="socialLogin('google')">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path fill="#4285F4"
+                                d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />
+                            <path fill="#34A853"
+                                d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z" />
+                            <path fill="#FBBC05"
+                                d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z" />
+                            <path fill="#EA4335"
+                                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
+                        </svg>
+                        <span class="sbtn-label" data-login-copy="google">Google</span>
+                    </button>
+                    <button type="button" class="social-btn btn-facebook" onclick="socialLogin('facebook')">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path fill="#fff"
+                                d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.026 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.971h-1.514c-1.491 0-1.956.93-1.956 1.886v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
+                        </svg>
+                        <span class="sbtn-label" data-login-copy="facebook">Facebook</span>
+                    </button>
+                </div>
+                <div class="login-divider" id="socialLoginDivider" data-login-copy="divider" hidden>หรือเข้าสู่ระบบด้วยอีเมล</div>
+                <form id="loginForm" method="post" action="#" autocomplete="on">
+                    <div id="signupNameField" hidden>
+                        <label for="signupName" data-login-copy="name">ชื่อที่แสดง</label>
+                        <div class="login-input-wrap"><span aria-hidden="true">☺</span><input type="text" id="signupName" placeholder="ชื่อของคุณ" autocomplete="name" maxlength="60"></div>
+                    </div>
+                    <label for="loginEmail" data-login-copy="email">อีเมล</label>
+                    <div class="login-input-wrap"><span aria-hidden="true">@</span><input type="email" id="loginEmail" placeholder="name@company.com" autocomplete="email" required></div>
+                    <label for="loginPassword" data-login-copy="password">รหัสผ่าน</label>
+                    <div class="login-input-wrap"><span aria-hidden="true">●</span><input type="password" id="loginPassword" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" minlength="8" required><button class="password-toggle" type="button" onclick="toggleLoginPassword(this)" aria-label="แสดงรหัสผ่าน">◉</button></div>
+                    <div class="login-options"><label class="login-check"><input type="checkbox"><span data-login-copy="remember">จดจำฉัน</span></label><span class="login-recovery-note" data-login-copy="recoveryPending">ระบบกู้รหัสผ่านจะเปิดเมื่อเชื่อมต่อหลังบ้าน</span></div>
+                    <button class="login-submit" type="submit"><span data-login-copy="submit">เข้าสู่ระบบ</span><span aria-hidden="true">→</span></button>
+                </form>
+                <p class="login-signup"><span data-login-copy="noAccount">ยังไม่มีบัญชี?</span> <a href="#" id="loginModeToggle" data-login-copy="signup" onclick="toggleLoginMode();return false;">สร้างบัญชี</a></p>
+                <p class="login-legal"><span data-login-copy="legalPrefix">เมื่อเข้าสู่ระบบ ถือว่าคุณยอมรับ</span> <a href="terms.html" target="_blank" rel="noopener" data-login-copy="terms">ข้อกำหนดการใช้งาน</a> <span data-login-copy="legalAnd">และ</span> <a href="privacy.html" target="_blank" rel="noopener" data-login-copy="privacy">นโยบายความเป็นส่วนตัว</a></p>
+                    </div>
+                    <a href="#" class="login-back" onclick="showBento();return false;"><span>←</span><span data-login-copy="back">กลับหน้าหลัก</span></a>
+                </section>
+            </div>
+        </div>
+
+        <div id="mainApp">
+            <div class="app-frame">
+                <aside class="sidebar-left">
+                    <div class="sidebar-logo">WorkRoom</div>
+                    <div class="sidebar-content" id="sidebarContent" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
+                        <button class="create-room-btn" onclick="openCreateItemModal()" title="สร้างห้องใหม่">
+                            <span data-i18n="wrCreateRoom">สร้างห้องใหม่</span>
+                        </button>
+                        <div class="page-history-header">
+                            <span data-i18n="wrAllPages">หน้าทั้งหมด</span>
+                        </div>
+                        <div id="pageHistoryList"></div>
+                        <div class="sidebar-section" data-section="general">
+                            <div class="sidebar-item active" draggable="true" data-room="room-1" role="button" tabindex="0"
+                                onclick="switchRoom('room-1',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">💡</span><span
+                                        class="room-name">ไอเดีย</span></div>
+
+                            </div>
+                            <div class="sidebar-item" draggable="true" data-room="room-2" role="button" tabindex="0"
+                                onclick="switchRoom('room-2',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">📁</span><span
+                                        class="room-name">โปสต์ของฉัน</span></div>
+
+                            </div>
+                            <div class="sidebar-item" draggable="true" data-room="room-3" role="button" tabindex="0"
+                                onclick="switchRoom('room-3',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">👥</span><span
+                                        class="room-name">โปสต์แบบทีม</span></div>
+
+                            </div>
+                        </div>
+                        <div class="sidebar-section" data-section="private">
+                            <div class="sidebar-section-title"><svg width="14" height="14" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg><span data-i18n="wrSectionPrivate">ห้องส่วนตัว</span></div>
+                            <div class="sidebar-item" draggable="true" data-room="room-4" role="button" tabindex="0"
+                                onclick="switchRoom('room-4',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">🔒</span><span
+                                        class="room-name">โปรเจ็กลับ</span></div>
+
+                            </div>
+                        </div>
+                        <div class="sidebar-section" data-section="department">
+                            <div class="sidebar-section-title"><span>🏬</span><span
+                                    data-i18n="wrSectionDepartment">ห้องแผนก</span></div>
+                            <div class="sidebar-item" draggable="true" data-room="room-5" role="button" tabindex="0"
+                                onclick="switchRoom('room-5',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">📂</span><span
+                                        class="room-name">ฝ่ายคอนเทนต์</span></div>
+
+                            </div>
+                            <div class="sidebar-item" draggable="true" data-room="room-6" role="button" tabindex="0"
+                                onclick="switchRoom('room-6',this)" onkeydown="handleKeyboardClick(event,this)">
+                                <div class="item-content"><span class="room-emoji">📂</span><span
+                                        class="room-name">ฝ่ายพัฒนาเว็ป</span></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-bottom">
+                        <div class="idea-toolbar-bottom" id="ideaToolbar">
+                            <button class="idea-tool-toggle" id="ideaToolbarToggle" onclick="toggleIdeaToolbar()"
+                                title="เครื่องมือ" aria-label="เปิดเครื่องมือ" aria-expanded="false"
+                                aria-controls="ideaToolbarItems">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 5v14" />
+                                    <path d="M5 12h14" />
+                                </svg>
+                            </button>
+                            <div class="idea-toolbar-items" id="ideaToolbarItems">
+                                <button class="idea-tool-btn active" id="ideaPencilBtn" onclick="setWbTool('pen')"
+                                    title="ดินสอ">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                                        <path d="m15 5 4 4" />
+                                    </svg>
+                                </button>
+                                <div class="idea-color-bar">
+                                    <div class="idea-color-opt active" data-color="#f97316" style="background:#f97316" role="button" tabindex="0" aria-label="สีส้ม"
+                                        onclick="setWbColor('#f97316')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#ec4899" style="background:#ec4899" role="button" tabindex="0" aria-label="สีชมพู"
+                                        onclick="setWbColor('#ec4899')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-divider"></div>
+                                    <div class="idea-color-opt" data-color="#1f2937" style="background:#1f2937" role="button" tabindex="0" aria-label="สีดำ"
+                                        onclick="setWbColor('#1f2937')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#ef4444" style="background:#ef4444" role="button" tabindex="0" aria-label="สีแดง"
+                                        onclick="setWbColor('#ef4444')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#3b82f6" style="background:#3b82f6" role="button" tabindex="0" aria-label="สีฟ้า"
+                                        onclick="setWbColor('#3b82f6')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#22c55e" style="background:#22c55e" role="button" tabindex="0" aria-label="สีเขียว"
+                                        onclick="setWbColor('#22c55e')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <div class="idea-color-opt" data-color="#f59e0b" style="background:#f59e0b" role="button" tabindex="0" aria-label="สีเหลือง"
+                                        onclick="setWbColor('#f59e0b')" onkeydown="handleKeyboardClick(event,this)"></div>
+                                    <button class="idea-trash-btn" onclick="clearWhiteboard()" title="ลบทั้งหมด">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 6h18" />
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="idea-toolbar-divider"></div>
+                                <button class="idea-tool-btn" id="ideaEraserBtn" onclick="setWbTool('eraser')"
+                                    title="ยางลบ">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" />
+                                        <path d="M22 21H7" />
+                                        <path d="m5 11 9 9" />
+                                    </svg>
+                                </button>
+                                <div class="idea-save-wrap">
+                                    <button class="idea-tool-btn idea-save-btn" id="ideaSaveBtn"
+                                        onclick="toggleIdeaSaveMenu(event)" title="บันทึกเอกสาร"
+                                        aria-label="บันทึกเอกสาร" aria-haspopup="menu" aria-expanded="false"
+                                        aria-controls="ideaSaveMenu">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"
+                                            stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+                                            aria-hidden="true">
+                                            <path d="M5.5 3.5h10.8l2.2 2.2v14.8H5.5z" />
+                                            <path d="M15.8 3.8v3.5h2.5M8.4 11.2h7.2M8.4 14.2h5.8" fill="none"
+                                                stroke="#695515" />
+                                        </svg>
+                                    </button>
+                                    <div class="idea-save-menu" id="ideaSaveMenu" role="menu"
+                                        aria-label="ตัวเลือกการบันทึก">
+                                        <div class="idea-save-menu-title">บันทึกเอกสาร</div>
+                                        <button class="idea-save-option" role="menuitem"
+                                            onclick="downloadCurrentDocument()">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M12 3v12m0 0 4-4m-4 4-4-4" />
+                                                <path d="M5 19h14" />
+                                            </svg>
+                                            <span>เซฟไฟล์ลงเครื่อง</span>
+                                        </button>
+                                        <button class="idea-save-option" role="menuitem"
+                                            onclick="saveDocumentToPostRoom('personal')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M5 4h14v16H5z" />
+                                                <path d="M8 8h8M8 12h6" />
+                                            </svg>
+                                            <span>บันทึกลงโปสต์อิทของฉัน</span>
+                                        </button>
+                                        <button class="idea-save-option" role="menuitem"
+                                            onclick="saveDocumentToPostRoom('team')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                                <circle cx="9" cy="7" r="4" />
+                                                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                                            </svg>
+                                            <span>บันทึกลงโปสต์อิทแบบทีม</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button class="idea-tool-btn" id="ideaNewPageBtn" onclick="toolbarNewPageAction()"
+                                    title="หน้าใหม่">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                        <line x1="12" y1="18" x2="12" y2="12" />
+                                        <line x1="9" y1="15" x2="15" y2="15" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="user-card" id="userCard" style="display:none;" role="button" tabindex="0" onclick="openAccountPage()" onkeydown="handleKeyboardClick(event,this)">
+                            <div class="user-avatar" id="userAvatar"></div>
+                            <div class="user-info">
+                                <div class="user-name" id="userName"></div>
+                                <div class="user-email" id="userEmail"></div>
+                            </div>
+                            <button class="user-logout" id="userLogoutButton" onclick="event.stopPropagation();requestLogout()" title="ออกจากระบบ" aria-label="ออกจากระบบ">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="settings-btn" role="button" tabindex="0" onclick="openSettingsModal()" onkeydown="handleKeyboardClick(event,this)">
+                            <div class="item-content">
+                                <div class="settings-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg></div>
+                                <span data-i18n="wrSettings">ตั้งค่า</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <button class="mobile-sidebar-backdrop" type="button" onclick="toggleMobileSidebar(false)" aria-label="ปิดเมนูห้อง" data-i18n-aria-label="wrCloseNavigation"></button>
+
+                <main class="main-area">
+                    <header class="header">
+                        <div class="header-left">
+                            <button class="mobile-sidebar-toggle" type="button" onclick="toggleMobileSidebar()" aria-label="เปิดเมนูห้อง" data-i18n-aria-label="wrOpenNavigation" aria-controls="sidebarContent" aria-expanded="false">☰</button>
+                            <div class="header-breadcrumb" id="headerBreadcrumb">ไอเดีย <span>/</span> ไม่มีชื่อ</div>
+                        </div>
+                        <div class="search-box">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="ค้นหา..." data-i18n-placeholder="wrSearch"
+                                oninput="handleSearch(this.value)" onkeydown="handleSearchKeydown(event)"
+                                onfocus="handleSearch(this.value)" autocomplete="off"
+                                aria-label="ค้นหาห้อง เอกสาร ไฟล์ และลิงก์" data-i18n-aria-label="wrSearchLabel" aria-controls="workspaceSearchResults"
+                                aria-expanded="false">
+                            <div class="workspace-search-results" id="workspaceSearchResults" role="listbox"></div>
+                        </div>
+                        <div class="header-right">
+                            <button class="template-launch-button" onclick="openTemplateGallery()" title="เริ่มจากเทมเพลต">
+                                <span aria-hidden="true">✦</span><span data-i18n="wrTemplates">เทมเพลต</span>
+                            </button>
+                            <button class="my-tasks-button" id="myTasksButton" onclick="openMyTasks()" title="งานของฉัน">
+                                <span aria-hidden="true">✓</span><span data-i18n="wrMyTasks">งานของฉัน</span>
+                            </button>
+                            <div class="workspace-control">
+                                <button class="workspace-switcher" id="workspaceSwitcher"
+                                    onclick="toggleWorkspaceMenu(event)" aria-expanded="false"
+                                    aria-controls="workspaceMenu" title="เลือกพื้นที่ทำงาน"
+                                    aria-label="เลือกพื้นที่ทำงาน">
+                                    <span class="workspace-switcher-mark" id="workspaceMark">K</span>
+                                    <span class="workspace-switcher-name-visually-hidden"
+                                        id="workspaceName">พื้นที่ของฉัน</span>
+                                </button>
+                                <div class="workspace-menu" id="workspaceMenu">
+                                    <div class="workspace-menu-title" data-i18n="wrSelectWorkspace">เลือกพื้นที่ทำงาน
+                                    </div>
+                                    <div id="workspaceList"></div>
+                                    <input type="file" id="workspaceProfileInput" accept="image/*" hidden
+                                        onchange="changeWorkspaceProfile(event)">
+                                </div>
+                            </div>
+                            <button class="team-button" id="teamButton" onclick="toggleTeamPanel(event)"
+                                aria-expanded="false" aria-controls="teamPanel" title="สมาชิกทีม">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                            </button>
+                            <button class="bell-btn" onclick="toggleNotif(event)" aria-label="การแจ้งเตือน" aria-controls="notifDropdown" aria-expanded="false">
+                                <svg fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M18 16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-5.5 2c0 .55-.45 1-1 1s-1-.45-1-1h2zM12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" />
+                                </svg>
+                                <span class="bell-badge" id="bellBadge"></span>
+                            </button>
+                            <div class="header-avatar" id="headerAvatar" style="display:none;">
+                                K</div>
+                        </div>
+                        <div class="notif-dropdown" id="notifDropdown">
+                            <div class="notif-dropdown-header">
+                                <h4 data-i18n="wrNotifications">การแจ้งเตือน</h4><button class="notif-dropdown-clear"
+                                    onclick="clearNotif()" data-i18n="wrClearAll">ล้างทั้งหมด</button>
+                            </div>
+                            <div class="notif-dropdown-list" id="notifList">
+                                <div class="notif-dropdown-empty" data-i18n="wrNoNotifications">ไม่มีการแจ้งเตือน</div>
+                            </div>
+                        </div>
+                        <aside class="team-panel" id="teamPanel" aria-label="สมาชิกทีม">
+                            <div class="team-panel-head">
+                                <div class="team-panel-title">
+                                    <h3 data-i18n="wrTeamMembers">สมาชิกทีม</h3>
+                                    <p id="teamPanelWorkspace">พื้นที่ของฉัน</p>
+                                </div>
+                                <button class="team-close" onclick="closeTeamPanel()" aria-label="ปิด">×</button>
+                            </div>
+                            <div class="team-section">
+                                <div class="team-section-label"><span data-i18n="wrMembers">สมาชิก</span><span
+                                        id="teamMemberCount">1
+                                        คน</span></div>
+                                <div id="teamMemberList"></div>
+                            </div>
+                            <div class="team-panel-footer">
+                                <button class="team-invite-button" id="openInviteButton" onclick="openInviteDialog()"
+                                    data-i18n="wrInviteByEmail">เชิญสมาชิกด้วยอีเมล</button>
+                            </div>
+                        </aside>
+                    </header>
+
+                    <div class="editor-scroll">
+                        <div class="editor-container" id="editorContainer">
+                            <div id="normalEditor" style="display:none;" data-lenis-prevent>
+                                <input type="text" class="editor-title" id="pageTitle" placeholder="หน้าใหม่"
+                                    value="หน้าใหม่">
+                                <div class="normal-page-tabs-shell">
+                                    <div class="idea-page-tabs" id="normalPageTabs" role="tablist"
+                                        aria-label="หน้ากระดาษของห้อง"></div>
+                                </div>
+                                <div class="normal-canvas-wrap" id="normalCanvasWrap">
+                                    <div id="editorBlocks"></div>
+                                </div>
+                            </div>
+                            <section id="postitLibrary" class="postit-library" style="display:none;" data-lenis-prevent
+                                aria-labelledby="postitLibraryTitle">
+                                <div class="postit-library-header">
+                                    <h1 class="postit-library-title" id="postitLibraryTitle">โปสต์อิท</h1>
+                                    <p class="postit-library-subtitle">กดโปสต์อิทเพื่อเปิดและแก้ไขแบบเต็มหน้า</p>
+                                </div>
+                                <div class="postit-grid" id="postitGrid"></div>
+                            </section>
+
+                            <section id="postitFullEditor" class="postit-full-editor" style="display:none;" data-lenis-prevent aria-label="แก้ไขโปสต์อิท">
+                                <header class="postit-full-toolbar">
+                                    <button class="postit-back-button" onclick="closePostitFullEditor()" aria-label="กลับไปหน้ารวมโปสต์อิท">← <span>โปสต์อิททั้งหมด</span></button>
+                                    <div class="postit-autosave-state" id="postitAutosaveState"><span></span>บันทึกแล้ว</div>
+                                    <button class="postit-full-workflow" onclick="openCurrentPostitWorkflow()">สถานะและความคิดเห็น</button>
+                                </header>
+                                <div class="postit-full-paper" id="postitFullPaper">
+                                    <input class="postit-full-title" id="postitFullTitle" maxlength="100" placeholder="ตั้งชื่อโปสต์อิท" aria-label="ชื่อโปสต์อิท">
+                                    <div class="postit-inline-help"><span>◎</span><div><b>แบ่งงานจากไอเดียนี้ได้เลย</b><small>ชี้ที่หัวข้อหรือข้อความ แล้วกด “มอบหมาย” เพื่อเลือกทีม สถานะ และวันส่ง</small></div></div>
+                                    <div class="postit-full-blocks" id="postitFullBlocks"></div>
+                                    <button class="postit-add-paragraph" id="postitAddParagraph" onclick="addPostitParagraph()">＋ เพิ่มข้อความ</button>
+                                </div>
+                            </section>
+
+                            <div id="ideaEditor">
+                                <div class="idea-workspace">
+                                    <div class="idea-sheet" data-lenis-prevent>
+                                        <div class="idea-static-header">
+                                            <h1 class="typewriter-title"><span id="typewriterText"></span><span
+                                                    class="typewriter-cursor">|</span></h1>
+                                            <p data-i18n="wrIdeaWelcome1">ยินดีต้อนรับสู่ห้องไอเดีย!
+                                                ที่นี่คุณสามารถจดบันทึกความคิดสร้างสรรค์ทั้งหมดของคุณได้</p>
+                                            <p data-i18n="wrIdeaWelcome2">คุณสามารถใส่รูปภาพประกอบ
+                                                หรือวาดเขียนไอเดียได้อย่างอิสระ</p>
+                                        </div>
+                                        <div class="idea-page-tabs-shell">
+                                            <div class="idea-page-tabs" id="ideaPageTabs" role="tablist"
+                                                aria-label="หน้ากระดาษ"></div>
+                                        </div>
+                                        <div class="idea-canvas-wrap">
+                                            <canvas id="ideaCanvas"></canvas>
+                                            <div id="ideaBlocks" class="idea-blocks"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <div class="slash-menu" id="slashMenu">
+            <div class="slash-item selected" data-type="text" onclick="selectSlashType('text')">
+                <div class="slash-item-icon">📝</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">ข้อความ</div>
+                    <div class="slash-item-desc">เริ่มต้นด้วยข้อความธรรมดา</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="h1" onclick="selectSlashType('h1')">
+                <div class="slash-item-icon">H1</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">หัวข้อใหญ่</div>
+                    <div class="slash-item-desc">หัวข้อระดับ 1</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="h2" onclick="selectSlashType('h2')">
+                <div class="slash-item-icon">H2</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">หัวข้อรอง</div>
+                    <div class="slash-item-desc">หัวข้อระดับ 2</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="h3" onclick="selectSlashType('h3')">
+                <div class="slash-item-icon">H3</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">หัวข้อย่อย</div>
+                    <div class="slash-item-desc">หัวข้อระดับ 3</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="bullet" onclick="selectSlashType('bullet')">
+                <div class="slash-item-icon">•</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">รายการ</div>
+                    <div class="slash-item-desc">ลิสต์แบบจุด</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="numbered" onclick="selectSlashType('numbered')">
+                <div class="slash-item-icon">1.</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">รายการลำดับ</div>
+                    <div class="slash-item-desc">ลิสต์แบบตัวเลข</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="todo" onclick="selectSlashType('todo')">
+                <div class="slash-item-icon">☐</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">สิ่งที่ต้องทำ</div>
+                    <div class="slash-item-desc">รายการพร้อมช่องทำเครื่องหมาย</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="quote" onclick="selectSlashType('quote')">
+                <div class="slash-item-icon">❝</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">ข้อความอ้างอิง</div>
+                    <div class="slash-item-desc">บล็อกคำพูด</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="divider" onclick="selectSlashType('divider')">
+                <div class="slash-item-icon">—</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">เส้นแบ่ง</div>
+                    <div class="slash-item-desc">แบ่งเนื้อหาด้วยเส้น</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="code" onclick="selectSlashType('code')">
+                <div class="slash-item-icon">&lt;/&gt;</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">โค้ด</div>
+                    <div class="slash-item-desc">บล็อกโค้ด</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="table" onclick="selectSlashType('table')">
+                <div class="slash-item-icon">⊞</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">ตาราง</div>
+                    <div class="slash-item-desc">ติดตามงานและสถานะ</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="embed" onclick="selectSlashType('embed')">
+                <div class="slash-item-icon">🔗</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">Embed</div>
+                    <div class="slash-item-desc">แทรกลิงก์</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="image" onclick="selectSlashType('image')">
+                <div class="slash-item-icon">🖼️</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">รูปภาพ</div>
+                    <div class="slash-item-desc">แทรกรูปจากเครื่อง</div>
+                </div>
+            </div>
+            <div class="slash-item" data-type="mention" onclick="selectSlashType('mention')">
+                <div class="slash-item-icon" style="background:#f06595;color:#fff;">@</div>
+                <div class="slash-item-info">
+                    <div class="slash-item-name">แท็กผู้ใช้</div>
+                    <div class="slash-item-desc">แท็ก/mention คนในทีม</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mention-menu" id="mentionMenu">
+            <div class="mention-menu-title">@ แท็กผู้ใช้</div>
+        </div>
+
+        <div class="block-ctx" id="blockCtx">
+            <div class="block-ctx-item" onclick="deleteBlock()">🗑️ ลบบล็อก</div>
+        </div>
+
+        <div class="block-ctx" id="sectionCtx" role="menu" aria-label="จัดการหัวข้อห้อง">
+            <div class="block-ctx-item danger" role="menuitem" onclick="deleteRoomSection()">🗑️ ลบหัวข้อ</div>
+        </div>
+
+        <div class="block-ctx" id="postitCtx" role="menu" aria-label="จัดการกระดาษโปสต์อิท">
+            <div class="postit-context-colors" aria-label="เลือกสีกระดาษ">
+                <button class="postit-color-swatch" data-color="yellow" onclick="setPostitColor('yellow')"
+                    title="สีเหลือง" aria-label="สีเหลือง"></button>
+                <button class="postit-color-swatch" data-color="pink" onclick="setPostitColor('pink')" title="สีชมพู"
+                    aria-label="สีชมพู"></button>
+                <button class="postit-color-swatch" data-color="blue" onclick="setPostitColor('blue')" title="สีฟ้า"
+                    aria-label="สีฟ้า"></button>
+                <button class="postit-color-swatch" data-color="green" onclick="setPostitColor('green')" title="สีเขียว"
+                    aria-label="สีเขียว"></button>
+                <button class="postit-color-swatch" data-color="purple" onclick="setPostitColor('purple')"
+                    title="สีม่วง" aria-label="สีม่วง"></button>
+            </div>
+            <div class="block-ctx-item" id="postitPinAction" role="menuitem" onclick="togglePostitPin()">📌 ปักหมุด
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="roomModal">
+            <div class="modal-box create-dialog" role="dialog" aria-modal="true" aria-labelledby="createItemTitle">
+                <div class="modal-title" id="createItemTitle" data-i18n="wrCreateItemTitle">สร้างรายการใหม่</div>
+                <div class="create-field">
+                    <span class="create-field-label" data-i18n="wrCreateWhat">ต้องการสร้างอะไร</span>
+                    <div class="create-type-grid">
+                        <label class="create-choice">
+                            <input type="radio" name="createItemType" value="room" checked
+                                onchange="setCreateItemType('room')">
+                            <span class="create-choice-icon">▣</span>
+                            <span class="create-choice-copy">
+                                <span class="create-choice-title" data-i18n="wrCreateRoomChoice">ห้องทำงาน</span>
+                            </span>
+                        </label>
+                        <label class="create-choice">
+                            <input type="radio" name="createItemType" value="section"
+                                onchange="setCreateItemType('section')">
+                            <span class="create-choice-icon">☷</span>
+                            <span class="create-choice-copy">
+                                <span class="create-choice-title" data-i18n="wrCreateSectionChoice">หัวข้อห้อง</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="create-field">
+                    <label class="create-field-label" for="newRoomName" id="newItemNameLabel" data-i18n="wrCreateRoomName">ชื่อห้องทำงาน</label>
+                    <input type="text" class="modal-input" id="newRoomName" placeholder="เช่น แผนงานโปรเจกต์" data-i18n-placeholder="wrCreateRoomPlaceholder"
+                        onkeydown="if(event.key==='Enter')createRoom()">
+                </div>
+                <div class="create-room-options" id="createRoomOptions">
+                    <div class="create-field">
+                        <span class="create-field-label" id="newRoomSectionLabel" data-i18n="wrUnderSection">อยู่ใต้หัวข้อ</span>
+                        <div class="create-select-wrap" id="createSectionSelect">
+                            <input type="hidden" id="newRoomSection">
+                            <button type="button" class="create-select-trigger" id="createSectionTrigger"
+                                aria-haspopup="listbox" aria-expanded="false"
+                                aria-labelledby="newRoomSectionLabel createSectionText"
+                                onclick="toggleCreateSectionMenu(event)" onkeydown="handleCreateSectionKeydown(event)">
+                                <span id="createSectionText">เลือกหัวข้อ</span>
+                                <svg class="create-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="create-select-menu" id="createSectionMenu" role="listbox"
+                                aria-labelledby="newRoomSectionLabel"></div>
+                        </div>
+                    </div>
+                    <div class="create-field">
+                        <span class="create-field-label" data-i18n="wrVisibility">การมองเห็น</span>
+                        <div class="visibility-grid">
+                            <label class="create-choice">
+                                <input type="radio" name="newRoomPrivacy" value="shared" checked>
+                                <span class="create-choice-icon">♟</span>
+                                <span class="create-choice-copy">
+                                    <span class="create-choice-title" data-i18n="wrShared">ใช้ร่วมกัน</span>
+                                </span>
+                            </label>
+                            <label class="create-choice">
+                                <input type="radio" name="newRoomPrivacy" value="private">
+                                <span class="create-choice-icon">🔒</span>
+                                <span class="create-choice-copy">
+                                    <span class="create-choice-title" data-i18n="wrPrivate">ส่วนตัว</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="createRoom()" data-i18n="wrCreateAction">สร้าง</button>
+                    <button class="btn btn-secondary" onclick="closeModal('roomModal')" data-i18n="commonCancel">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="inviteModal">
+            <div class="modal-box invite-dialog" role="dialog" aria-modal="true" aria-labelledby="inviteTitle">
+                <div class="modal-title" id="inviteTitle" data-i18n="wrInviteTitle">เชิญสมาชิกเข้าทีม</div>
+                <div class="invite-form-row">
+                    <label for="inviteEmail" data-i18n="wrInviteEmail">อีเมลของผู้ที่ต้องการเชิญ</label>
+                    <input type="email" id="inviteEmail" placeholder="name@example.com" autocomplete="email">
+                </div>
+                <div class="invite-form-row">
+                    <label for="inviteRole" data-i18n="wrInviteDefaultRole">สิทธิ์เริ่มต้น</label>
+                    <select id="inviteRole">
+                        <option value="editor" data-i18n="wrInviteEditor">แก้ไขได้</option>
+                        <option value="viewer" data-i18n="wrInviteViewer">ดูได้อย่างเดียว</option>
+                    </select>
+                </div>
+                <div class="invite-form-row">
+                    <label data-i18n="wrInviteRooms">ห้องที่อนุญาตให้เข้าถึง</label>
+                    <div class="room-permission-list" id="inviteRoomList" tabindex="0" role="group"
+                        aria-label="ห้องที่อนุญาตให้เข้าถึง" data-lenis-prevent
+                        data-lenis-prevent-wheel data-lenis-prevent-touch></div>
+                </div>
+                <p class="invite-note" data-i18n="wrInviteNote">คำเชิญจะปรากฏในกระดิ่งของบัญชีอีเมลนี้
+                    เมื่อผู้รับเข้าสู่ระบบและกดยอมรับ
+                    พื้นที่ทีมจะถูกเพิ่มในตัวสลับพื้นที่ทำงานทันที</p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="sendTeamInvite()"
+                        data-i18n="wrSendInvite">ส่งคำเชิญ</button>
+                    <button class="btn btn-secondary" onclick="closeModal('inviteModal')"
+                        data-i18n="commonCancel">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="renameModal">
+            <div class="modal-box create-dialog" role="dialog" aria-modal="true" aria-labelledby="editRoomTitle">
+                <div class="modal-title" id="editRoomTitle">แก้ไขห้อง</div>
+                <div class="create-field">
+                    <label class="create-field-label" for="renameInput">ชื่อห้อง</label>
+                    <input type="text" class="modal-input" id="renameInput" placeholder="ชื่อห้องใหม่..."
+                        onkeydown="if(event.key==='Enter') confirmRename()">
+                </div>
+                <div class="create-field">
+                    <span class="create-field-label">การมองเห็น</span>
+                    <div class="visibility-grid">
+                        <label class="create-choice" onclick="selectEditRoomPrivacy('shared')">
+                            <input type="radio" name="editRoomPrivacy" value="shared">
+                            <span class="create-choice-icon">♟</span>
+                            <span class="create-choice-copy"><span class="create-choice-title">ใช้ร่วมกัน</span></span>
+                        </label>
+                        <label class="create-choice" onclick="selectEditRoomPrivacy('private')">
+                            <input type="radio" name="editRoomPrivacy" value="private">
+                            <span class="create-choice-icon">🔒</span>
+                            <span class="create-choice-copy"><span class="create-choice-title">ส่วนตัว</span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-danger" onclick="deleteRoomFromEdit()">ลบห้อง</button>
+                    <button class="btn btn-secondary" onclick="closeModal('renameModal')">ยกเลิก</button>
+                    <button class="btn btn-primary" onclick="confirmRename()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="emojiModal">
+            <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="emojiModalTitle">
+                <div class="modal-title" id="emojiModalTitle">เปลี่ยนอิโมจิห้อง</div>
+                <input type="text" class="modal-input" id="emojiInput" placeholder="ใส่อิโมจิ เช่น 🚀, 📊, 🎨..."
+                    maxlength="2">
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" onclick="closeModal('emojiModal')">ยกเลิก</button>
+                    <button class="btn btn-primary" onclick="confirmEmoji()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Profile Page -->
+        <div class="modal-overlay" id="accountModal">
+            <div class="account-page" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle" tabindex="-1" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
+                <div class="account-header">
+                    <button class="account-back" onclick="closeModal('accountModal')" aria-label="กลับไป WorkRoom">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 12H5" />
+                            <polyline points="12 19 5 12 12 5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h2 class="account-title" id="accountModalTitle" data-i18n="acctTitle">บัญชีผู้ใช้ของฉัน</h2>
+                        <p class="account-subtitle" data-i18n="acctSubtitle">จัดการข้อมูลบัญชีและการตั้งค่าความปลอดภัย
+                        </p>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-card-label" data-i18n="acctAvatarLabel">ชื่อ avatar โปรไฟล์</div>
+                    <div class="account-profile-header">
+                        <div class="account-avatar-wrap">
+                            <div class="account-avatar" id="acctAvatar">K</div>
+                            <label class="account-avatar-edit">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
+                                    <circle cx="12" cy="13" r="4" />
+                                </svg>
+                                <input type="file" accept="image/*" style="display:none" onchange="changeAvatar(event)">
+                            </label>
+                        </div>
+                        <div class="account-profile-info">
+                            <div class="account-profile-name" id="acctDisplayName">kawaii</div>
+                            <div class="account-profile-status" data-i18n="acctFreeMember">บัญชี WorkRoom</div>
+                        </div>
+                    </div>
+                    <div class="account-field-group" style="margin-top:16px;">
+                        <div class="account-field-label" data-i18n="acctRealName">ชื่อเรียกจริง</div>
+                        <input class="account-field-input" id="acctNameInput" value="kawaii"
+                            onchange="saveAccountField('name')">
+                    </div>
+                    <div class="account-field-group">
+                        <div class="account-field-label" data-i18n="acctEmail">อีเมล</div>
+                        <input class="account-field-input" id="acctEmailInput" value="kawaii@workroom.app" readonly
+                            aria-describedby="acctEmailHint">
+                        <div class="account-field-hint" id="acctEmailHint" data-i18n="acctEmailHint">
+                            ใช้อีเมลนี้สำหรับเข้าสู่ระบบและรับคำเชิญ
+                        </div>
+                    </div>
+                    <div class="account-profile-actions">
+                        <button class="account-primary-btn" id="acctSaveBtn" type="button"
+                            data-i18n="acctSaveProfile">บันทึกโปรไฟล์</button>
+                        <button class="account-secondary-btn" id="acctCancelBtn" type="button"
+                            data-i18n="commonCancel">ยกเลิก</button>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-section-title"><span style="margin-right:4px;">🔗</span> <span
+                            data-i18n="acctConnected">บัญชีที่เชื่อมต่อ</span></div>
+                    <div class="account-connected-item">
+                        <div class="account-connected-icon" style="background:#4285f4;">G</div>
+                        <div class="account-connected-info">
+                            <div class="account-connected-name">Google</div>
+                            <div class="account-connected-detail" id="acctProviderDetail"></div>
+                        </div>
+                        <span class="account-connected-badge" id="acctConnectedBadge">เชื่อมต่ออยู่</span>
+                        <button class="account-provider-btn" id="acctProviderBtn" type="button"
+                            onclick="toggleGoogleConnection()">ยกเลิกการเชื่อมต่อ</button>
+                    </div>
+                </div>
+                <div class="account-card">
+                    <div class="account-section-title" data-i18n="acctSecurity">ความปลอดภัย</div>
+                    <div class="account-sec-row">
+                        <div class="account-sec-icon-sm">🔑</div>
+                        <div class="account-sec-body">
+                            <div class="account-sec-label" data-i18n="acctLogoutAll">ออกจากระบบทุกอุปกรณ์</div>
+                            <div class="account-sec-desc" data-i18n="acctLogoutAllDesc">
+                                ออกจากระบบในทุกอุปกรณ์ที่คุณเข้าถึงอยู่ตอนนี้</div>
+                        </div>
+                        <button class="account-link-btn" onclick="logoutAllDevices()"
+                            data-i18n="acctClickHere">คลิกที่นี่</button>
+                    </div>
+                </div>
+                <div class="account-card account-danger">
+                    <div class="account-danger-title" data-i18n="acctDangerTitle">DANGER ZONE</div>
+                    <p class="account-danger-desc" data-i18n="acctDangerDesc">
+                        ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป</p>
+                    <button class="account-danger-btn" onclick="deleteAccount()" data-i18n="acctDeleteBtn">🗑️
+                        ลบบัญชี</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="workspaceProfileConfirmModal">
+            <div class="modal-box workspace-profile-confirm" role="dialog" aria-modal="true"
+                aria-labelledby="workspaceProfileConfirmTitle">
+                <div class="modal-title" id="workspaceProfileConfirmTitle">เปลี่ยนโปรไฟล์เซิร์ฟเวอร์</div>
+                <div class="workspace-profile-confirm-name" id="workspaceProfileConfirmName"></div>
+                <div class="workspace-profile-preview"><img id="workspaceProfilePreview" hidden
+                        alt="ตัวอย่างโปรไฟล์เซิร์ฟเวอร์ใหม่"></div>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" onclick="confirmWorkspaceProfileChange()">บันทึก</button>
+                    <button class="btn btn-secondary" onclick="cancelWorkspaceProfileChange()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="settingsModal">
+            <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" style="position:relative;">
+                <button class="settings-close" onclick="closeModal('settingsModal')" aria-label="ปิดการตั้งค่า">✕</button>
+                <div class="settings-sidebar">
+                    <div class="settings-sidebar-title" id="settingsModalTitle" data-i18n="settingsTitle">ตั้งค่า</div>
+                    <button class="settings-tab-btn active" onclick="switchSettingsTab('notif',this)"><span
+                            class="tab-icon">🔔</span><span data-i18n="settingsNotif">แจ้งเตือน</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('appearance',this)"><span
+                            class="tab-icon">🎨</span><span data-i18n="settingsAppearance">รูปลักษณ์</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('language',this)"><span
+                            class="tab-icon">🌐</span><span data-i18n="settingsLanguage">ภาษา</span></button>
+                    <button class="settings-tab-btn" onclick="switchSettingsTab('about',this)"><span
+                            class="tab-icon">ℹ️</span><span data-i18n="settingsAbout">เกี่ยวกับ</span></button>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-section active" id="settings-notif">
+                        <div class="settings-section-header" style="color:#f06595;"><span
+                                class="sec-icon">🔔</span><span data-i18n="settingsNotif">แจ้งเตือน</span></div>
+                        <div class="settings-row">
+                            <span class="settings-row-label"
+                                data-i18n="settingsNotifTag">แจ้งเตือนเมื่อมีคนพิมพ์/แท็กไอเดีย</span>
+                            <button id="toggleNotifTag" class="settings-toggle on" type="button" role="switch"
+                                aria-checked="true" onclick="toggleSettingSwitch(this,'settings-notifTag')"></button>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsNotifSound">เสียงแจ้งเตือน</span>
+                            <div class="settings-inline-actions">
+                                <button class="settings-mini-btn" type="button" onclick="previewNotificationSound()"
+                                    data-i18n="settingsTestSound">ทดลองเสียง</button>
+                                <button id="toggleNotifSound" class="settings-toggle on" type="button" role="switch"
+                                    aria-checked="true"
+                                    onclick="toggleSettingSwitch(this,'settings-notifSound')"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-appearance">
+                        <div class="settings-section-header" style="color:#fcc419;"><span
+                                class="sec-icon">🎨</span><span data-i18n="settingsAppearance">รูปลักษณ์</span></div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsTheme">โทนมืด</span>
+                            <div class="settings-theme-btns">
+                                <button class="settings-theme-btn active" data-theme="dark"
+                                    onclick="switchSettingsTheme(this,'dark')"
+                                    data-i18n="settingsThemeDark">มืด</button>
+                                <button class="settings-theme-btn" data-theme="light"
+                                    onclick="switchSettingsTheme(this,'light')"
+                                    data-i18n="settingsThemeLight">สว่าง</button>
+                                <button class="settings-theme-btn" data-theme="system"
+                                    onclick="switchSettingsTheme(this,'system')"
+                                    data-i18n="settingsThemeSystem">ระบบ</button>
+                                <button class="settings-theme-btn settings-theme-playful" data-theme="playful"
+                                    onclick="switchSettingsTheme(this,'playful')"
+                                    data-i18n="settingsThemePlayful">สนุก</button>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-row-label" data-i18n="settingsAccent">สีสัน</span>
+                            <div class="settings-accent-colors">
+                                <button class="settings-accent-dot active" type="button" data-color="#f06595"
+                                    aria-label="Pink" style="background:#f06595;"
+                                    onclick="pickAccent(this,'#f06595')"></button>
+                                <button class="settings-accent-dot" type="button" data-color="#fcc419"
+                                    aria-label="Yellow" style="background:#fcc419;"
+                                    onclick="pickAccent(this,'#fcc419')"></button>
+                                <button class="settings-accent-dot" type="button" data-color="#40c057"
+                                    aria-label="Green" style="background:#40c057;"
+                                    onclick="pickAccent(this,'#40c057')"></button>
+                                <button class="settings-accent-dot" type="button" data-color="#339af0" aria-label="Blue"
+                                    style="background:#339af0;" onclick="pickAccent(this,'#339af0')"></button>
+                                <button class="settings-accent-dot" type="button" data-color="#7950f2"
+                                    aria-label="Purple" style="background:#7950f2;"
+                                    onclick="pickAccent(this,'#7950f2')"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-language">
+                        <div class="settings-section-header" style="color:#40c057;"><span
+                                class="sec-icon">🌐</span><span data-i18n="settingsLanguage">ภาษา</span></div>
+                        <div class="settings-row">
+                            <div class="settings-lang-btns">
+                                <button class="settings-lang-btn" data-lang="th"
+                                    onclick="setLang('th');switchSettingsLang(this)">ไทย</button>
+                                <button class="settings-lang-btn" data-lang="en"
+                                    onclick="setLang('en');switchSettingsLang(this)">EN</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" id="settings-about">
+                        <div class="settings-section-header" style="color:#748ffc;"><span
+                                class="sec-icon">ℹ️</span><span data-i18n="settingsAbout">เกี่ยวกับ</span></div>
+                        <div class="settings-row"><span class="settings-row-label"
+                                data-i18n="settingsVersion">เวอร์ชันแอป</span><span
+                                style="color:#aaa;font-size:14px;">1.0.0</span></div>
+                        <div class="settings-row"><span class="settings-row-label"
+                                data-i18n="settingsStorage">การบันทึกข้อมูล</span><span
+                                style="color:#aaa;font-size:14px;" data-i18n="settingsStorageLocal">บนอุปกรณ์นี้</span>
+                        </div>
+                        <div class="settings-row"><span class="settings-row-label"
+                                data-i18n="settingsAppInfo">ข้อมูลแอป</span><button class="settings-mini-btn"
+                                type="button" onclick="copyAppVersion()"
+                                data-i18n="settingsCopyVersion">คัดลอกเวอร์ชัน</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+        <div class="modal-overlay" id="taskDetailModal">
+            <div class="modal-box task-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="taskDetailTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">WORK ITEM</div><h2 id="taskDetailTitle">รายละเอียดงาน</h2></div>
+                    <button class="postit-reader-close" onclick="closeTaskDetail()" aria-label="ปิด">×</button>
+                </div>
+                <div id="taskDetailBody"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="workroomConfirmModal">
+            <div class="modal-box workspace-profile-confirm" role="alertdialog" aria-modal="true" aria-labelledby="workroomConfirmTitle" aria-describedby="workroomConfirmMessage">
+                <div class="workroom-confirm-icon" id="workroomConfirmIcon" aria-hidden="true" hidden></div>
+                <div class="modal-title" id="workroomConfirmTitle"></div>
+                <p id="workroomConfirmMessage"></p>
+                <div class="workroom-confirm-account" id="workroomConfirmAccount" hidden>
+                    <span class="workroom-confirm-avatar" id="workroomConfirmAvatar"></span>
+                    <span><strong id="workroomConfirmAccountName"></strong><small id="workroomConfirmAccountEmail"></small></span>
+                </div>
+                <p class="workroom-confirm-note" id="workroomConfirmNote" hidden></p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="workroomConfirmCancel" type="button" onclick="closeWorkroomConfirm()" data-i18n="commonCancel">ยกเลิก</button>
+                    <button class="btn btn-primary" id="workroomConfirmAccept" type="button"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="myTasksModal">
+            <div class="modal-box my-tasks-dialog" role="dialog" aria-modal="true" aria-labelledby="myTasksTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">MY WORK</div><h2 id="myTasksTitle" data-i18n="wrTasksTitle">งานที่ต้องทำ</h2><p class="my-tasks-subtitle" data-i18n="wrTasksSubtitle">รวมเฉพาะงานที่มอบหมายให้คุณ งานที่อนุมัติแล้วจะเก็บไว้ด้านล่าง</p></div>
+                    <button class="postit-reader-close" onclick="closeModal('myTasksModal')" aria-label="ปิด">×</button>
+                </div>
+                <div class="my-tasks-filters" id="myTasksFilters"></div>
+                <div class="my-tasks-list" id="myTasksList"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="templateGalleryModal">
+            <div class="modal-box template-gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="templateGalleryTitle">
+                <div class="task-detail-head">
+                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว WorkRoom จะสร้างหน้าใหม่ในห้องนี้ให้พร้อมใช้</p></div>
+                    <button class="postit-reader-close" onclick="closeModal('templateGalleryModal')" aria-label="ปิด">×</button>
+                </div>
+                <div class="template-gallery-grid" id="templateGalleryGrid"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="postitReaderModal">
+            <div class="modal-box postit-reader" role="dialog" aria-modal="true" aria-labelledby="postitReaderTitle">
+                <div class="postit-reader-head">
+                    <div>
+                        <div class="postit-reader-kicker">กระดาษโปสต์อิท</div>
+                        <h2 class="postit-reader-title" id="postitReaderTitle"></h2>
+                    </div>
+                    <div class="postit-reader-head-actions">
+                        <button class="postit-reader-edit" id="postitReaderEditButton" onclick="startPostitEdit()">✎ แก้ไข</button>
+                        <button class="postit-reader-close" onclick="closePostitReader()" aria-label="ปิด">×</button>
+                    </div>
+                </div>
+                <div class="postit-reader-body" id="postitReaderBody"></div>
+                <div class="postit-reader-actions" id="postitReaderActions" hidden>
+                    <button class="postit-edit-cancel" onclick="cancelPostitEdit()">ยกเลิก</button>
+                    <button class="postit-edit-save" onclick="savePostitEdit()">บันทึกการแก้ไข</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+    <!-- ==================== STORY PAGE ==================== -->
+    <div id="page-story">
+        <!-- NAVBAR -->
+        <nav class="bento-navbar">
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <div class="nav-links">
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
+                <a href="#" data-i18n="navStory" class="active" onclick="return false;">เรื่องราวของเรา</a>
+                <a href="#" data-i18n="navBlog" onclick="showBlog(); return false;">บล็อก</a>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                </button>
+                <div class="lang-toggle" id="langToggleStory">
+                    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn active" data-lang="th" onclick="setLang('th')">TH</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="section sec-hero-story">
+            <h1 class="story-hero-title" data-speed="0.03">
+                <span data-i18n="storyTitle1">เรื่องราว</span><br>
+                <span data-i18n="storyTitle2">ของพวกเรา</span>
+            </h1>
+            <p class="story-hero-desc" data-i18n="storyHeroDesc" data-speed="0.02">
+                จากไอเดียเล็กๆ บนกระดาษโน้ต สู่พื้นที่ทำงานที่เชื่อมต่อความคิดสร้างสรรค์ของทุกคน
+            </p>
+        </section>
+
+        <!-- ORIGIN -->
+        <section class="section sec-origin">
+            <div class="origin-grid">
+                <div class="origin-visual" data-speed="0.04">
+                    <div class="origin-sticky" id="originSticky">
+                        <h3 data-i18n="originStickyTitle">WorkRoom</h3>
+                        <p data-i18n="originStickyYear">ก่อตั้ง 2026</p>
+                    </div>
+                </div>
+                <div class="origin-content" data-speed="0.02">
+                    <h2 data-i18n="originTitle">จุดเริ่มต้นจากความยุ่งเหยิง</h2>
+                    <p data-i18n="originP1">
+                        ทุกอย่างเริ่มต้นจากความรู้สึกที่ว่า 'ไอเดียดีๆ ไม่ควรสูญหายไปกับกระดาษโน้ตที่หายไปตามเวลา'
+                        เราเชื่อว่าทุกความคิดสร้างสรรค์ ไม่ว่าจะเล็กหรือใหญ่
+                        ล้วนมีค่าและควรได้รับการจัดเก็บอย่างเป็นระบบ
+                    </p>
+                    <p data-i18n="originP2">
+                        เราสังเกตเห็นว่าแอปใหญ่ๆ ในปัจจุบัน มักมีฟังก์ชันให้เรียนรู้เยอะแยะไปหมด
+                        แน่นอนว่าถ้าเป็นคนที่เรียนรู้ไว มันคงไม่ใช่เรื่องยาก… แต่จะดีกว่าไหม
+                        สำหรับคนที่ไม่อยากเสียเวลาเริ่มเรียนรู้ใหม่จากศูนย์? แค่โหลดมา ก็เข้าใจและเริ่มใช้งานได้ทันที
+                        มีเฉพาะฟังก์ชันที่จำเป็น รวดเร็ว และตรงจุด
+                    </p>
+                    <p data-i18n="originP3">
+                        WorkRoom จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน
+                        และทำงานร่วมกับทีมได้อย่างอิสระ โดยไม่มีอะไรมาขัดจังหวะความคิดสร้างสรรค์ของคุณ
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        </section>
+
+        <!-- TEAM -->
+        <section class="section sec-team">
+            <h2 class="team-title" data-i18n="teamTitle">ทีมของเรา</h2>
+            <p class="team-subtitle" data-i18n="teamSubtitle">คนที่อยู่เบื้องหลังทุกฟีเจอร์ที่คุณใช้งาน</p>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar"
+                        style="background: linear-gradient(135deg, var(--pink), var(--purple)); overflow: hidden;">
+                        <img src="assets/images/kawaii.jpg" alt="KAWAII" loading="lazy" decoding="async"
+                            style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <h4>KAWAII</h4>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team1RolePrefix">ออกแบบผลิตภัณฑ์</span>
+                        <span data-i18n="team1Role">ดูแลประสบการณ์ใช้งานและหน้าตา WorkRoom</span></span>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar"
+                        style="background: linear-gradient(135deg, var(--blue), var(--green)); overflow: hidden;">
+                        <img src="assets/images/Paru.jpg" alt="Paru" loading="lazy" decoding="async"
+                            style="width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <h4>Paru</h4>
+                    <span class="team-role"><span class="role-highlight" data-i18n="team2RolePrefix">พัฒนาระบบ</span>
+                        <span data-i18n="team2Role">ดูแลระบบหลังบ้านและโครงสร้างข้อมูล</span></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALUES -->
+        <section class="section sec-values">
+            <h2 class="values-title" data-i18n="valuesTitle">ค่านิยมของเรา</h2>
+            <div class="values-grid">
+                <div class="value-card vc-pink">
+                    <div class="value-icon">✨</div>
+                    <h3 data-i18n="val1Title">ความคิดสร้างสรรค์ไร้ขีดจำกัด</h3>
+                    <p data-i18n="val1Desc">เราเชื่อว่าทุกคนมีไอเดียที่ยิ่งใหญ่ได้
+                        พื้นที่ของเราออกแบบมาเพื่อปลดปล่อยจินตนาการ</p>
+                </div>
+                <div class="value-card vc-yellow">
+                    <div class="value-icon">🤝</div>
+                    <h3 data-i18n="val2Title">การร่วมมือกัน</h3>
+                    <p data-i18n="val2Desc">งานที่ดีที่สุดเกิดจากการทำงานร่วมกัน
+                        เราสร้างเครื่องมือที่เชื่อมต่อทีมเข้าด้วยกัน</p>
+                </div>
+                <div class="value-card vc-blue">
+                    <div class="value-icon">🔒</div>
+                    <h3 data-i18n="val3Title">ความปลอดภัยก่อนเสมอ</h3>
+                    <p data-i18n="val3Desc">ความเป็นส่วนตัวและสิทธิ์การเข้าถึงคือข้อกำหนดสำคัญในการพัฒนาระบบหลังบ้านของ WorkRoom</p>
+                </div>
+                <div class="value-card vc-green">
+                    <div class="value-icon">🌱</div>
+                    <h3 data-i18n="val4Title">เติบโตไปด้วยกัน</h3>
+                    <p data-i18n="val4Desc">เราพัฒนาผ่านการทดสอบอย่างรอบคอบ ความคิดเห็นที่ตรงไปตรงมา และการตัดสินใจที่ชัดเจน</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section sec-cta">
+            <h2 class="cta-title" data-i18n="ctaTitle">มาร่วมสร้าง<br>เรื่องราวต่อไปด้วยกัน</h2>
+            <p class="cta-desc" data-i18n="ctaDesc">ลองสำรวจต้นแบบปัจจุบัน และดูว่า WorkRoom จะช่วยให้ทีมสร้างสรรค์ขนาดเล็กทำงานได้เป็นระบบขึ้นอย่างไร</p>
+            <a href="#" class="glow-btn" data-i18n="startCreate"
+                onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
+        </section>
+    </div>
+
+
+    <!-- ==================== BLOG PAGE ==================== -->
+    <div id="page-blog">
+        <!-- NAVBAR -->
+        <nav class="bento-navbar">
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <div class="nav-links">
+                <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
+                <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
+                <a href="#" data-i18n="navBlog" class="active" onclick="return false;">บล็อก</a>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
+                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                </button>
+                <div class="lang-toggle" id="langToggleBlog">
+                    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn active" data-lang="th" onclick="setLang('th')">TH</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="section sec-blog-hero">
+            <h1 class="blog-hero-title" data-speed="0.03">
+                <span data-i18n="blogTitle1">บล็อก</span><br>
+                <span data-i18n="blogTitle2">WorkRoom</span>
+            </h1>
+            <p class="blog-hero-desc" data-i18n="blogHeroDesc" data-speed="0.02">
+                เคล็ดลับ แนวทาง และเรื่องราวที่จะช่วยให้คุณใช้งาน WorkRoom และจัดการไอเดียได้อย่างเต็มประสิทธิภาพ
+            </p>
+            <div class="blog-filter" id="blogFilter">
+                <button class="blog-filter-btn active" data-filter="all" onclick="filterBlog('all')"
+                    data-i18n="blogFilterAll">ทั้งหมด</button>
+                <button class="blog-filter-btn" data-filter="tips" onclick="filterBlog('tips')"
+                    data-i18n="blogFilterTips">เคล็ดลับ</button>
+                <button class="blog-filter-btn" data-filter="behind" onclick="filterBlog('behind')"
+                    data-i18n="blogFilterBehind">เบื้องหลัง</button>
+                <button class="blog-filter-btn" data-filter="case" onclick="filterBlog('case')"
+                    data-i18n="blogFilterCase">แนวทางการใช้งาน</button>
+                <button class="blog-filter-btn" data-filter="general" onclick="filterBlog('general')"
+                    data-i18n="blogFilterGeneral">ความรู้ทั่วไป</button>
+            </div>
+        </section>
+
+        <!-- BLOG GRID -->
+        <section class="section sec-blog-grid">
+            <div class="blog-grid" id="blogGrid">
+                <!-- Tips -->
+                <article class="blog-card" data-category="tips">
+                    <div class="blog-card-img">💡</div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
+                        <h3 class="blog-card-title" data-i18n="blog1Title">5 วิธีจัดระเบียบไอเดียไม่ให้หายไปกลางทาง</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog1Excerpt">ไอเดียดีๆ มักมาเยือนตอนเราไม่พร้อม
+                            เรียนรู้วิธีจับมันไว้ให้ทัน จัดเก็บให้เป็นระบบ และนำกลับมาใช้งานได้จริง</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate1">15 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="tips">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(255,212,59,0.15), rgba(255,143,163,0.15));">📝
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
+                        <h3 class="blog-card-title" data-i18n="blog2Title">วิธีใช้ Post-it ดิจิทัลให้ทำงานเป็นระบบขึ้น</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog2Excerpt">เปลี่ยนจากกระดาษโน้ตกระจัดกระจาย
+                            สู่ระบบดิจิตอลที่ค้นหาได้ แชร์ได้ และไม่มีวันหายไปตามลม</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate2">10 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="tips">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(140,233,154,0.15), rgba(116,192,252,0.15));">🗂️
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
+                        <h3 class="blog-card-title" data-i18n="blog3Title">จดไอเดียอย่างไรให้เป็นระบบ
+                            ไม่ใช่แค่จดแล้วทิ้ง</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog3Excerpt">ใช้ PARA เป็นแนวทางวางโครงห้องและข้อมูลอ้างอิง โดย WorkRoom จะไม่จัดหมวดเหล่านี้ให้อัตโนมัติ</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate3">5 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Behind the scenes -->
+                <article class="blog-card" data-category="behind">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(255,169,77,0.15), rgba(255,212,59,0.15));">🚀
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
+                        <h3 class="blog-card-title" data-i18n="blog4Title">จากไอเดียสู่ต้นแบบ: เราวางโครง WorkRoom อย่างไร</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog4Excerpt">
+                            ย้อนรอยการพัฒนาตั้งแต่โค้ดแรกจนถึงฟีเจอร์ครบครัน ผ่านอุปสรรคและบทเรียนที่ทีมเล็กๆ
+                            เรียนรู้ไปด้วยกัน</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate4">12 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="behind">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(177,151,252,0.15), rgba(255,143,163,0.15));">🎨
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
+                        <h3 class="blog-card-title" data-i18n="blog5Title">ทำไม Whiteboard จึงอยู่ในห้องไอเดีย</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog5Excerpt">
+                            ทำไมเราถึงตัดสินใจรวมกระดานวาดเข้ากับห้องไอเดีย และกระบวนการออกแบบที่ทำให้ใช้งานง่ายที่สุด
+                        </p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate5">8 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="behind">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(116,192,252,0.15), rgba(140,233,154,0.15));">🔧
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
+                        <h3 class="blog-card-title" data-i18n="blog6Title">ทำไมเราออกแบบห้องเก็บไอเดียให้กลับมาทำงานต่อได้ง่าย</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog6Excerpt">หลักการออกแบบที่ช่วยให้จด ค้นหา มอบหมาย และกลับมาทำงานต่อจากไอเดียเดิมได้ง่ายขึ้น</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate6">1 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Use cases -->
+                <article class="blog-card" data-category="case">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(255,143,163,0.15), rgba(116,192,252,0.15));">📂
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog7Title">วิธีใช้ห้องแผนกให้ทีมคอนเทนต์ไม่ต้องขอไฟล์กันไปมา</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog7Excerpt">แนวทางจัดบรีฟ ความคิดเห็น รูปภาพ และลิงก์ไปยังไฟล์ภายนอก เพื่อให้ทุกคนรู้ว่าต้องหางานจากที่ไหน</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate7">14 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="case">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(255,212,59,0.15), rgba(140,233,154,0.15));">👥
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog8Title">แนวทางจัดโปรเจกต์สำหรับทีมเล็ก 5 คนด้วย WorkRoom</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog8Excerpt">ตัวอย่างการจัดขั้นตอนมอบหมายงาน อัปเดตความคืบหน้า รับความคิดเห็น และเก็บการตัดสินใจให้ทีมเห็นร่วมกัน</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate8">7 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="case">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(177,151,252,0.15), rgba(255,169,77,0.15));">🎨
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
+                        <h3 class="blog-card-title" data-i18n="blog9Title">วิธีจัด Mood Board ให้อยู่กับเอกสารงานในหน้าเดียว</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog9Excerpt">วิธีรวมแรงบันดาลใจ ร่างแบบ
+                            และเอกสารส่งมอบงานให้อยู่ในพื้นที่เดียวกัน ไม่ต้องสลับแอปให้ปวดหัว</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate9">2 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- General knowledge -->
+                <article class="blog-card" data-category="general">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(140,233,154,0.15), rgba(255,212,59,0.15));">🧠
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-general" data-i18n="blogTagGeneral">ความรู้ทั่วไป</span>
+                        <h3 class="blog-card-title" data-i18n="blog10Title">ทำไมไอเดียถึงหายไปง่ายเวลาไม่รีบจด</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog10Excerpt">ศาสตร์เบื้องหลังความทรงจำสั้น
+                            และทำไมการจดบันทึกทันทีถึงเป็นทักษะสำคัญที่สุดของคนทำงานสร้างสรรค์</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate10">13 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="general">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(116,192,252,0.15), rgba(177,151,252,0.15));">3️⃣
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-general" data-i18n="blogTagGeneral">ความรู้ทั่วไป</span>
+                        <h3 class="blog-card-title" data-i18n="blog11Title">Rule of Three:
+                            ทำไมเราควรจดไอเดียครั้งละไม่เกิน 3 ข้อ</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog11Excerpt">
+                            หลักจิตวิทยาที่อธิบายว่าทำไมสมองมนุษย์ถึงจำได้ดีที่สุดเมื่อข้อมูลถูกแบ่งเป็นกลุ่มเล็กๆ 3 ข้อ
+                        </p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate11">9 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="blog-card" data-category="general">
+                    <div class="blog-card-img"
+                        style="background: linear-gradient(135deg, rgba(255,143,163,0.15), rgba(140,233,154,0.15));">🌿
+                    </div>
+                    <div class="blog-card-body">
+                        <span class="blog-card-tag tag-general" data-i18n="blogTagGeneral">ความรู้ทั่วไป</span>
+                        <h3 class="blog-card-title" data-i18n="blog12Title">Digital Minimalism กับการจัดการงาน: ลดของ
+                            ลดสับสน</h3>
+                        <p class="blog-card-excerpt" data-i18n="blog12Excerpt">วิธีลดความวุ่นวายในพื้นที่ดิจิตอลของคุณ
+                            เพื่อให้สมาธิอยู่กับงานที่สำคัญจริงๆ</p>
+                        <div class="blog-card-meta">
+                            <span data-i18n="blogDate12">4 ส.ค. 2026</span>
+                            <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section sec-blog-cta">
+            <h2 class="cta-title" data-i18n="blogCtaTitle">อยากลองใช้ WorkRoom<br>ด้วยตัวเอง?</h2>
+            <p class="cta-desc" data-i18n="blogCtaDesc">ลองใช้เวอร์ชันต้นแบบและสำรวจวิธีจัดการไอเดียของ WorkRoom</p>
+            <a href="#" class="glow-btn" data-i18n="startCreate"
+                onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
+        </section>
+
+        <div class="blog-guide-modal" id="blogGuideModal" hidden>
+            <div class="blog-guide-backdrop" onclick="closeBlogGuide()"></div>
+            <article class="blog-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="blogGuideTitle">
+                <button type="button" class="blog-guide-close" onclick="closeBlogGuide()" aria-label="ปิด" data-i18n-aria-label="closeLabel">×</button>
+                <span class="blog-guide-label" id="blogGuideLabel">WORKROOM GUIDE</span>
+                <h2 id="blogGuideTitle"></h2>
+                <p id="blogGuideIntro"></p>
+                <ol id="blogGuideSteps"></ol>
+                <div class="blog-guide-tip" id="blogGuideTip"></div>
+            </article>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bento-footer" id="marketingFooter">
+        <div class="footer-inner">
+            <div class="footer-logo">WorkRoom</div>
+            <div class="footer-tagline" data-i18n="footerTagline">WorkRoom เวอร์ชันต้นแบบ</div>
+            <div class="footer-legal">
+                <a href="terms.html" data-i18n="footerTerms">ข้อกำหนดการใช้งาน</a>
+                <span aria-hidden="true">·</span>
+                <a href="privacy.html" data-i18n="footerPrivacy">นโยบายความเป็นส่วนตัว</a>
+            </div>
+            <div class="footer-bottom" data-i18n="footerCopyright">© 2026 WorkRoom. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <!-- ==================== SOCIAL LOGIN (GOOGLE / FACEBOOK) ==================== -->
+
+
+    <!-- ==================== PAGE SWITCHER ==================== -->
+
+    <!-- APPLICATION SCRIPTS -->
+    <!-- REALTIME & API CLIENT SCRIPTS -->
+    <script>
+        (function () {
+            var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            window.WORKROOM_CONFIG = Object.assign({
+                apiUrl: local ? 'http://localhost:4000/api/v1' : location.origin + '/api/v1',
+                socketUrl: local ? 'http://localhost:4000' : location.origin,
+                googleClientId: '',
+                facebookAppId: ''
+            }, window.WORKROOM_CONFIG || {});
+            window.WORKROOM_API_URL = window.WORKROOM_CONFIG.apiUrl;
+            window.WORKROOM_SOCKET_URL = window.WORKROOM_CONFIG.socketUrl;
+        })();
+    </script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script type="module" src="js/api.js"></script>
+
+    <!-- APPLICATION SCRIPTS -->
+    <script src="js/i18n.js?v=20260829-room-templates-1"></script>
+    <script src="js/bento.js"></script>
+    <!-- WORKROOM DOMAIN MODULES -->
+    <script src="js/modules/team.js?v=20260829-sticky-default-1"></script>
+    <script src="js/modules/state.js?v=20260829-typewriter-copy-1"></script>
+    <script src="js/modules/rooms.js?v=20260829-fluid-layout-1"></script>
+    <script src="js/modules/notifications.js"></script>
+    <script src="js/modules/modals.js?v=20260829-logout-confirm-1"></script>
+    <script src="js/modules/comments.js"></script>
+    <script src="js/modules/search.js"></script>
+    <script src="js/modules/editor.js?v=20260829-room-templates-1"></script>
+    <script src="js/modules/whiteboard.js?v=20260828-all-page-drawing-1"></script>
+    <script src="js/modules/workflows.js?v=20260829-room-templates-1"></script>
+    <script src="js/auth.js?v=20260829-logout-confirm-1"></script>
+    <script src="js/app.js?v=20260825-guide-1"></script>
+</body>
+
+</html>

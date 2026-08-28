@@ -1,0 +1,64 @@
+import { Router } from 'express';
+import { ROLES } from '../../constants/index.js';
+import { requireAuth } from '../../middleware/auth.js';
+import { validate } from '../../middleware/validate.js';
+import { requireWorkspaceRole } from '../../middleware/workspace.js';
+import { WorkspaceController } from './workspace.controller.js';
+import {
+  createWorkspaceSchema,
+  inviteMemberSchema,
+  memberParamsSchema,
+  updateMemberRoleSchema,
+  updateWorkspaceSchema,
+  workspaceParamsSchema,
+} from './workspace.schemas.js';
+
+const router = Router();
+
+// Workspace collection routes
+router.get('/', requireAuth, WorkspaceController.list);
+router.post('/', requireAuth, validate(createWorkspaceSchema), WorkspaceController.create);
+
+// Workspace specific routes
+router.get(
+  '/:workspaceId',
+  requireAuth,
+  validate(workspaceParamsSchema),
+  requireWorkspaceRole([ROLES.OWNER, ROLES.EDITOR, ROLES.VIEWER]),
+  WorkspaceController.getById
+);
+
+router.patch(
+  '/:workspaceId',
+  requireAuth,
+  validate(updateWorkspaceSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
+  WorkspaceController.update
+);
+
+// Member management routes
+router.post(
+  '/:workspaceId/invites',
+  requireAuth,
+  validate(inviteMemberSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
+  WorkspaceController.invite
+);
+
+router.patch(
+  '/:workspaceId/members/:userId',
+  requireAuth,
+  validate(updateMemberRoleSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
+  WorkspaceController.updateMember
+);
+
+router.delete(
+  '/:workspaceId/members/:userId',
+  requireAuth,
+  validate(memberParamsSchema),
+  requireWorkspaceRole([ROLES.OWNER]),
+  WorkspaceController.removeMember
+);
+
+export const workspaceRouter = router;
