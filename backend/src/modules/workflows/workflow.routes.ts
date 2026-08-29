@@ -220,4 +220,4 @@ router.patch(
   }
 );
 
-export const workflowRouter = router;
+export const workflowRouter: Router = router;

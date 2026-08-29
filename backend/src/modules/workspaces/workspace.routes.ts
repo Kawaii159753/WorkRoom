@@ -11,6 +11,7 @@ import {
   updateMemberRoleSchema,
   updateWorkspaceSchema,
   workspaceParamsSchema,
+  saveWorkspaceStateSchema,
 } from './workspace.schemas.js';
 
 const router = Router();
@@ -34,6 +35,18 @@ router.patch(
   validate(updateWorkspaceSchema),
   requireWorkspaceRole([ROLES.OWNER]),
   WorkspaceController.update
+);
+
+router.get(
+  '/:workspaceId/state', requireAuth, validate(workspaceParamsSchema),
+  requireWorkspaceRole([ROLES.OWNER, ROLES.EDITOR, ROLES.VIEWER]), WorkspaceController.getState
+);
+
+router.put(
+  '/:workspaceId/state', requireAuth, validate(saveWorkspaceStateSchema),
+  // The legacy payload is a whole-workspace document. Allowing a partially
+  // authorized editor to replace it could overwrite or inject private rooms.
+  requireWorkspaceRole([ROLES.OWNER]), WorkspaceController.saveState
 );
 
 // Member management routes
@@ -61,4 +74,4 @@ router.delete(
   WorkspaceController.removeMember
 );
 
-export const workspaceRouter = router;
+export const workspaceRouter: Router = router;

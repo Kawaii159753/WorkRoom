@@ -1514,21 +1514,7 @@
             }
 
             .nav-links {
-                position: fixed;
-                z-index: 900;
-                left: 50%;
-                bottom: max(12px, env(safe-area-inset-bottom));
-                display: flex;
-                gap: 4px;
-                width: max-content;
-                max-width: calc(100vw - 24px);
-                padding: 6px;
-                border: 1px solid rgba(255,255,255,.14);
-                border-radius: 999px;
-                background: rgba(16,14,22,.9);
-                box-shadow: 0 12px 30px rgba(0,0,0,.32);
-                backdrop-filter: blur(14px);
-                transform: translateX(-50%);
+                display: none !important;
             }
 
             .nav-links a {

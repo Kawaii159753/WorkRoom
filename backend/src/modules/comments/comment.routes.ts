@@ -1,7 +1,7 @@
 import { Router, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { prisma } from '../../config/prisma.js';
-import { ERROR_CODES } from '../../constants/index.js';
+import { ERROR_CODES, ROLES } from '../../constants/index.js';
 import { requireAuth } from '../../middleware/auth.js';
 import { AppError } from '../../middleware/errorHandler.js';
 import { validate } from '../../middleware/validate.js';
@@ -144,7 +144,11 @@ router.patch(
 
       const existing = await prisma.comment.findUnique({ where: { id: commentId } });
       if (!existing) throw new AppError(ERROR_CODES.NOT_FOUND, 'Comment not found', 404);
-      await assertWorkspaceAccess(req.user!.id, existing.workspaceId);
+      const membership = await assertWorkspaceAccess(req.user!.id, existing.workspaceId);
+      const canModerate = membership.role === ROLES.OWNER || membership.role === ROLES.EDITOR;
+      if (!canModerate && existing.authorId !== req.user!.id) {
+        throw new AppError(ERROR_CODES.FORBIDDEN, 'Only the comment author or a workspace editor can resolve this comment', 403);
+      }
 
       const comment = await prisma.comment.update({
         where: { id: commentId },
@@ -166,4 +170,4 @@ router.patch(
   }
 );
 
-export const commentRouter = router;
+export const commentRouter: Router = router;

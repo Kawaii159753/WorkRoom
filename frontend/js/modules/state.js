@@ -233,6 +233,9 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             let collaborationState = null;
             let activeWorkspace = null;
             let collaborationSaveTimer = null;
+            let cloudSaveTimer = null;
+            let cloudStateVersion = null;
+            let cloudWorkspaceReady = false;
             let workspaceProfileTargetId = null;
             let pendingWorkspaceProfile = null;
             const DEFAULT_WORKSPACE_ICON = 'assets/images/workroom-default-workspace.png?v=20260829-sticky-default-1';
@@ -272,6 +275,11 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
             function initWorkroom() {
                 if (workroomInitialized) return;
                 workroomInitialized = true;
+                // The drawing toolbar must live outside the transformed mobile drawer;
+                // otherwise position:fixed is calculated against the sidebar itself.
+                var ideaToolbar = document.getElementById('ideaToolbar');
+                var appFrame = document.querySelector('#mainApp .app-frame');
+                if (ideaToolbar && appFrame && ideaToolbar.parentElement !== appFrame) appFrame.appendChild(ideaToolbar);
                 renderEditor();
                 renderPageHistory();
                 updateBellBadge();

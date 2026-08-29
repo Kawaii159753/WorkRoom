@@ -55,6 +55,13 @@
                 } catch (e) { return ''; }
             }
 
+            function safeExternalUrl(value) {
+                try {
+                    var parsed = new URL(String(value || '').trim(), location.href);
+                    return /^(?:https?):$/.test(parsed.protocol) ? parsed.href : '';
+                } catch (e) { return ''; }
+            }
+
             function isAllowedRasterImageFile(file) {
                 return !!file && /^(image\/(?:png|jpeg|gif|webp))$/i.test(String(file.type || ''));
             }
@@ -62,6 +69,7 @@
             function collaborationKey(email) { return 'workroomCollab:' + normalizeEmail(email); }
             function mailboxKey(email) { return 'workroomMailbox:' + normalizeEmail(email); }
             function workspaceDataKey(id) { return 'workroomWorkspaceData:' + id; }
+            function workspaceDirtyKey(id) { return 'workroomCloudDirty:' + id; }
 
             function readJson(key, fallback) {
                 try {
@@ -165,6 +173,73 @@
                 renderWorkspaceMenu();
                 renderTeamPanel();
                 syncRegisteredUsers();
+                bootstrapCloudWorkspace(account);
+            }
+
+            function workspaceSnapshot() {
+                return {
+                    rooms: JSON.parse(JSON.stringify(rooms)), roomPages: JSON.parse(JSON.stringify(roomPages)),
+                    roomPageCollections: JSON.parse(JSON.stringify(roomPageCollections)), roomSections: JSON.parse(JSON.stringify(roomSections)),
+                    roomOrder: roomOrder.slice(), ideaPages: JSON.parse(JSON.stringify(ideaPages)), activeIdeaPageId: activeIdeaPageId
+                };
+            }
+
+            async function bootstrapCloudWorkspace(account) {
+                if (!window.WorkRoomCloud || !activeWorkspace || !account.email || !currentUser || !currentUser.id) return;
+                try {
+                    var list = await window.WorkRoomCloud.listWorkspaces();
+                    var map = readJson('workroomCloudWorkspaceMap', {});
+                    var cloud = list.find(function (item) { return item.id === map[activeWorkspace.id]; });
+                    if (!cloud) cloud = list.find(function (item) { return item.name === activeWorkspace.name; });
+                    if (!cloud) cloud = await window.WorkRoomCloud.createWorkspace(activeWorkspace.name);
+                    activeWorkspace.cloudId = cloud.id; map[activeWorkspace.id] = cloud.id;
+                    writeJson('workroomCloudWorkspaceMap', map); persistCollaborationState();
+                    var remote = await window.WorkRoomCloud.getState(cloud.id);
+                    var recovery = readJson(workspaceDataKey(activeWorkspace.id), null);
+                    var dirty = readJson(workspaceDirtyKey(activeWorkspace.id), null);
+                    if (dirty && recovery && remote && dirty.baseVersion === remote.version) {
+                        var recovered = await window.WorkRoomCloud.saveState(cloud.id, recovery, remote.version);
+                        cloudStateVersion = recovered.version;
+                        writeJson(workspaceDataKey(activeWorkspace.id), recovery);
+                        loadActiveWorkspaceData();
+                    } else if (dirty && recovery && remote) {
+                        cloudStateVersion = remote.version;
+                        showToast(currentLang === 'en' ? 'A local recovery copy conflicts with newer cloud data. It was kept on this device.' : 'สำเนากู้คืนในเครื่องชนกับข้อมูลใหม่บนคลาวด์ ระบบยังเก็บสำเนาในเครื่องไว้');
+                        cloudWorkspaceReady = false;
+                        return;
+                    } else if (remote && remote.data) {
+                        cloudStateVersion = remote.version;
+                        writeJson(workspaceDataKey(activeWorkspace.id), remote.data);
+                        loadActiveWorkspaceData();
+                    } else {
+                        var saved = await window.WorkRoomCloud.saveState(cloud.id, workspaceSnapshot(), undefined, 'local-storage-' + activeWorkspace.id + '-v1');
+                        cloudStateVersion = saved.version;
+                    }
+                    cloudWorkspaceReady = true;
+                    localStorage.removeItem(workspaceDirtyKey(activeWorkspace.id));
+                    localStorage.removeItem(workspaceDataKey(activeWorkspace.id));
+                } catch (error) {
+                    cloudWorkspaceReady = false;
+                    console.warn('[WorkRoom] Cloud storage unavailable; local recovery copy retained.', error && error.message);
+                }
+            }
+
+            function scheduleCloudSave(snapshot) {
+                if (!cloudWorkspaceReady || !activeWorkspace || !activeWorkspace.cloudId || !window.WorkRoomCloud) return;
+                writeJson(workspaceDirtyKey(activeWorkspace.id), { baseVersion: cloudStateVersion, at: Date.now() });
+                clearTimeout(cloudSaveTimer);
+                cloudSaveTimer = setTimeout(async function () {
+                    try {
+                        var saved = await window.WorkRoomCloud.saveState(activeWorkspace.cloudId, snapshot, cloudStateVersion);
+                        cloudStateVersion = saved.version;
+                        localStorage.removeItem(workspaceDirtyKey(activeWorkspace.id));
+                        localStorage.removeItem(workspaceDataKey(activeWorkspace.id));
+                    } catch (error) {
+                        cloudWorkspaceReady = false;
+                        writeJson(workspaceDataKey(activeWorkspace.id), snapshot);
+                        if (error && error.status === 409) showToast(currentLang === 'en' ? 'This workspace changed elsewhere. Reload before editing again.' : 'พื้นที่นี้ถูกแก้จากอุปกรณ์อื่น กรุณาโหลดหน้าใหม่ก่อนแก้ต่อ');
+                    }
+                }, 900);
             }
 
             function persistCollaborationState() {
@@ -247,6 +322,7 @@
                 stored.ideaPages = ideaPages;
                 stored.activeIdeaPageId = activeIdeaPageId;
                 writeJson(workspaceDataKey(activeWorkspace.id), stored);
+                scheduleCloudSave(workspaceSnapshot());
             }
 
             function scheduleWorkspaceSave() {
@@ -432,6 +508,8 @@
                 var next = collaborationState.workspaces.find(function (item) { return item.id === id; });
                 if (!next) return;
                 activeWorkspace = next;
+                cloudWorkspaceReady = false;
+                cloudStateVersion = null;
                 workspaceProfileTargetId = null;
                 collaborationState.activeWorkspaceId = id;
                 persistCollaborationState();
@@ -441,6 +519,7 @@
                 renderWorkspaceMenu();
                 renderTeamPanel();
                 syncRegisteredUsers();
+                bootstrapCloudWorkspace(getCurrentAccount());
                 showToast('เปลี่ยนเป็น ' + next.name + ' แล้ว');
             }
 

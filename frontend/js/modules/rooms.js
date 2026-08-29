@@ -2,6 +2,15 @@
  * WorkRoom Rooms, Sections & Page Navigation
  */
             // ========== ROOMS ==========
+            function resetRoomEditorViewport() {
+                window.requestAnimationFrame(function () {
+                    ['.idea-sheet', '#normalEditor', '#postitLibrary'].forEach(function (selector) {
+                        var scroller = document.querySelector(selector);
+                        if (scroller) scroller.scrollTop = 0;
+                    });
+                });
+            }
+
             function switchRoom(roomId, el) {
                 toggleMobileSidebar(false);
                 setMobileRoomFocus(true);
@@ -13,6 +22,7 @@
                 let breadcrumb = document.getElementById('headerBreadcrumb');
                 if (breadcrumb) breadcrumb.innerHTML = escapeHtml(roomName) + ' <span>/</span> ' + escapeHtml(workroomSystemText('ไม่มีชื่อ'));
                 renderEditor();
+                resetRoomEditorViewport();
                 renderPageHistory();
                 applyWorkspaceRole();
             }
@@ -33,8 +43,8 @@
                 app.classList.toggle('mobile-room-focus', isMobile && isFocused);
                 var toggle = app.querySelector('.mobile-sidebar-toggle');
                 if (!toggle) return;
-                toggle.textContent = isMobile && isFocused ? '←' : '☰';
-                toggle.setAttribute('aria-label', isMobile && isFocused ? 'กลับไปเลือกห้อง' : 'เปิดเมนูห้อง');
+                toggle.textContent = '☰';
+                toggle.setAttribute('aria-label', 'เปิดเมนูห้อง');
             }
 
             window.addEventListener('resize', function () {
@@ -129,6 +139,7 @@
                 roomPages[currentRoomId] = collection.pages.find(function (page) { return page.id === pageId; });
                 saveActiveWorkspaceData();
                 renderEditor();
+                resetRoomEditorViewport();
             }
 
             function deleteRoomPage(event, pageId) {
@@ -169,6 +180,7 @@
                 renderIdeaPageTabs();
                 renderIdeaBlocks();
                 renderWhiteboard();
+                resetRoomEditorViewport();
                 saveActiveWorkspaceData();
             }
 

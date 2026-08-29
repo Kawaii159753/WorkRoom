@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KawaiiRoomie — Mobile Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body { display: grid; place-items: center; padding: 24px; color: #f8f4ff; background: radial-gradient(circle at 20% 10%, #302747, transparent 32%), #0b0a12; font-family: Inter, system-ui, sans-serif; }
+    .preview-shell { width: min(100%, 438px); }
+    .preview-label { margin: 0 0 10px; display: flex; justify-content: space-between; color: #bdb6c9; font-size: 12px; }
+    .phone { width: 410px; max-width: 100%; height: min(864px, calc(100vh - 76px)); margin: auto; padding: 10px; overflow: hidden; border: 1px solid #4b4559; border-radius: 34px; background: #17151f; box-shadow: 0 28px 80px rgba(0,0,0,.55); }
+    iframe { width: 390px; max-width: 100%; height: 844px; max-height: 100%; display: block; border: 0; border-radius: 25px; background: #fff; }
+    @media (max-width: 440px) {
+      body { padding: 0; background: #17151f; }
+      .preview-shell { width: 100%; }
+      .preview-label { display: none; }
+      .phone { width: 100%; height: 100vh; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
+      iframe { border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-shell">
+    <p class="preview-label"><span>KawaiiRoomie mobile preview</span><span>390 × 844</span></p>
+    <div class="phone"><iframe src="./#" title="ตัวอย่าง KawaiiRoomie บนหน้าจอโทรศัพท์"></iframe></div>
+  </main>
+</body>
+</html>

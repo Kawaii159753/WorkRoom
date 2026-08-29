@@ -7,6 +7,7 @@
 - Set `NODE_ENV=production` and configure `CLIENT_URL` with only the exact HTTPS frontend origins.
 - Serve the frontend and API over HTTPS. Never publish `.env`, database dumps, logs, or the local Prisma database.
 - Run `npm audit`, `npm test`, and `npm run build` before deployment.
+- Never set `ALLOW_DEMO_SEED=true` against a production or shared database.
 - Keep the API behind request logging, monitoring, backups, and an upstream rate limit or WAF.
 
 ## Security controls in the application
@@ -16,6 +17,7 @@
 - Workspace, private-room, workflow, and comment access is checked server-side.
 - CORS uses an explicit origin allowlist and production cookies require HTTPS.
 - API responses use `Cache-Control: no-store`; Helmet supplies security headers.
+- Legacy whole-workspace state is filtered for non-owners and can only be replaced by an owner; migrate to room-scoped persistence before enabling partial editors to save cloud state.
 
 ## Reporting a vulnerability
 

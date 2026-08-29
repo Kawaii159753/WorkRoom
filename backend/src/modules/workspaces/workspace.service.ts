@@ -1,8 +1,44 @@
 import { prisma } from '../../config/prisma.js';
 import { ERROR_CODES, ROLES, WorkspaceRoleType } from '../../constants/index.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import { filterWorkspaceStateForViewer, WorkspaceStateViewer } from './workspace-state-security.js';
 
 export class WorkspaceService {
+  static async getWorkspaceState(workspaceId: string, viewer: WorkspaceStateViewer) {
+    const state = await prisma.workspaceState.findUnique({ where: { workspaceId } });
+    return state ? {
+      data: filterWorkspaceStateForViewer(state.data, viewer),
+      version: state.version,
+      updatedAt: state.updatedAt,
+    } : null;
+  }
+
+  static async saveWorkspaceState(workspaceId: string, userId: string, data: unknown, baseVersion?: number, migrationId?: string) {
+    return prisma.$transaction(async (tx) => {
+      const current = await tx.workspaceState.findUnique({ where: { workspaceId } });
+      if (current && typeof baseVersion === 'number' && current.version !== baseVersion) {
+        throw new AppError(ERROR_CODES.CONFLICT, 'Workspace changed on another device. Reload before saving.', 409);
+      }
+      const payload = data as object;
+      const nextData = migrationId && payload && typeof payload === 'object'
+        ? { ...payload, _migration: { id: migrationId, migratedAt: new Date().toISOString() } }
+        : payload;
+      if (!current) {
+        return tx.workspaceState.create({ data: { workspaceId, updatedById: userId, data: nextData } });
+      }
+      if (typeof baseVersion === 'number') {
+        const result = await tx.workspaceState.updateMany({
+          where: { workspaceId, version: baseVersion },
+          data: { data: nextData, updatedById: userId, version: { increment: 1 } },
+        });
+        if (result.count !== 1) {
+          throw new AppError(ERROR_CODES.CONFLICT, 'Workspace changed on another device. Reload before saving.', 409);
+        }
+        return tx.workspaceState.findUniqueOrThrow({ where: { workspaceId } });
+      }
+      return tx.workspaceState.update({ where: { workspaceId }, data: { data: nextData, updatedById: userId, version: { increment: 1 } } });
+    });
+  }
   private static async assertRoomsBelongToWorkspace(workspaceId: string, roomIds: string[]) {
     if (roomIds.length === 0) return;
     const uniqueIds = [...new Set(roomIds)];

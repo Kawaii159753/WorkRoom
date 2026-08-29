@@ -47,3 +47,21 @@ export const workspaceParamsSchema = z.object({
 export const memberParamsSchema = z.object({
   params: z.object({ workspaceId: z.string().uuid(), userId: z.string().uuid() }),
 });
+
+const jsonValue: z.ZodType<unknown> = z.lazy(() =>
+  z.union([z.string(), z.number().finite(), z.boolean(), z.null(), z.array(jsonValue), z.record(jsonValue)])
+);
+
+export const saveWorkspaceStateSchema = z.object({
+  params: z.object({ workspaceId: z.string().uuid() }),
+  body: z.object({
+    data: jsonValue,
+    baseVersion: z.number().int().nonnegative().optional(),
+    migrationId: z.string().trim().min(8).max(120).optional(),
+  }).superRefine((value, context) => {
+    const bytes = Buffer.byteLength(JSON.stringify(value.data), 'utf8');
+    if (bytes > 5 * 1024 * 1024) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['data'], message: 'Workspace state must not exceed 5 MB' });
+    }
+  }),
+});

@@ -4,6 +4,9 @@ import argon2 from 'argon2';
 const prisma = new PrismaClient();
 
 async function main() {
+  if (process.env.NODE_ENV === 'production' || process.env.ALLOW_DEMO_SEED !== 'true') {
+    throw new Error('Demo seed is disabled. Set ALLOW_DEMO_SEED=true only in an isolated development database.');
+  }
   console.log('🌱 Starting database seed...');
 
   // 1. Create Demo Users

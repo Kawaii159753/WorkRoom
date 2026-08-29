@@ -1,3 +1,4 @@
+# Production deploy configuration
 [build]
   publish = "frontend"
 

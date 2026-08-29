@@ -1,10 +1,15 @@
 import { Router, Response, NextFunction } from 'express';
+import { z } from 'zod';
 import { prisma } from '../../config/prisma.js';
 import { requireAuth } from '../../middleware/auth.js';
 import { AuthenticatedRequest } from '../../types/index.js';
 import { sendSuccess } from '../../utils/response.js';
+import { validate } from '../../middleware/validate.js';
 
 const router = Router();
+const notificationParamsSchema = z.object({
+  params: z.object({ notificationId: z.string().uuid() }),
+});
 
 // List notifications for current user
 router.get('/', requireAuth, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -28,6 +33,7 @@ router.get('/', requireAuth, async (req: AuthenticatedRequest, res: Response, ne
 router.patch(
   '/:notificationId/read',
   requireAuth,
+  validate(notificationParamsSchema),
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
       const { notificationId } = req.params;
@@ -62,4 +68,4 @@ router.post(
   }
 );
 
-export const notificationRouter = router;
+export const notificationRouter: Router = router;
