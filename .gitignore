@@ -29,6 +29,16 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
+.pnpm-store/
+security-backup-before-cloud-migration-*/
+security-backup-*/
+frontend-backup-*/
+frontend/backups/
+
+# Placeholder installers are not release artifacts. Publish signed URLs via
+# WORKROOM_CONFIG.downloads instead of committing binaries here.
+frontend/assets/*.exe
+frontend/assets/*.dmg
 
 # OS & Editor Files
 .DS_Store

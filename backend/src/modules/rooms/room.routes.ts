@@ -15,8 +15,8 @@ const createRoomSchema = z.object({
   body: z.object({
     workspaceId: z.string().uuid(),
     sectionId: z.string().uuid().optional(),
-    name: z.string().min(1, 'Room name is required'),
-    icon: z.string().optional(),
+    name: z.string().trim().min(1, 'Room name is required').max(100),
+    icon: z.string().trim().max(32).optional(),
     isPrivate: z.boolean().default(false),
   }),
 });
@@ -86,4 +86,4 @@ router.get(
   }
 );
 
-export const roomRouter = router;
+export const roomRouter: Router = router;

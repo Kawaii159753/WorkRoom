@@ -82,6 +82,9 @@ export class AuthService {
   static generateToken(userId: string, email: string): string {
     return jwt.sign({ userId, email }, env.JWT_SECRET, {
       expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+      algorithm: 'HS256',
+      issuer: 'workroom-api',
+      audience: 'workroom-web',
     });
   }
 }

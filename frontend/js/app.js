@@ -343,7 +343,13 @@
         }
 
         function downloadApp() {
-            showWorkroom();
+            if (typeof handleAppDownload === 'function') {
+                handleAppDownload();
+            } else if (typeof window.handleAppDownload === 'function') {
+                window.handleAppDownload();
+            } else {
+                showWorkroom();
+            }
         }
 
         window.addEventListener('popstate', function (event) {

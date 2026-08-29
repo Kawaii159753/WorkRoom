@@ -31,7 +31,11 @@ export async function requireAuth(
       );
     }
 
-    const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
+    const decoded = jwt.verify(token, env.JWT_SECRET, {
+      algorithms: ['HS256'],
+      issuer: 'workroom-api',
+      audience: 'workroom-web',
+    }) as JwtPayload;
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },

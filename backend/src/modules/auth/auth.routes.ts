@@ -24,4 +24,4 @@ router.post(
 router.post('/logout', AuthController.logout);
 router.get('/me', requireAuth, AuthController.getMe);
 
-export const authRouter = router;
+export const authRouter: Router = router;

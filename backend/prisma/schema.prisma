@@ -37,16 +37,17 @@ model User {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   // Relations
-  memberships          WorkspaceMember[]
-  roomPermissions      RoomPermission[]
-  createdWorkflows     Workflow[]           @relation("WorkflowCreator")
-  assignedWorkflows    WorkflowAssignee[]
-  comments             Comment[]            @relation("CommentAuthor")
-  resolvedComments     Comment[]            @relation("CommentResolver")
-  activityLogs         ActivityLog[]        @relation("ActivityActor")
-  receivedNotifications Notification[]      @relation("NotificationRecipient")
+  memberships            WorkspaceMember[]
+  roomPermissions        RoomPermission[]
+  createdWorkflows       Workflow[]         @relation("WorkflowCreator")
+  assignedWorkflows      WorkflowAssignee[]
+  comments               Comment[]          @relation("CommentAuthor")
+  resolvedComments       Comment[]          @relation("CommentResolver")
+  activityLogs           ActivityLog[]      @relation("ActivityActor")
+  receivedNotifications  Notification[]     @relation("NotificationRecipient")
   triggeredNotifications Notification[]     @relation("NotificationActor")
-  uploadedFiles        FileAttachment[]
+  uploadedFiles          FileAttachment[]
+  updatedWorkspaceStates WorkspaceState[]   @relation("WorkspaceStateUpdater")
 
   @@map("users")
 }
@@ -71,8 +72,25 @@ model Workspace {
   activityLogs  ActivityLog[]
   notifications Notification[]
   files         FileAttachment[]
+  state         WorkspaceState?
 
   @@map("workspaces")
+}
+
+model WorkspaceState {
+  id          String   @id @default(uuid())
+  workspaceId String   @unique @map("workspace_id")
+  data        Json     @default("{}")
+  version     Int      @default(1)
+  updatedById String   @map("updated_by_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  updatedBy User      @relation("WorkspaceStateUpdater", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  @@index([updatedById])
+  @@map("workspace_states")
 }
 
 model WorkspaceMember {
@@ -254,12 +272,12 @@ model Comment {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  workspace      Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  workflow       Workflow  @relation(fields: [workflowId], references: [id], onDelete: Cascade)
-  author         User      @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
-  resolvedBy     User?     @relation("CommentResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
-  parentComment  Comment?  @relation("ThreadReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
-  replies        Comment[] @relation("ThreadReplies")
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workflow      Workflow  @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  author        User      @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  resolvedBy    User?     @relation("CommentResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
+  parentComment Comment?  @relation("ThreadReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies       Comment[] @relation("ThreadReplies")
 
   @@index([workspaceId])
   @@index([workflowId])

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkRoom</title>
+    <title>KawaiiRoomie</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -22,6 +22,7 @@
         integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm"
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="css/style.css?v=20260829-logout-confirm-1">
+    <link rel="stylesheet" href="css/landing-showcase.css?v=20260829-mobile-menu-all-pages-3">
 
 </head>
 
@@ -35,7 +36,11 @@
     <div id="page-bento">
         <!-- NAVBAR -->
         <nav class="bento-navbar">
-            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <button type="button" class="landing-mobile-menu-toggle" id="landingMobileMenuToggle"
+                aria-label="เปิดเมนูเว็บไซต์" aria-expanded="false" aria-controls="landingMobileMenu">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">KawaiiRoomie</a>
             <div class="nav-links">
                 <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
@@ -43,14 +48,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                <button class="nav-download" onclick="handleAppDownload()" aria-label="Download KawaiiRoomie" data-i18n-aria-label="navDownload">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                    <span data-i18n="navDownload">ดาวน์โหลด</span>
                 </button>
                 <div class="lang-toggle" id="langToggle">
                     <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
@@ -58,6 +63,12 @@
                 </div>
             </div>
         </nav>
+        <div class="landing-mobile-menu" id="landingMobileMenu" hidden>
+            <button type="button" data-mobile-page="features" data-i18n="navFeatures">ฟีเจอร์</button>
+            <button type="button" data-mobile-page="story" data-i18n="navStory">เรื่องราวของเรา</button>
+            <button type="button" data-mobile-page="blog" data-i18n="navBlog">บล็อก</button>
+            <button type="button" data-mobile-page="download" data-i18n="navDownload">ดาวน์โหลด</button>
+        </div>
 
 
 
@@ -77,8 +88,144 @@
         <!-- NOISE OVERLAY -->
         <div class="noise"></div>
 
+        <!-- PRODUCT-LED LANDING INTRO -->
+        <main class="product-landing" id="productLanding">
+            <section class="product-hero" aria-labelledby="productHeroTitle">
+                <div class="product-hero-glow product-hero-glow-pink" aria-hidden="true"></div>
+                <div class="product-hero-glow product-hero-glow-blue" aria-hidden="true"></div>
+                <div class="product-hero-copy">
+                    <div class="product-kicker" data-landing-i18n="heroKicker"><span></span> พื้นที่ทำงานของทีมยุคใหม่</div>
+                    <h1 id="productHeroTitle" data-landing-i18n="heroTitle">เปลี่ยนทุกไอเดีย<br>ให้กลายเป็น<span>งานที่ไปต่อได้</span></h1>
+                    <p data-landing-i18n="heroDesc">KawaiiRoomie รวมการจดไอเดีย วางแผน แบ่งห้อง และทำงานร่วมกับทีมไว้ในพื้นที่เดียว เพื่อให้ทุกคนเห็นภาพเดียวกันตั้งแต่เริ่มคิดจนงานเสร็จ</p>
+                    <div class="product-hero-actions">
+                        <button type="button" class="product-primary" onclick="showWorkroom()" data-landing-i18n="openApp">เปิด KawaiiRoomie <span aria-hidden="true">→</span></button>
+                        <a class="product-secondary" href="#productTour" data-landing-i18n="seeHow">ดูว่าใช้งานอย่างไร <span aria-hidden="true">↓</span></a>
+                    </div>
+                    <ul class="product-trust-list" aria-label="ฟังก์ชันของ KawaiiRoomie">
+                        <li data-landing-i18n="trustRooms"><span>✓</span> ห้องใช้ร่วมกันและห้องส่วนตัว แยกตามหัวข้อ</li>
+                        <li data-landing-i18n="trustSearch"><span>✓</span> ค้นหาห้อง เอกสาร ไฟล์ และลิงก์</li>
+                        <li data-landing-i18n="trustLanguage"><span>✓</span> ใช้งานได้ทั้งภาษาไทยและอังกฤษ</li>
+                    </ul>
+                </div>
+
+                <div class="product-hero-visual" aria-label="ตัวอย่างหน้าจอ KawaiiRoomie">
+                    <div class="product-window">
+                        <div class="product-window-bar">
+                            <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <span>ตัวอย่างหน้าจอภายใน KawaiiRoomie</span>
+                            <span class="window-live">KAWAIIROOMIE</span>
+                        </div>
+                        <div class="product-window-canvas">
+                            <img src="assets/workroom-app-preview.png" alt="หน้าจอ KawaiiRoomie แสดงห้องไอเดียและเครื่องมือทำงานของทีม">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="product-proof" id="featuresOverview" aria-label="คุณค่าหลักของ KawaiiRoomie">
+                <p data-landing-i18n="proofTitle">ฟังก์ชันที่มีอยู่จริงใน KawaiiRoomie</p>
+                <div class="proof-items">
+                    <div><strong>✎</strong><span data-landing-i18n="proofEditor">เขียนเอกสาร เพิ่มรูป<br>และวาดบน whiteboard</span></div>
+                    <div><strong>▦</strong><span data-landing-i18n="proofRooms">สร้างห้องใช้ร่วมกันหรือส่วนตัว<br>และจัดไว้ใต้หัวข้อที่เลือก</span></div>
+                    <div><strong>✓</strong><span data-landing-i18n="proofTasks">มอบหมายงาน กำหนดวันส่ง<br>และติดตามสถานะ</span></div>
+                </div>
+            </section>
+
+            <section class="rooms-showcase" id="roomsShowcase" aria-labelledby="roomsShowcaseTitle">
+                <div class="rooms-showcase-head">
+                    <div>
+                        <span class="product-kicker"><span></span> ALL ROOMS</span>
+                        <h2 id="roomsShowcaseTitle" data-landing-i18n="roomsTitle">ดูหน้าการทำงาน<br>ของทุกห้องในแอป</h2>
+                    </div>
+                </div>
+
+                <div class="rooms-showcase-shell">
+                    <div class="rooms-tabs" role="tablist" aria-label="เลือกห้อง KawaiiRoomie">
+                        <button type="button" class="room-tab is-active" id="roomTabIdeas" role="tab" aria-selected="true" aria-controls="roomPreview" data-room-preview="ideas">
+                            <span>💡</span><b>Ideas</b><small>GENERAL</small>
+                        </button>
+                        <button type="button" class="room-tab" role="tab" aria-selected="false" aria-controls="roomPreview" data-room-preview="my-postits">
+                            <span>📁</span><b>My Post-its</b><small>GENERAL</small>
+                        </button>
+                        <button type="button" class="room-tab" role="tab" aria-selected="false" aria-controls="roomPreview" data-room-preview="team-postits">
+                            <span>👥</span><b>Team Post-its</b><small>GENERAL</small>
+                        </button>
+                        <button type="button" class="room-tab" role="tab" aria-selected="false" aria-controls="roomPreview" data-room-preview="private-project">
+                            <span>🔒</span><b>Private Project</b><small>PRIVATE</small>
+                        </button>
+                        <button type="button" class="room-tab" role="tab" aria-selected="false" aria-controls="roomPreview" data-room-preview="content-team">
+                            <span>📂</span><b>Content Team</b><small>DEPARTMENT</small>
+                        </button>
+                        <button type="button" class="room-tab" role="tab" aria-selected="false" aria-controls="roomPreview" data-room-preview="web-development">
+                            <span>💻</span><b>Web Development</b><small>DEPARTMENT</small>
+                        </button>
+                    </div>
+
+                    <div class="room-preview-panel" id="roomPreview" role="tabpanel" aria-labelledby="roomTabIdeas">
+                        <div class="room-preview-meta">
+                            <span class="room-preview-index">01 / 06</span>
+                            <div><p>IDEAS ROOM</p><h3>จดและพัฒนาไอเดีย</h3><span>Block editor · รูปภาพ · Whiteboard</span></div>
+                            <em data-landing-i18n="actualScreen">ภาพจากแอปจริง</em>
+                        </div>
+                        <div class="room-preview-frame">
+                            <img src="assets/rooms/ideas.png" alt="หน้าจอจริงของห้อง Ideas ใน KawaiiRoomie">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="product-tour" id="productTour" aria-labelledby="productTourTitle">
+                <div class="tour-heading">
+                    <span class="product-kicker"><span></span> PRODUCT TOUR</span>
+                    <h2 id="productTourTitle" data-landing-i18n="tourTitle">เห็นวิธีทำงาน<br>ก่อนตัดสินใจเริ่มใช้</h2>
+                    <p data-landing-i18n="tourDesc">เลื่อนลงเพื่อดูว่า KawaiiRoomie ช่วยเปลี่ยนงานที่กระจัดกระจาย ให้กลายเป็นขั้นตอนที่ทีมตามต่อได้อย่างไร</p>
+                </div>
+
+                <div class="tour-layout">
+                    <div class="tour-steps" role="list">
+                        <article class="tour-step is-active" data-tour-step="0" role="listitem">
+                            <span class="tour-number">01</span>
+                            <div><p class="tour-label">IDEAS ROOM</p><h3 data-landing-i18n="step1Title">เขียน เพิ่มรูป และวาดไอเดียในหน้าเดียว</h3><p data-landing-i18n="step1Desc">ห้อง Ideas รองรับ editor แบบบล็อก รูปภาพ และ whiteboard พร้อมเมนูคำสั่ง / สำหรับเพิ่มเนื้อหาหลายรูปแบบ</p><ul data-landing-i18n="step1List"><li>Block editor</li><li>รูปภาพ</li><li>Whiteboard</li></ul><figure class="tour-step-mobile-visual"><img src="assets/workroom-app-preview.png" alt="หน้าจอจริงของห้อง Ideas ใน KawaiiRoomie"><figcaption><b data-landing-i18n="screenFeatures">ฟังก์ชันในภาพ</b><span>Ideas editor · Templates · My tasks</span></figcaption></figure></div>
+                        </article>
+                        <article class="tour-step" data-tour-step="1" role="listitem">
+                            <span class="tour-number">02</span>
+                            <div><p class="tour-label">ROOMS</p><h3 data-landing-i18n="step2Title">จัดงานด้วยห้องตามประเภทที่มีในแอป</h3><p data-landing-i18n="step2Desc">สร้างและแก้ไขห้องได้ โดยเลือกเป็นห้องส่วนตัวหรือห้องทีม ส่วนแถบด้านข้างแยกหน้าทั่วไป ห้องส่วนตัว และห้องแผนกให้เห็นชัด</p><ul><li>Private room</li><li>Team room</li><li>Department section</li></ul><figure class="tour-step-mobile-visual"><img class="tour-focus-rooms" src="assets/workroom-app-preview.png" alt="หน้าจอจริงแสดงห้องทั่วไป ห้องส่วนตัว และห้องแผนกใน KawaiiRoomie"><figcaption><b data-landing-i18n="screenTypes">ประเภทที่เห็นในแอป</b><span>General · Private rooms · Departments</span></figcaption></figure></div>
+                        </article>
+                        <article class="tour-step" data-tour-step="2" role="listitem">
+                            <span class="tour-number">03</span>
+                            <div><p class="tour-label">WORKFLOW</p><h3 data-landing-i18n="step3Title">มอบหมายและติดตามงานจากเนื้อหาใน KawaiiRoomie</h3><p data-landing-i18n="step3Desc">กำหนดผู้รับผิดชอบ วันส่ง และสถานะงาน พร้อมพูดคุยด้วยความคิดเห็นและ @mention จากนั้นดูรายการที่เกี่ยวข้องได้ใน My tasks</p><ul data-landing-i18n="step3List"><li>ผู้รับผิดชอบและวันส่ง</li><li>สถานะงาน</li><li>ความคิดเห็นและ mention</li></ul><figure class="tour-step-mobile-visual"><img class="tour-focus-tasks" src="assets/workroom-app-preview.png" alt="หน้าจอจริงแสดงปุ่ม My tasks, Templates, Search และสมาชิกทีมใน KawaiiRoomie"><figcaption><b data-landing-i18n="screenAvailable">ฟังก์ชันที่ใช้งานได้</b><span>My tasks · Search · Templates · Team</span></figcaption></figure></div>
+                        </article>
+                    </div>
+
+                    <div class="tour-stage" aria-live="polite">
+                        <div class="tour-progress" aria-hidden="true"><span></span></div>
+                        <div class="tour-screen tour-screen-real is-active" data-tour-screen="0">
+                            <div class="tour-screen-toolbar"><span data-landing-i18n="screenIdeas">ห้องไอเดีย</span><div><i></i><i></i><i></i></div></div>
+                            <img src="assets/workroom-app-preview.png" alt="หน้าจอจริงของห้อง Ideas ใน KawaiiRoomie">
+                            <div class="tour-float-card float-pink"><b data-landing-i18n="screenFeatures">ฟังก์ชันในภาพ</b><span>Ideas editor · Templates · My tasks</span></div>
+                        </div>
+                        <div class="tour-screen tour-screen-real" data-tour-screen="1">
+                            <div class="tour-screen-toolbar"><span data-landing-i18n="screenRooms">รายการห้องในแถบด้านข้าง</span><div><i></i><i></i><i></i></div></div>
+                            <img class="tour-focus-rooms" src="assets/workroom-app-preview.png" alt="หน้าจอจริงแสดงห้องทั่วไป ห้องส่วนตัว และห้องแผนกใน KawaiiRoomie">
+                            <div class="tour-float-card float-pink"><b data-landing-i18n="screenTypes">ประเภทที่เห็นในแอป</b><span>General · Private rooms · Departments</span></div>
+                        </div>
+                        <div class="tour-screen tour-screen-real" data-tour-screen="2">
+                            <div class="tour-screen-toolbar"><span data-landing-i18n="screenTasks">My tasks และเครื่องมือด้านบน</span><div><i></i><i></i><i></i></div></div>
+                            <img class="tour-focus-tasks" src="assets/workroom-app-preview.png" alt="หน้าจอจริงแสดงปุ่ม My tasks, Templates, Search และสมาชิกทีมใน KawaiiRoomie">
+                            <div class="tour-float-card float-pink"><b data-landing-i18n="screenAvailable">ฟังก์ชันที่ใช้งานได้</b><span>My tasks · Search · Templates · Team</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="product-final-cta" aria-labelledby="productCtaTitle">
+                <div><span class="product-kicker" data-landing-i18n="ctaKicker"><span></span> พร้อมเมื่อคุณพร้อม</span><h2 id="productCtaTitle" data-landing-i18n="ctaTitleLanding">ให้ทุกไอเดียของทีม<br>มีพื้นที่ได้เติบโต</h2></div>
+                <div><p data-landing-i18n="ctaDescLanding">เปิด KawaiiRoomie เพื่อทดลองสร้างห้อง จดไอเดีย ใช้ Templates และดูระบบ My tasks ด้วยตัวเอง</p><button type="button" class="product-primary" onclick="showWorkroom()" data-landing-i18n="openApp">เปิด KawaiiRoomie <span aria-hidden="true">→</span></button></div>
+            </section>
+        </main>
+
         <!-- SECTION 1: HERO -->
-        <section class="section sec-hero">
+        <section class="section sec-hero legacy-landing-section" aria-hidden="true">
             <!-- Post-it Note -->
             <div class="float-3d obj-blue" data-speed="0.2">
                 <div class="shape-body">
@@ -231,7 +378,7 @@
 
 
         <!-- SECTION 2: FLOATING NOTES -->
-        <section class="section sec-float">
+        <section class="section sec-float legacy-landing-section" aria-hidden="true">
             <div class="float-notes-layer" id="floatLayer"></div>
             <div class="sec-float-content" data-speed="0.02">
                 <h2 data-i18n="floatTitle">Ideas Floating<br>Everywhere</h2>
@@ -243,7 +390,7 @@
 
 
         <!-- SECTION 3: HERO NOTE -->
-        <section class="section sec-hero-note">
+        <section class="section sec-hero-note legacy-landing-section" aria-hidden="true">
             <div class="orb orb-pink" data-speed="0.3"></div>
             <div class="orb orb-blue" data-speed="-0.25"></div>
             <div class="orb orb-yellow" data-speed="0.2"></div>
@@ -258,7 +405,7 @@
 
 
         <!-- SECTION 4: CREATIVE WALL -->
-        <section class="section sec-wall" id="features">
+        <section class="section sec-wall legacy-landing-section" id="features" aria-hidden="true">
             <div class="wall-text" data-speed="0.03">
                 <h2 data-i18n="wallTitle">Your Creative Wall</h2>
                 <p data-i18n="wallDesc">Organize thoughts, sketches, and wireframes in one beautiful space</p>
@@ -292,9 +439,9 @@
                         <span class="login-note note-yellow">DO IT</span>
                         <span class="login-note note-purple">CREATE</span>
                     </div>
-                    <a href="#" class="login-brand" onclick="showBento();return false;">WorkRoom</a>
+                    <a href="#" class="login-brand" onclick="showBento();return false;">KawaiiRoomie</a>
                     <div class="login-visual-copy">
-                        <p class="login-eyebrow" data-login-copy="eyebrow">กลับเข้าสู่ WorkRoom</p>
+                        <p class="login-eyebrow" data-login-copy="eyebrow">กลับเข้าสู่ KawaiiRoomie</p>
                         <h1 data-login-copy="visualTitle">ไปต่อจากงาน<br>ที่คุณค้างไว้</h1>
                         <p data-login-copy="visualText">เข้าสู่พื้นที่ของทีมเพื่อดูงานที่ได้รับมอบหมาย ความคิดเห็น และสิ่งที่ต้องตัดสินใจ</p>
                         <ul class="login-features">
@@ -306,7 +453,7 @@
                 </section>
                 <section class="login-panel">
                     <header class="login-panel-header">
-                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;">WorkRoom</a>
+                        <a href="#" class="login-brand login-mobile-brand" onclick="showBento();return false;">KawaiiRoomie</a>
                         <div class="login-language" role="group" aria-label="เปลี่ยนภาษา">
                             <span aria-hidden="true">◎</span>
                             <button type="button" class="lang-btn active" data-lang="th" onclick="setLang('th')">ไทย</button>
@@ -314,7 +461,7 @@
                         </div>
                     </header>
                     <div class="login-box">
-                <p class="login-kicker">WORKROOM ACCOUNT</p>
+                <p class="login-kicker">KAWAIIROOMIE ACCOUNT</p>
                 <h2 data-login-copy="title">ยินดีต้อนรับกลับมา</h2>
                 <p class="login-subtitle" data-login-copy="subtitle">เข้าสู่ระบบเพื่อกลับไปจัดการงานและทำงานร่วมกับทีมของคุณ</p>
                 <div class="social-btns" id="socialLoginOptions" hidden>
@@ -363,7 +510,7 @@
         <div id="mainApp">
             <div class="app-frame">
                 <aside class="sidebar-left">
-                    <div class="sidebar-logo">WorkRoom</div>
+                    <div class="sidebar-logo">KawaiiRoomie</div>
                     <div class="sidebar-content" id="sidebarContent" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
                         <button class="create-room-btn" onclick="openCreateItemModal()" title="สร้างห้องใหม่">
                             <span data-i18n="wrCreateRoom">สร้างห้องใหม่</span>
@@ -1005,7 +1152,7 @@
         <div class="modal-overlay" id="accountModal">
             <div class="account-page" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle" tabindex="-1" data-lenis-prevent data-lenis-prevent-wheel data-lenis-prevent-touch>
                 <div class="account-header">
-                    <button class="account-back" onclick="closeModal('accountModal')" aria-label="กลับไป WorkRoom">
+                    <button class="account-back" onclick="closeModal('accountModal')" aria-label="กลับไป KawaiiRoomie">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M19 12H5" />
@@ -1035,7 +1182,7 @@
                         </div>
                         <div class="account-profile-info">
                             <div class="account-profile-name" id="acctDisplayName">kawaii</div>
-                            <div class="account-profile-status" data-i18n="acctFreeMember">บัญชี WorkRoom</div>
+                            <div class="account-profile-status" data-i18n="acctFreeMember">บัญชี KawaiiRoomie</div>
                         </div>
                     </div>
                     <div class="account-field-group" style="margin-top:16px;">
@@ -1088,7 +1235,7 @@
                 <div class="account-card account-danger">
                     <div class="account-danger-title" data-i18n="acctDangerTitle">DANGER ZONE</div>
                     <p class="account-danger-desc" data-i18n="acctDangerDesc">
-                        ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน WorkRoom ได้อีกต่อไป</p>
+                        ลบบัญชีจะทำให้ไม่สามารถเข้าถึงข้อมูลและเนื้อหาที่เชื่อมต่อบน KawaiiRoomie ได้อีกต่อไป</p>
                     <button class="account-danger-btn" onclick="deleteAccount()" data-i18n="acctDeleteBtn">🗑️
                         ลบบัญชี</button>
                 </div>
@@ -1258,7 +1405,7 @@
         <div class="modal-overlay" id="templateGalleryModal">
             <div class="modal-box template-gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="templateGalleryTitle">
                 <div class="task-detail-head">
-                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว WorkRoom จะสร้างหน้าใหม่ในห้องนี้ให้พร้อมใช้</p></div>
+                    <div><div class="task-detail-kicker">START WITH A PLAN</div><h2 id="templateGalleryTitle" data-i18n="wrTemplatesTitle">เริ่มงานได้ทันที</h2><p class="template-gallery-subtitle" data-i18n="wrTemplatesSubtitle">เลือกโครงงาน แล้ว KawaiiRoomie จะสร้างหน้าใหม่ในห้องนี้ให้พร้อมใช้</p></div>
                     <button class="postit-reader-close" onclick="closeModal('templateGalleryModal')" aria-label="ปิด">×</button>
                 </div>
                 <div class="template-gallery-grid" id="templateGalleryGrid"></div>
@@ -1285,8 +1432,80 @@
             </div>
         </div>
 
+        <!-- ==================== DOWNLOAD APP MODAL ==================== -->
+        <div class="modal-overlay" id="downloadAppModal">
+            <div class="modal-box download-app-dialog" role="dialog" aria-modal="true" aria-labelledby="downloadAppTitle">
+                <button type="button" class="modal-close-btn" onclick="closeModal('downloadAppModal')" aria-label="ปิด">✕</button>
 
+                <!-- DESKTOP VIEW -->
+                <div class="download-desktop-view">
+                    <div class="download-badge">💻 WINDOWS / MAC DESKTOP</div>
+                    <h2 class="modal-title" id="downloadAppTitle">ดาวน์โหลด KawaiiRoomie สำหรับ Desktop</h2>
+                    <p class="download-desc">เพิ่มความสะดวกรวดเร็วในการทำงานด้วยแอปพลิเคชัน KawaiiRoomie บนคอมพิวเตอร์</p>
+                    <div class="download-actions-grid">
+                        <button type="button" class="download-option-btn primary" onclick="triggerPCDownload('windows')">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M0 3.449L9.75 2.1v9.451H0zm10.95-1.614L24 0v11.4H10.95zM0 12.6h9.75v9.451L0 20.701zm10.95 0H24V24l-13.05-1.835z"/>
+                            </svg>
+                            <div>
+                                <b>ดาวน์โหลดสำหรับ Windows</b>
+                                <small>Installer (.exe)</small>
+                            </div>
+                        </button>
+                        <button type="button" class="download-option-btn secondary" onclick="triggerPCDownload('mac')">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.32c.67-.82 1.12-1.95.99-3.09-1 .04-2.21.67-2.9 1.48-.62.72-1.16 1.88-1.01 3 .12.01 2.24-.57 2.92-1.39z"/>
+                            </svg>
+                            <div>
+                                <b>ดาวน์โหลดสำหรับ macOS</b>
+                                <small>Apple Silicon / Intel (.dmg)</small>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="download-footer-note">
+                        <button type="button" class="btn-web-continue" onclick="closeModal('downloadAppModal');">
+                            ใช้งานเวอร์ชันเว็บต่อ →
+                        </button>
+                    </div>
+                </div>
 
+                <!-- MOBILE VIEW -->
+                <div class="download-mobile-view">
+                    <div class="download-badge">📱 MOBILE APP</div>
+                    <h2 class="modal-title">ดาวน์โหลด KawaiiRoomie Mobile App</h2>
+                    <p class="download-desc">เชื่อมต่อทุกไอเดียของทีมบนสมาร์ทโฟนได้ทุกที่ ทุกเวลา</p>
+                    <div class="store-buttons-container">
+                        <button type="button" class="store-badge-button app-store" onclick="showStoreComingSoon('App Store (iOS)')">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.32c.67-.82 1.12-1.95.99-3.09-1 .04-2.21.67-2.9 1.48-.62.72-1.16 1.88-1.01 3 .12.01 2.24-.57 2.92-1.39z"/>
+                            </svg>
+                            <div class="store-text">
+                                <span class="store-subtitle">Download on the</span>
+                                <span class="store-title">App Store</span>
+                            </div>
+                        </button>
+                        <button type="button" class="store-badge-button google-play" onclick="showStoreComingSoon('Google Play Store (Android)')">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3.609 1.814L15.426 12 3.609 22.186A1.85 1.85 0 0 1 3 20.814V3.186c0-.573.238-1.08.609-1.372zm13.235 11.41l2.45 2.112-12.78 7.375 10.33-9.487zm.001-2.449L6.514 1.288l12.78 7.375-2.45 2.112zm1.905 1.637l2.84 1.638a1.18 1.18 0 0 1 0 1.902l-2.84 1.638-2.07-1.79 2.07-1.788z"/>
+                            </svg>
+                            <div class="store-text">
+                                <span class="store-subtitle">GET IT ON</span>
+                                <span class="store-title">Google Play</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="store-status-banner">
+                        <span class="status-dot"></span>
+                        <span>แอปพลิเคชันมือถือจะเปิดดาวน์โหลดอย่างเป็นทางการเร็วๆ นี้</span>
+                    </div>
+                    <div class="download-footer-note">
+                        <button type="button" class="btn-web-continue" onclick="closeModal('downloadAppModal');">
+                            เข้าใช้งานเวอร์ชันเว็บต่อ →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -1295,7 +1514,11 @@
     <div id="page-story">
         <!-- NAVBAR -->
         <nav class="bento-navbar">
-            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <button type="button" class="landing-mobile-menu-toggle" aria-label="เปิดเมนูเว็บไซต์"
+                aria-expanded="false" aria-controls="landingMobileMenuStory">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">KawaiiRoomie</a>
             <div class="nav-links">
                 <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" class="active" onclick="return false;">เรื่องราวของเรา</a>
@@ -1303,14 +1526,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                <button class="nav-download" onclick="handleAppDownload()" aria-label="Download KawaiiRoomie" data-i18n-aria-label="navDownload">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                    <span data-i18n="navDownload">ดาวน์โหลด</span>
                 </button>
                 <div class="lang-toggle" id="langToggleStory">
                     <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
@@ -1318,6 +1541,11 @@
                 </div>
             </div>
         </nav>
+        <div class="landing-mobile-menu" id="landingMobileMenuStory" hidden>
+            <button type="button" data-mobile-page="features" data-i18n="navFeatures">ฟีเจอร์</button>
+            <button type="button" data-mobile-page="story" data-i18n="navStory">เรื่องราวของเรา</button>
+            <button type="button" data-mobile-page="blog" data-i18n="navBlog">บล็อก</button>
+        </div>
 
         <!-- HERO -->
         <section class="section sec-hero-story">
@@ -1335,7 +1563,7 @@
             <div class="origin-grid">
                 <div class="origin-visual" data-speed="0.04">
                     <div class="origin-sticky" id="originSticky">
-                        <h3 data-i18n="originStickyTitle">WorkRoom</h3>
+                        <h3 data-i18n="originStickyTitle">KawaiiRoomie</h3>
                         <p data-i18n="originStickyYear">ก่อตั้ง 2026</p>
                     </div>
                 </div>
@@ -1353,7 +1581,7 @@
                         มีเฉพาะฟังก์ชันที่จำเป็น รวดเร็ว และตรงจุด
                     </p>
                     <p data-i18n="originP3">
-                        WorkRoom จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน
+                        KawaiiRoomie จึงถูกสร้างขึ้นมาเพื่อตอบโจทย์นั้น — พื้นที่ที่ทุกคนสามารถจดบันทึก วางแผน
                         และทำงานร่วมกับทีมได้อย่างอิสระ โดยไม่มีอะไรมาขัดจังหวะความคิดสร้างสรรค์ของคุณ
                     </p>
                 </div>
@@ -1375,7 +1603,7 @@
                     </div>
                     <h4>KAWAII</h4>
                     <span class="team-role"><span class="role-highlight" data-i18n="team1RolePrefix">ออกแบบผลิตภัณฑ์</span>
-                        <span data-i18n="team1Role">ดูแลประสบการณ์ใช้งานและหน้าตา WorkRoom</span></span>
+                        <span data-i18n="team1Role">ดูแลประสบการณ์ใช้งานและหน้าตา KawaiiRoomie</span></span>
                 </div>
                 <div class="team-card">
                     <div class="team-avatar"
@@ -1409,7 +1637,7 @@
                 <div class="value-card vc-blue">
                     <div class="value-icon">🔒</div>
                     <h3 data-i18n="val3Title">ความปลอดภัยก่อนเสมอ</h3>
-                    <p data-i18n="val3Desc">ความเป็นส่วนตัวและสิทธิ์การเข้าถึงคือข้อกำหนดสำคัญในการพัฒนาระบบหลังบ้านของ WorkRoom</p>
+                    <p data-i18n="val3Desc">ความเป็นส่วนตัวและสิทธิ์การเข้าถึงคือข้อกำหนดสำคัญในการพัฒนาระบบหลังบ้านของ KawaiiRoomie</p>
                 </div>
                 <div class="value-card vc-green">
                     <div class="value-icon">🌱</div>
@@ -1422,7 +1650,7 @@
         <!-- CTA -->
         <section class="section sec-cta">
             <h2 class="cta-title" data-i18n="ctaTitle">มาร่วมสร้าง<br>เรื่องราวต่อไปด้วยกัน</h2>
-            <p class="cta-desc" data-i18n="ctaDesc">ลองสำรวจต้นแบบปัจจุบัน และดูว่า WorkRoom จะช่วยให้ทีมสร้างสรรค์ขนาดเล็กทำงานได้เป็นระบบขึ้นอย่างไร</p>
+            <p class="cta-desc" data-i18n="ctaDesc">ลองสำรวจต้นแบบปัจจุบัน และดูว่า KawaiiRoomie จะช่วยให้ทีมสร้างสรรค์ขนาดเล็กทำงานได้เป็นระบบขึ้นอย่างไร</p>
             <a href="#" class="glow-btn" data-i18n="startCreate"
                 onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
         </section>
@@ -1433,7 +1661,11 @@
     <div id="page-blog">
         <!-- NAVBAR -->
         <nav class="bento-navbar">
-            <a href="#" class="nav-logo" onclick="showBento(); return false;">WorkRoom</a>
+            <button type="button" class="landing-mobile-menu-toggle" aria-label="เปิดเมนูเว็บไซต์"
+                aria-expanded="false" aria-controls="landingMobileMenuBlog">
+                <span></span><span></span><span></span>
+            </button>
+            <a href="#" class="nav-logo" onclick="showBento(); return false;">KawaiiRoomie</a>
             <div class="nav-links">
                 <a href="#features" data-i18n="navFeatures" onclick="scrollToFeatures(event)">ฟีเจอร์</a>
                 <a href="#" data-i18n="navStory" onclick="showStory(); return false;">เรื่องราวของเรา</a>
@@ -1441,14 +1673,14 @@
             </div>
             <div class="nav-actions">
                 <button class="nav-login" data-i18n="navLogin" onclick="showWorkroom()">เข้าสู่ระบบ</button>
-                <button class="nav-download" onclick="showWorkroom()" aria-label="Open WorkRoom">
+                <button class="nav-download" onclick="handleAppDownload()" aria-label="Download KawaiiRoomie" data-i18n-aria-label="navDownload">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
-                    <span data-i18n="navDownload">เปิด WorkRoom</span>
+                    <span data-i18n="navDownload">ดาวน์โหลด</span>
                 </button>
                 <div class="lang-toggle" id="langToggleBlog">
                     <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
@@ -1456,15 +1688,20 @@
                 </div>
             </div>
         </nav>
+        <div class="landing-mobile-menu" id="landingMobileMenuBlog" hidden>
+            <button type="button" data-mobile-page="features" data-i18n="navFeatures">ฟีเจอร์</button>
+            <button type="button" data-mobile-page="story" data-i18n="navStory">เรื่องราวของเรา</button>
+            <button type="button" data-mobile-page="blog" data-i18n="navBlog">บล็อก</button>
+        </div>
 
         <!-- HERO -->
         <section class="section sec-blog-hero">
             <h1 class="blog-hero-title" data-speed="0.03">
                 <span data-i18n="blogTitle1">บล็อก</span><br>
-                <span data-i18n="blogTitle2">WorkRoom</span>
+                <span data-i18n="blogTitle2">KawaiiRoomie</span>
             </h1>
             <p class="blog-hero-desc" data-i18n="blogHeroDesc" data-speed="0.02">
-                เคล็ดลับ แนวทาง และเรื่องราวที่จะช่วยให้คุณใช้งาน WorkRoom และจัดการไอเดียได้อย่างเต็มประสิทธิภาพ
+                เคล็ดลับ แนวทาง และเรื่องราวที่จะช่วยให้คุณใช้งาน KawaiiRoomie และจัดการไอเดียได้อย่างเต็มประสิทธิภาพ
             </p>
             <div class="blog-filter" id="blogFilter">
                 <button class="blog-filter-btn active" data-filter="all" onclick="filterBlog('all')"
@@ -1520,7 +1757,7 @@
                         <span class="blog-card-tag tag-tips" data-i18n="blogTagTips">เคล็ดลับ</span>
                         <h3 class="blog-card-title" data-i18n="blog3Title">จดไอเดียอย่างไรให้เป็นระบบ
                             ไม่ใช่แค่จดแล้วทิ้ง</h3>
-                        <p class="blog-card-excerpt" data-i18n="blog3Excerpt">ใช้ PARA เป็นแนวทางวางโครงห้องและข้อมูลอ้างอิง โดย WorkRoom จะไม่จัดหมวดเหล่านี้ให้อัตโนมัติ</p>
+                        <p class="blog-card-excerpt" data-i18n="blog3Excerpt">ใช้ PARA เป็นแนวทางวางโครงห้องและข้อมูลอ้างอิง โดย KawaiiRoomie จะไม่จัดหมวดเหล่านี้ให้อัตโนมัติ</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate3">5 ส.ค. 2026</span>
                             <span class="blog-card-read" data-i18n="blogReadMore">อ่านต่อ →</span>
@@ -1535,7 +1772,7 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-behind" data-i18n="blogTagBehind">เบื้องหลัง</span>
-                        <h3 class="blog-card-title" data-i18n="blog4Title">จากไอเดียสู่ต้นแบบ: เราวางโครง WorkRoom อย่างไร</h3>
+                        <h3 class="blog-card-title" data-i18n="blog4Title">จากไอเดียสู่ต้นแบบ: เราวางโครง KawaiiRoomie อย่างไร</h3>
                         <p class="blog-card-excerpt" data-i18n="blog4Excerpt">
                             ย้อนรอยการพัฒนาตั้งแต่โค้ดแรกจนถึงฟีเจอร์ครบครัน ผ่านอุปสรรคและบทเรียนที่ทีมเล็กๆ
                             เรียนรู้ไปด้วยกัน</p>
@@ -1597,7 +1834,7 @@
                     </div>
                     <div class="blog-card-body">
                         <span class="blog-card-tag tag-case" data-i18n="blogTagCase">แนวทางการใช้งาน</span>
-                        <h3 class="blog-card-title" data-i18n="blog8Title">แนวทางจัดโปรเจกต์สำหรับทีมเล็ก 5 คนด้วย WorkRoom</h3>
+                        <h3 class="blog-card-title" data-i18n="blog8Title">แนวทางจัดโปรเจกต์สำหรับทีมเล็ก 5 คนด้วย KawaiiRoomie</h3>
                         <p class="blog-card-excerpt" data-i18n="blog8Excerpt">ตัวอย่างการจัดขั้นตอนมอบหมายงาน อัปเดตความคืบหน้า รับความคิดเห็น และเก็บการตัดสินใจให้ทีมเห็นร่วมกัน</p>
                         <div class="blog-card-meta">
                             <span data-i18n="blogDate8">7 ส.ค. 2026</span>
@@ -1675,8 +1912,8 @@
 
         <!-- CTA -->
         <section class="section sec-blog-cta">
-            <h2 class="cta-title" data-i18n="blogCtaTitle">อยากลองใช้ WorkRoom<br>ด้วยตัวเอง?</h2>
-            <p class="cta-desc" data-i18n="blogCtaDesc">ลองใช้เวอร์ชันต้นแบบและสำรวจวิธีจัดการไอเดียของ WorkRoom</p>
+            <h2 class="cta-title" data-i18n="blogCtaTitle">อยากลองใช้ KawaiiRoomie<br>ด้วยตัวเอง?</h2>
+            <p class="cta-desc" data-i18n="blogCtaDesc">ลองใช้เวอร์ชันต้นแบบและสำรวจวิธีจัดการไอเดียของ KawaiiRoomie</p>
             <a href="#" class="glow-btn" data-i18n="startCreate"
                 onclick="showWorkroom(); return false;">เริ่มการสร้างสรรค์</a>
         </section>
@@ -1685,7 +1922,7 @@
             <div class="blog-guide-backdrop" onclick="closeBlogGuide()"></div>
             <article class="blog-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="blogGuideTitle">
                 <button type="button" class="blog-guide-close" onclick="closeBlogGuide()" aria-label="ปิด" data-i18n-aria-label="closeLabel">×</button>
-                <span class="blog-guide-label" id="blogGuideLabel">WORKROOM GUIDE</span>
+                <span class="blog-guide-label" id="blogGuideLabel">KAWAIIROOMIE GUIDE</span>
                 <h2 id="blogGuideTitle"></h2>
                 <p id="blogGuideIntro"></p>
                 <ol id="blogGuideSteps"></ol>
@@ -1697,14 +1934,14 @@
     <!-- FOOTER -->
     <footer class="bento-footer" id="marketingFooter">
         <div class="footer-inner">
-            <div class="footer-logo">WorkRoom</div>
-            <div class="footer-tagline" data-i18n="footerTagline">WorkRoom เวอร์ชันต้นแบบ</div>
+            <div class="footer-logo">KawaiiRoomie</div>
+            <div class="footer-tagline" data-i18n="footerTagline">KawaiiRoomie เวอร์ชันต้นแบบ</div>
             <div class="footer-legal">
                 <a href="terms.html" data-i18n="footerTerms">ข้อกำหนดการใช้งาน</a>
                 <span aria-hidden="true">·</span>
                 <a href="privacy.html" data-i18n="footerPrivacy">นโยบายความเป็นส่วนตัว</a>
             </div>
-            <div class="footer-bottom" data-i18n="footerCopyright">© 2026 WorkRoom. All rights reserved.</div>
+            <div class="footer-bottom" data-i18n="footerCopyright">© 2026 KawaiiRoomie. All rights reserved.</div>
         </div>
     </footer>
 
@@ -1715,25 +1952,15 @@
 
     <!-- APPLICATION SCRIPTS -->
     <!-- REALTIME & API CLIENT SCRIPTS -->
-    <script>
-        (function () {
-            var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-            window.WORKROOM_CONFIG = Object.assign({
-                apiUrl: local ? 'http://localhost:4000/api/v1' : location.origin + '/api/v1',
-                socketUrl: local ? 'http://localhost:4000' : location.origin,
-                googleClientId: '',
-                facebookAppId: ''
-            }, window.WORKROOM_CONFIG || {});
-            window.WORKROOM_API_URL = window.WORKROOM_CONFIG.apiUrl;
-            window.WORKROOM_SOCKET_URL = window.WORKROOM_CONFIG.socketUrl;
-        })();
-    </script>
+    <script src="js/config.js?v=20260830-security-audit-1"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script type="module" src="js/api.js"></script>
+    <script src="js/cloud-storage.js?v=20260829-cloud-state-1"></script>
 
     <!-- APPLICATION SCRIPTS -->
     <script src="js/i18n.js?v=20260829-room-templates-1"></script>
     <script src="js/bento.js"></script>
+    <script src="js/landing-showcase.js?v=20260830-security-audit-1"></script>
     <!-- WORKROOM DOMAIN MODULES -->
     <script src="js/modules/team.js?v=20260829-sticky-default-1"></script>
     <script src="js/modules/state.js?v=20260829-typewriter-copy-1"></script>
@@ -1745,7 +1972,7 @@
     <script src="js/modules/editor.js?v=20260829-room-templates-1"></script>
     <script src="js/modules/whiteboard.js?v=20260828-all-page-drawing-1"></script>
     <script src="js/modules/workflows.js?v=20260829-room-templates-1"></script>
-    <script src="js/auth.js?v=20260829-logout-confirm-1"></script>
+    <script src="js/auth.js?v=20260830-security-audit-1"></script>
     <script src="js/app.js?v=20260825-guide-1"></script>
 </body>
 

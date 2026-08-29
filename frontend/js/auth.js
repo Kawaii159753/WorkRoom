@@ -23,7 +23,10 @@
         function syncSocialLoginAvailability() {
             var options = document.getElementById('socialLoginOptions');
             var divider = document.getElementById('socialLoginDivider');
-            var available = Boolean(GOOGLE_CLIENT_ID || FACEBOOK_APP_ID);
+            // Social identity must be verified by the backend before it can
+            // create a WorkRoom session. Keep these controls disabled until
+            // server-side OAuth exchange endpoints are configured.
+            var available = false;
             if (options) options.hidden = !available;
             if (divider) divider.hidden = !available;
             var googleButton = document.querySelector('.btn-google');
@@ -75,13 +78,15 @@
         let currentUser = null; // เก็บข้อมูลผู้ใช้ปัจจุบัน (เผื่อ feature อื่นในอนาคต เช่น logout)
         let loginDestination = 'app'; // 'app' = ล็อกอินแล้วเข้าแอป, 'landing' = ล็อกอินแล้วกลับหน้าแรก
 
-        // โหลดผู้ใช้ที่ล็อกอินค้างไว้จาก localStorage (ไม่ต้องล็อกอินซ้ำ)
+        // Cache only for the current tab. The durable session lives in the HttpOnly cookie.
         function getSavedUser() {
             try {
-                var raw = localStorage.getItem('workroomUser');
+                var raw = sessionStorage.getItem('workroomUser');
                 if (!raw) return null;
                 var u = JSON.parse(raw);
-                return (u && typeof u === 'object' && (u.name || u.email)) ? u : null;
+                if (u && typeof u === 'object' && u.id && u.email) return u;
+                sessionStorage.removeItem('workroomUser');
+                return null;
             } catch (e) {
                 return null;
             }
@@ -116,7 +121,7 @@
             var apiUrl = window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.apiUrl;
             if (apiUrl) fetch(apiUrl + '/auth/logout', { method: 'POST', credentials: 'include' }).catch(function () { });
             currentUser = null;
-            try { localStorage.removeItem('workroomUser'); } catch (e) { }
+            try { sessionStorage.removeItem('workroomUser'); localStorage.removeItem('workroomUser'); } catch (e) { }
             // ถ้ากำลังอยู่ในหน้าแอป ให้กลับมาหน้าแรก
             var inApp = document.getElementById('mainApp').style.display === 'block';
             if (inApp && typeof showBento === 'function') showBento(true);
@@ -212,10 +217,20 @@
 
         function completeLogin(user) {
             user = user || {};
+            // Never treat an identity assembled by browser code as an
+            // authenticated account. Backend responses always contain an id
+            // and establish the durable session in an HttpOnly cookie.
+            if (!user.id) {
+                socialToast(currentLang === 'en'
+                    ? 'This sign-in method is not connected to secure server verification yet.'
+                    : 'วิธีเข้าสู่ระบบนี้ยังไม่ได้เชื่อมการยืนยันตัวตนกับเซิร์ฟเวอร์อย่างปลอดภัย');
+                return false;
+            }
             currentUser = user;
-            // จำผู้ใช้ไว้ เพื่อไม่ต้องล็อกอินซ้ำ
+            // Keep only a short-lived UI cache; credentials remain in an HttpOnly cookie.
             try {
-                localStorage.setItem('workroomUser', JSON.stringify(user));
+                sessionStorage.setItem('workroomUser', JSON.stringify(user));
+                localStorage.removeItem('workroomUser');
             } catch (e) { }
             var name = user.name || user.email || 'สมาชิก';
             if (loginDestination === 'landing') {
@@ -367,15 +382,7 @@
                 completeLogin(normalizeBackendUser(user));
                 form.reset();
             } catch (error) {
-                var localPreview = location.protocol === 'file:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-                var isDemoLogin = mode === 'signin' && email.toLowerCase() === 'demo@workroom.io' && password === 'Password123!';
-                if (!backendResponded && localPreview && isDemoLogin) {
-                    completeLogin({ name: 'Demo User', email: 'demo@workroom.io', picture: null, provider: 'local-demo' });
-                    form.reset();
-                    socialToast('เข้าสู่โหมดทดลองในเครื่องแล้ว');
-                } else {
-                    socialToast(error && error.message ? error.message : 'เชื่อมต่อ Backend ไม่สำเร็จ');
-                }
+                socialToast(error && error.message ? error.message : 'เชื่อมต่อ Backend ไม่สำเร็จ');
             } finally {
                 if (requestTimeout) clearTimeout(requestTimeout);
                 submit.disabled = false;
@@ -385,3 +392,20 @@
 
         var emailAuthForm = document.getElementById('loginForm');
         if (emailAuthForm) emailAuthForm.addEventListener('submit', submitEmailAuth);
+
+        async function restoreServerSession() {
+            var apiUrl = window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.apiUrl;
+            if (!apiUrl || getSavedUser()) return updateNavLogin();
+            try {
+                var response = await fetch(apiUrl + '/auth/me', { method: 'GET', credentials: 'include' });
+                if (!response.ok) return updateNavLogin();
+                var payload = await response.json();
+                var user = payload.data && payload.data.user;
+                if (!user) return updateNavLogin();
+                currentUser = normalizeBackendUser(user);
+                sessionStorage.setItem('workroomUser', JSON.stringify(currentUser));
+                updateNavLogin();
+            } catch (error) { updateNavLogin(); }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', restoreServerSession);
+        else restoreServerSession();

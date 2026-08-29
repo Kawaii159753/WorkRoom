@@ -3416,6 +3416,9 @@
             position: sticky;
             top: 0;
             z-index: 12;
+            flex-shrink: 0;
+            min-height: 58px;
+            overflow: visible;
             margin: 0 40px 28px;
             padding: 10px 8px 0;
             background: linear-gradient(180deg, rgba(255, 255, 255, .98) 72%, rgba(255, 255, 255, 0));
@@ -3719,14 +3722,56 @@
 
         @media (max-width: 720px) {
             .idea-toolbar-bottom {
-                bottom: 16px;
-                max-width: calc(100vw - 284px);
+                left: 50%;
+                right: auto;
+                bottom: max(16px, env(safe-area-inset-bottom));
+                width: 58px;
+                max-width: none;
+                min-height: 58px;
+                padding: 5px;
+                transform: translateX(-50%);
+                border-color: rgba(202, 178, 230, .78);
+                border-radius: 18px;
+                background: rgba(255, 253, 255, .94);
+                box-shadow: 5px 7px 0 rgba(177, 151, 252, .22), 0 16px 38px rgba(43, 31, 52, .24);
+                overflow: hidden;
+            }
+
+            .idea-toolbar-bottom:not(.expanded) .idea-tool-toggle {
+                width: 48px;
+                height: 48px;
+                border-radius: 14px;
+                background: linear-gradient(145deg, #f3dcff, #d6b5f5);
+                color: #5a3d70;
+                box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+            }
+
+            .idea-toolbar-bottom.expanded {
+                left: 8px;
+                right: 8px;
+                width: auto;
+                min-height: 58px;
+                transform: none;
+                border-color: rgba(173, 128, 255, .42);
+                background: rgba(22, 22, 24, .94);
+                box-shadow: 0 14px 44px rgba(0,0,0,.4);
             }
 
             .idea-toolbar-bottom.expanded .idea-toolbar-items {
-                max-width: calc(100vw - 350px);
-                overflow: visible;
+                flex: 1 1 auto;
+                min-width: 0;
+                max-width: none;
+                overflow-x: auto;
+                overflow-y: hidden;
+                overscroll-behavior-inline: contain;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
             }
+
+            .idea-toolbar-bottom.expanded .idea-toolbar-items::-webkit-scrollbar { display: none; }
+            .editor-container.idea-mode { padding-bottom: 92px; }
+
+            .idea-tool-toggle::after { display: none; }
         }
 
         .idea-toolbar-bottom.expanded .idea-toolbar-items .idea-divider,

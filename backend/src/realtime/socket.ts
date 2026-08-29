@@ -1,6 +1,7 @@
 import { Server as HttpServer } from 'http';
 import jwt from 'jsonwebtoken';
 import { Server as SocketIOServer, Socket } from 'socket.io';
+import { ROLES, WorkspaceRoleType } from '../constants/index.js';
 import { env } from '../config/env.js';
 import { prisma } from '../config/prisma.js';
 import { logger } from '../utils/logger.js';
@@ -8,6 +9,8 @@ import { logger } from '../utils/logger.js';
 interface AuthenticatedSocket extends Socket {
   userId?: string;
   userEmail?: string;
+  workspaceRoles?: Map<string, WorkspaceRoleType>;
+  cursorWindow?: { startedAt: number; count: number };
 }
 
 export function initSocketServer(httpServer: HttpServer) {
@@ -34,11 +37,16 @@ export function initSocketServer(httpServer: HttpServer) {
         return next(new Error('Authentication error: Token missing'));
       }
 
-      const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string; email: string };
+      const decoded = jwt.verify(token, env.JWT_SECRET, {
+        algorithms: ['HS256'],
+        issuer: 'workroom-api',
+        audience: 'workroom-web',
+      }) as { userId: string; email: string };
       const user = await prisma.user.findUnique({ where: { id: decoded.userId }, select: { id: true, email: true } });
       if (!user || user.email !== decoded.email) return next(new Error('Authentication error: Invalid token'));
       socket.userId = decoded.userId;
       socket.userEmail = decoded.email;
+      socket.workspaceRoles = new Map();
       next();
     } catch (err) {
       next(new Error('Authentication error: Invalid token'));
@@ -69,6 +77,7 @@ export function initSocketServer(httpServer: HttpServer) {
         }
 
         const roomKey = `workspace:${workspaceId}`;
+        socket.workspaceRoles?.set(workspaceId, member.role as WorkspaceRoleType);
         socket.join(roomKey);
         logger.info(`User ${socket.userId} joined socket room: ${roomKey}`);
 
@@ -87,6 +96,7 @@ export function initSocketServer(httpServer: HttpServer) {
     socket.on('workspace:leave', (data: { workspaceId: string }) => {
       if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
       const roomKey = `workspace:${data.workspaceId}`;
+      socket.workspaceRoles?.delete(data.workspaceId);
       socket.leave(roomKey);
       socket.to(roomKey).emit('presence:user_left', {
         userId: socket.userId,
@@ -99,6 +109,12 @@ export function initSocketServer(httpServer: HttpServer) {
     socket.on('cursor:move', (data: { workspaceId: string; roomId?: string; pageId?: string; x: number; y: number }) => {
       if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
       if (!Number.isFinite(data.x) || !Number.isFinite(data.y)) return;
+      const now = Date.now();
+      if (!socket.cursorWindow || now - socket.cursorWindow.startedAt >= 1000) {
+        socket.cursorWindow = { startedAt: now, count: 0 };
+      }
+      socket.cursorWindow.count += 1;
+      if (socket.cursorWindow.count > 60) return;
       socket.to(`workspace:${data.workspaceId}`).emit('cursor:updated', {
         userId: socket.userId,
         ...data,
@@ -108,9 +124,19 @@ export function initSocketServer(httpServer: HttpServer) {
     // Entity Live Updates (Page, Block, Workflow)
     socket.on('entity:update', (data: { workspaceId: string; entityType: string; entityId: string; patch: unknown; version: number }) => {
       if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
+      const role = socket.workspaceRoles?.get(data.workspaceId);
+      if (role !== ROLES.OWNER && role !== ROLES.EDITOR) {
+        socket.emit('error', { message: 'Read-only members cannot update workspace entities' });
+        return;
+      }
       if (typeof data.entityType !== 'string' || data.entityType.length > 50) return;
       if (typeof data.entityId !== 'string' || data.entityId.length > 200) return;
       if (!Number.isInteger(data.version) || data.version < 0) return;
+      try {
+        if (Buffer.byteLength(JSON.stringify(data.patch), 'utf8') > 50_000) return;
+      } catch {
+        return;
+      }
       socket.to(`workspace:${data.workspaceId}`).emit('entity:changed', {
         actorId: socket.userId,
         ...data,

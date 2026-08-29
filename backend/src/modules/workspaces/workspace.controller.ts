@@ -45,6 +45,25 @@ export class WorkspaceController {
     }
   }
 
+  static async getState(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const membership = req.workspaceMembership!;
+      return sendSuccess(res, await WorkspaceService.getWorkspaceState(req.params.workspaceId, {
+        email: req.user!.email,
+        role: membership.role,
+        allowedRoomIds: membership.allowedRoomIds,
+      }));
+    } catch (error) { next(error); }
+  }
+
+  static async saveState(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      return sendSuccess(res, await WorkspaceService.saveWorkspaceState(
+        req.params.workspaceId, req.user!.id, req.body.data, req.body.baseVersion, req.body.migrationId
+      ));
+    } catch (error) { next(error); }
+  }
+
   static async invite(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const { email, role, allowedRoomIds } = req.body;

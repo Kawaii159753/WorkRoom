@@ -195,7 +195,7 @@
             }
             function persistAccountUser(user) {
                 currentUser = user;
-                try { localStorage.setItem('workroomUser', JSON.stringify(user)); } catch (e) { }
+                try { sessionStorage.setItem('workroomUser', JSON.stringify(user)); localStorage.removeItem('workroomUser'); } catch (e) { }
                 if (collaborationState && user.email) {
                     collaborationState.workspaces.forEach(function (workspace) {
                         if (normalizeEmail(workspace.ownerEmail) === normalizeEmail(user.email)) workspace.ownerName = user.name;
@@ -289,6 +289,7 @@
                         if (normalizeEmail(workspace.ownerEmail) === account.email) localStorage.removeItem(workspaceDataKey(workspace.id));
                     });
                     localStorage.removeItem('workroomUser');
+                    sessionStorage.removeItem('workroomUser');
                     localStorage.removeItem('wr-user');
                     localStorage.removeItem(collaborationKey(account.email));
                     localStorage.removeItem(mailboxKey(account.email));
