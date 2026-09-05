@@ -193,7 +193,12 @@
                     if (!cloud) cloud = list.find(function (item) { return item.name === activeWorkspace.name; });
                     if (!cloud) cloud = await window.WorkRoomCloud.createWorkspace(activeWorkspace.name);
                     activeWorkspace.cloudId = cloud.id; map[activeWorkspace.id] = cloud.id;
+                    if (cloud && cloud.userRole) {
+                        activeWorkspace.role = String(cloud.userRole).toLowerCase();
+                        activeWorkspace.userRole = cloud.userRole;
+                    }
                     writeJson('workroomCloudWorkspaceMap', map); persistCollaborationState();
+                    applyWorkspaceRole();
                     var remote = await window.WorkRoomCloud.getState(cloud.id);
                     var recovery = readJson(workspaceDataKey(activeWorkspace.id), null);
                     var dirty = readJson(workspaceDirtyKey(activeWorkspace.id), null);
@@ -218,6 +223,20 @@
                     cloudWorkspaceReady = true;
                     localStorage.removeItem(workspaceDirtyKey(activeWorkspace.id));
                     localStorage.removeItem(workspaceDataKey(activeWorkspace.id));
+
+                    // Connect realtime socket when cloud workspace is ready
+                    if (window.WorkRoomApi && window.WorkRoomApi.initRealtimeSocket) {
+                        window.WorkRoomApi.initRealtimeSocket({
+                            onCursorMove: typeof handleRemoteCursorMove === 'function' ? handleRemoteCursorMove : undefined,
+                            onEntityChange: typeof handleRemoteEntityChange === 'function' ? handleRemoteEntityChange : undefined,
+                            onRoomUserJoined: typeof handleRemoteUserJoined === 'function' ? handleRemoteUserJoined : undefined,
+                            onRoomUserLeft: typeof handleRemoteUserLeft === 'function' ? handleRemoteUserLeft : undefined,
+                        });
+                        window.WorkRoomApi.joinWorkspaceRoom(activeWorkspace.cloudId);
+                        if (typeof currentRoomId !== 'undefined' && currentRoomId) {
+                            window.WorkRoomApi.joinRoomChannel(currentRoomId);
+                        }
+                    }
                 } catch (error) {
                     cloudWorkspaceReady = false;
                     console.warn('[WorkRoom] Cloud storage unavailable; local recovery copy retained.', error && error.message);
@@ -226,12 +245,26 @@
 
             function scheduleCloudSave(snapshot) {
                 if (!cloudWorkspaceReady || !activeWorkspace || !activeWorkspace.cloudId || !window.WorkRoomCloud) return;
+                if (activeWorkspace.role === 'viewer' || activeWorkspace.userRole === 'VIEWER') return;
                 writeJson(workspaceDirtyKey(activeWorkspace.id), { baseVersion: cloudStateVersion, at: Date.now() });
                 clearTimeout(cloudSaveTimer);
                 cloudSaveTimer = setTimeout(async function () {
                     try {
-                        var saved = await window.WorkRoomCloud.saveState(activeWorkspace.cloudId, snapshot, cloudStateVersion);
-                        cloudStateVersion = saved.version;
+                        var isOwner = activeWorkspace.role === 'owner' || activeWorkspace.userRole === 'OWNER';
+                        if (isOwner) {
+                            var saved = await window.WorkRoomCloud.saveState(activeWorkspace.cloudId, snapshot, cloudStateVersion);
+                            cloudStateVersion = saved.version;
+                        } else if (currentRoomId && window.WorkRoomCloud.saveRoomState) {
+                            // Room-scoped save for editors (avoids 403 whole-workspace owner restriction)
+                            var roomData = {
+                                room: rooms[currentRoomId],
+                                page: roomPages[currentRoomId],
+                                collections: roomPageCollections[currentRoomId],
+                                ideaPages: currentRoomId === 'room-1' ? ideaPages : undefined,
+                                activeIdeaPageId: currentRoomId === 'room-1' ? activeIdeaPageId : undefined
+                            };
+                            await window.WorkRoomCloud.saveRoomState(currentRoomId, roomData);
+                        }
                         localStorage.removeItem(workspaceDirtyKey(activeWorkspace.id));
                         localStorage.removeItem(workspaceDataKey(activeWorkspace.id));
                     } catch (error) {

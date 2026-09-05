@@ -30,6 +30,10 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     margin: 0;
     background-color: var(--dark);
@@ -54,7 +58,7 @@
     padding: 56px 32px 120px;
     display: flex;
     flex-direction: column;
-    gap: 72px;
+    gap: 64px;
   }
 
   .header {
@@ -62,7 +66,7 @@
     flex-direction: column;
     gap: 14px;
     border-bottom: 1px solid var(--border-subtle);
-    padding-bottom: 36px;
+    padding-bottom: 32px;
   }
 
   .badge-tag {
@@ -81,10 +85,11 @@
   }
 
   .title {
-    font: 800 44px/1.15 'Inter', 'Prompt', sans-serif;
+    font: 800 42px/1.15 'Inter', 'Prompt', sans-serif;
     letter-spacing: -0.02em;
     background: linear-gradient(135deg, #ffffff 0%, #ffc2cd 30%, #ff8fa3 65%, #b197fc 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
@@ -94,10 +99,44 @@
     max-width: 960px;
   }
 
+  /* Sticky Navigation */
+  .nav-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 16px;
+    z-index: 100;
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: fit-content;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .nav-pill {
+    font: 600 12.5px/1 'IBM Plex Mono', monospace;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .nav-pill:hover {
+    color: #fff;
+    background: rgba(255, 143, 163, 0.12);
+    border-color: rgba(255, 143, 163, 0.35);
+  }
+
   .section {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
+    scroll-margin-top: 80px;
   }
 
   .section-header {
@@ -116,12 +155,12 @@
   }
 
   .section-title {
-    font: 700 26px/1.2 'Inter', 'Prompt', sans-serif;
+    font: 700 24px/1.2 'Inter', 'Prompt', sans-serif;
     color: #fff;
   }
 
   .section-sub {
-    font: 400 15px/1.2 'Inter', 'Prompt', sans-serif;
+    font: 400 14.5px/1.2 'Inter', 'Prompt', sans-serif;
     color: var(--text-muted);
   }
 
@@ -131,66 +170,11 @@
     background: var(--card-bg);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
-    padding: 32px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 22px;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
-  }
-
-  .node-flow {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .node-pill {
-    padding: 10px 16px;
-    border-radius: 8px;
-    font: 600 14px/1.3 'Inter', 'Prompt', sans-serif;
-  }
-
-  .node-pill.entry {
-    border: 1px solid rgba(255, 212, 59, 0.45);
-    background: rgba(255, 212, 59, 0.08);
-    color: var(--yellow);
-  }
-
-  .node-pill.core {
-    border: 1px solid rgba(177, 151, 252, 0.45);
-    background: rgba(177, 151, 252, 0.08);
-    color: var(--purple-light);
-  }
-
-  .node-pill.accent {
-    border: 1px solid rgba(255, 143, 163, 0.5);
-    background: rgba(255, 143, 163, 0.12);
-    color: var(--pink);
-  }
-
-  .node-pill.cyan {
-    border: 1px solid rgba(59, 201, 219, 0.5);
-    background: rgba(59, 201, 219, 0.1);
-    color: var(--cyan);
-  }
-
-  .node-pill.green {
-    border: 1px solid rgba(140, 233, 154, 0.5);
-    background: rgba(140, 233, 154, 0.1);
-    color: var(--green);
-  }
-
-  .node-sub {
-    font: 400 11px/1.3 'IBM Plex Mono', monospace;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .arrow {
-    color: var(--purple);
-    font-size: 20px;
-    font-weight: 700;
   }
 
   .grid-2 {
@@ -219,6 +203,12 @@
     flex-direction: column;
     gap: 12px;
     background: rgba(255, 255, 255, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
 
   .panel.purple-border {
@@ -271,6 +261,12 @@
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.03);
     font: 500 13.5px/1.3 'Inter', 'Prompt', sans-serif;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .item-card:hover {
+    transform: translateX(3px);
+    background: rgba(255, 255, 255, 0.06);
   }
 
   .item-card.pink {
@@ -298,19 +294,10 @@
     background: rgba(140, 233, 154, 0.06);
   }
 
-  .tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    font: 400 12px/1 'IBM Plex Mono', monospace;
-    color: var(--purple-light);
-  }
-
-  .tag-pill {
-    padding: 4px 8px;
-    border: 1px solid var(--border-subtle);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.04);
+  .node-sub {
+    font: 400 11px/1.3 'IBM Plex Mono', monospace;
+    color: var(--text-muted);
+    margin-top: 4px;
   }
 
   .note-footer {
@@ -323,19 +310,11 @@
     flex-wrap: wrap;
   }
 
-  .badge-role {
-    font: 600 11px/1 'IBM Plex Mono', monospace;
-    padding: 3px 6px;
-    border-radius: 4px;
-    display: inline-block;
-  }
-  .role-owner { background: rgba(255, 143, 163, 0.2); color: var(--pink); border: 1px solid var(--pink); }
-  .role-editor { background: rgba(116, 192, 252, 0.2); color: var(--blue); border: 1px solid var(--blue); }
-  .role-viewer { background: rgba(140, 233, 154, 0.2); color: var(--green); border: 1px solid var(--green); }
-
   @media (max-width: 1200px) {
     .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .grid-2 { grid-template-columns: 1fr; }
+    .topology-flow { grid-template-columns: 1fr !important; gap: 16px !important; }
+    .topology-arrow { transform: rotate(90deg); margin: 8px auto; }
   }
 </style>
 </head>
@@ -345,15 +324,24 @@
 
   <!-- HEADER -->
   <div class="header">
-    <div class="badge-tag">WorkRoom · Fullstack Monorepo Architecture · v3.2.0</div>
+    <div class="badge-tag">WorkRoom · Architecture Canvas · v3.3.0</div>
     <div class="title">Fullstack System &amp; Codebase Architecture</div>
     <div class="subtitle">
-      แผนผังสถาปัตยกรรมระบบฉบับสมบูรณ์ — โครงสร้างแบบ Monorepo (10 Frontend Modules + Express/TypeScript API + Supabase PostgreSQL + Secrets Vault Isolation)
+      แผนผังสถาปัตยกรรมระบบ WorkRoom (TeChin) ฉบับอัปเดต — ครอบคลุม 10 Frontend Modules, Realtime Multi-User Engine (Socket.IO), OCC Room-Scoped Concurrency, Secrets Vault Isolation และ Supabase PostgreSQL
     </div>
   </div>
 
+  <!-- NAVIGATION -->
+  <nav class="nav-bar">
+    <a href="#sec-01" class="nav-pill">01 · Topology</a>
+    <a href="#sec-02" class="nav-pill">02 · Frontend Modules</a>
+    <a href="#sec-03" class="nav-pill">03 · Secrets Vault</a>
+    <a href="#sec-04" class="nav-pill">04 · Relational Schema</a>
+    <a href="#sec-05" class="nav-pill">05 · Realtime &amp; OCC</a>
+  </nav>
+
   <!-- ============ 01. FULLSTACK MONOREPO OVERVIEW ============ -->
-  <section class="section">
+  <section class="section" id="sec-01">
     <div class="section-header">
       <div class="section-num">01</div>
       <div class="section-title">Fullstack Monorepo High-Level Topology</div>
@@ -361,7 +349,7 @@
     </div>
 
     <div class="card-box">
-      <div style="display: grid; grid-template-columns: 1.2fr 48px 1.4fr 48px 1.2fr; align-items: center;">
+      <div class="topology-flow" style="display: grid; grid-template-columns: 1.2fr 48px 1.4fr 48px 1.2fr; align-items: center;">
         
         <!-- Frontend -->
         <div class="panel purple-border">
@@ -372,17 +360,17 @@
               <div class="node-sub">state · rooms · team · notif · modals · comments · search · editor · whiteboard · workflows</div>
             </div>
             <div class="item-card purple">
-              <strong>api.js &amp; socket.io client</strong>
-              <div class="node-sub">Fetch Wrapper (Credentials: true) · Live Presence</div>
+              <strong>cloud-storage.js &amp; api.js</strong>
+              <div class="node-sub">Room-scoped State Sync · Debounced Auto-save · OCC Conflict Handling</div>
             </div>
             <div class="item-card purple">
-              <strong>bento.js &amp; auth.js</strong>
-              <div class="node-sub">GSAP 2.5D Scroll · OAuth Controller</div>
+              <strong>app.js &amp; bento.js</strong>
+              <div class="node-sub">Live Collaborative Cursor Engine (30 FPS) · GSAP 2.5D Scroll</div>
             </div>
           </div>
         </div>
 
-        <div style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
+        <div class="topology-arrow" style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
 
         <!-- Backend -->
         <div class="panel pink-border">
@@ -390,40 +378,40 @@
           <div class="item-list">
             <div class="item-card pink">
               <strong>Express 4 + TypeScript (ES2022)</strong>
-              <div class="node-sub">Helmet · CORS · CookieParser · RateLimiter</div>
+              <div class="node-sub">Helmet · CORS · CookieParser · RateLimiter · Zod Validation</div>
             </div>
             <div class="item-card pink">
               <strong>Modular REST API (/api/v1/*)</strong>
-              <div class="node-sub">Auth (Argon2+JWT) · Workspaces · Workflows · Comments</div>
+              <div class="node-sub">Auth (Argon2+JWT) · Workspaces · Rooms (OCC) · Workflows</div>
             </div>
             <div class="item-card pink">
-              <strong>Socket.IO Realtime Collaboration</strong>
-              <div class="node-sub">Workspace Rooms · Cursor LERP Sync · Live Mutations</div>
+              <strong>Socket.IO Realtime Engine</strong>
+              <div class="node-sub">Room Channels · Cursor Broadcasting · Presence Notifications</div>
             </div>
             <div class="item-card pink">
-              <strong>Secrets Vault (secrets/)</strong>
-              <div class="node-sub">database.env · auth.env · app.env (Git Ignored)</div>
+              <strong>Secrets Vault Integration</strong>
+              <div class="node-sub">WORKROOM_SECRETS_DIR &amp; backend/secrets/*.env (Git Ignored)</div>
             </div>
           </div>
         </div>
 
-        <div style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
+        <div class="topology-arrow" style="text-align: center; color: var(--pink); font-size: 24px; font-weight: 700;">⇄</div>
 
         <!-- Cloud & DB -->
         <div class="panel green-border">
           <div class="panel-label green">Cloud Database (Supabase)</div>
           <div class="item-list">
             <div class="item-card green">
-              <strong>PostgreSQL 17.6 Engine</strong>
-              <div class="node-sub">14 Relational Tables · Foreign Keys · Indexes</div>
+              <strong>PostgreSQL 17 Engine</strong>
+              <div class="node-sub">17 Relational Tables · RoomState OCC · Composite Indexes</div>
             </div>
             <div class="item-card green">
-              <strong>Sydney Pooler (ap-southeast-2)</strong>
-              <div class="node-sub">Port 6543 (Transaction) / Port 5432 (Session)</div>
+              <strong>Connection Pooler (ap-southeast-2)</strong>
+              <div class="node-sub">Port 6543 (Transaction Pooler) · Port 5432 (Session Migrations)</div>
             </div>
             <div class="item-card green">
-              <strong>Seed Data Active</strong>
-              <div class="node-sub">demo@workroom.io · My First Team Workspace</div>
+              <strong>Prisma ORM Client</strong>
+              <div class="node-sub">Singleton Instance · Type-safe Queries · Transactions</div>
             </div>
           </div>
         </div>
@@ -431,18 +419,18 @@
       </div>
 
       <div class="note-footer">
-        <div>🔒 <strong>Zero-Trust Architecture:</strong> สิทธิ์และ Role (Owner, Editor, Viewer) ถูกบังคับใช้ (Enforced) ที่เซิร์ฟเวอร์ Backend ทุก Request</div>
-        <div>🔐 <strong>Isolated Secrets Vault:</strong> แยกไฟล์รหัสผ่านใน <code>backend/secrets/</code> ป้องกันการรั่วไหลขึ้น Git 100%</div>
+        <div>🔒 <strong>Zero-Trust Architecture:</strong> สิทธิ์และบทบาท (Owner, Editor, Viewer) รวมถึง Granular Room Permissions ถูกตรวจสอบที่เซิร์ฟเวอร์ทุก Request</div>
+        <div>🔐 <strong>Isolated Secrets Vault:</strong> แยกไฟล์รหัสผ่านไว้ใน <code>backend/secrets/</code> ป้องกันการรั่วไหลขึ้น Git 100%</div>
       </div>
     </div>
   </section>
 
   <!-- ============ 02. FRONTEND 10 DOMAIN MODULES ============ -->
-  <section class="section">
+  <section class="section" id="sec-02">
     <div class="section-header">
       <div class="section-num">02</div>
       <div class="section-title">Frontend Modular Architecture (frontend/js/modules/)</div>
-      <div class="section-sub">โครงสร้างโมดูล 10 หมวดหมู่ที่ถูกแยกออกจากไฟล์ยักษ์ 4,200+ บรรทัด เพื่อให้อ่านและแก้ไขง่าย</div>
+      <div class="section-sub">โครงสร้างโมดูล 10 หมวดหมู่ที่แยกหน้าที่อย่างเป็นสัดส่วน พร้อม Realtime &amp; Cloud Storage Bridge</div>
     </div>
 
     <div class="card-box">
@@ -452,7 +440,7 @@
           <div class="panel-label purple">1. State &amp; Storage</div>
           <div class="item-card purple">
             <strong>state.js</strong>
-            <div class="node-sub">Reactive Store · LocalStorage sync · Initial Rooms &amp; Sections data</div>
+            <div class="node-sub">Central Reactive Store · LocalStorage sync · Initial Rooms &amp; Sections data</div>
           </div>
         </div>
 
@@ -468,7 +456,7 @@
           <div class="panel-label purple">3. Team &amp; Workspaces</div>
           <div class="item-card purple">
             <strong>team.js</strong>
-            <div class="node-sub">Workspace Switcher · Member Invite · Role RBAC enforcement</div>
+            <div class="node-sub">Workspace Switcher · Member Invite · Role RBAC enforcement &amp; Cloud Autosave</div>
           </div>
         </div>
 
@@ -529,35 +517,35 @@
         </div>
 
         <div class="panel cyan-border">
-          <div class="panel-label cyan">11. REST &amp; Socket API</div>
+          <div class="panel-label cyan">11. Cloud Storage &amp; API</div>
           <div class="item-card cyan">
-            <strong>api.js</strong>
-            <div class="node-sub">Unified API Client · Socket.IO Realtime presence &amp; Live cursors</div>
+            <strong>cloud-storage.js &amp; api.js</strong>
+            <div class="node-sub">Room-scoped State Persistence · OCC Conflict Handling · Unified API Client</div>
           </div>
         </div>
 
         <div class="panel cyan-border">
-          <div class="panel-label cyan">12. App Shell &amp; Motion</div>
+          <div class="panel-label cyan">12. App Shell &amp; Live Cursors</div>
           <div class="item-card cyan">
             <strong>app.js &amp; bento.js</strong>
-            <div class="node-sub">View Router (Bento/Workroom) · Custom Magnetic Cursor Engine</div>
+            <div class="node-sub">View Router · Multi-User Live Cursor Engine (30 FPS) · GSAP Animations</div>
           </div>
         </div>
 
       </div>
 
       <div class="note-footer">
-        <div>💡 <strong>Clean Separation of Concerns:</strong> แต่ละโมดูลรับผิดชอบเฉพาะหน้าที่ของตัวเอง ช่วยให้การบำรุงรักษาและการขยายระบบในอนาคตทำได้รวดเร็วและปลอดภัย</div>
+        <div>💡 <strong>Clean Separation of Concerns:</strong> แต่ละโมดูลรับผิดชอบเฉพาะขอบเขตของตนเอง และสื่อสารผ่าน Event System และ API Gateway แบบไร้ Dependency ตกค้าง</div>
       </div>
     </div>
   </section>
 
   <!-- ============ 03. SECRETS & SECURITY VAULT ============ -->
-  <section class="section">
+  <section class="section" id="sec-03">
     <div class="section-header">
       <div class="section-num">03</div>
       <div class="section-title">Secrets Vault &amp; Security Architecture (backend/secrets/)</div>
-      <div class="section-sub">การจัดเก็บคีย์ลับและรหัสผ่านแยกตามประเภท พร้อมการล็อกด้วย .gitignore</div>
+      <div class="section-sub">การจัดเก็บคีย์ลับแยกเป็นสัดส่วน พร้อมระบบ Auto-Discovery และ Template</div>
     </div>
 
     <div class="card-box">
@@ -579,6 +567,10 @@
               <code>SUPABASE_ANON_KEY</code>
               <div class="node-sub">Client Public Publishable Key</div>
             </div>
+            <div class="item-card green">
+              <strong>Template: database.example.env</strong>
+              <div class="node-sub">ไฟล์แม่แบบสำหรับคัดลอกตั้งค่า (Tracked in Git)</div>
+            </div>
           </div>
         </div>
 
@@ -598,6 +590,10 @@
               <code>JWT_EXPIRES_IN="7d"</code>
               <div class="node-sub">Token Lifetime Window</div>
             </div>
+            <div class="item-card purple">
+              <strong>Template: auth.example.env</strong>
+              <div class="node-sub">ไฟล์แม่แบบสำหรับคัดลอกตั้งค่า (Tracked in Git)</div>
+            </div>
           </div>
         </div>
 
@@ -615,7 +611,11 @@
             </div>
             <div class="item-card pink">
               <code>NODE_ENV="development"</code>
-              <div class="node-sub">Runtime Profile</div>
+              <div class="node-sub">Runtime Profile (development / production)</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Template: app.example.env</strong>
+              <div class="node-sub">ไฟล์แม่แบบสำหรับคัดลอกตั้งค่า (Tracked in Git)</div>
             </div>
           </div>
         </div>
@@ -623,17 +623,18 @@
       </div>
 
       <div class="note-footer">
-        <div>🛡️ <strong>Auto-Loading Engine:</strong> <code>src/config/env.ts</code> จะค้นหาและโหลดไฟล์ในโฟลเดอร์ <code>secrets/</code> เข้าสู่ <code>process.env</code> อัตโนมัติเมื่อเซิร์ฟเวอร์เริ่มทำงาน</div>
+        <div>🛡️ <strong>Auto-Discovery Order:</strong> <code>src/config/env.ts</code> จะค้นหาและโหลด Secrets ตามลำดับ: <code>WORKROOM_SECRETS_DIR</code> → <code>backend/secrets/</code> → <code>secrets/</code> → <code>.env (Fallback)</code></div>
+        <div>🔐 <strong>Strict Git Ignore:</strong> ไฟล์ <code>*.env</code> ที่มีข้อมูลรหัสจริงถูกบล็อกไม่ให้ commit ขึ้น Git 100% (อนุญาตเฉพาะ <code>*.example.env</code>)</div>
       </div>
     </div>
   </section>
 
   <!-- ============ 04. DATABASE RELATIONAL SCHEMA ============ -->
-  <section class="section">
+  <section class="section" id="sec-04">
     <div class="section-header">
       <div class="section-num">04</div>
       <div class="section-title">Database Schema &amp; Relational Models (Prisma + Supabase)</div>
-      <div class="section-sub">ผังโครงสร้างตารางฐานข้อมูล PostgreSQL 14 ตารางหลัก พร้อม Foreign Keys และ Constraints</div>
+      <div class="section-sub">ผังโครงสร้างโมเดลฐานข้อมูล PostgreSQL 17 ตารางหลัก พร้อม Foreign Keys และ OCC Constraints</div>
     </div>
 
     <div class="card-box">
@@ -656,15 +657,19 @@
 
         <!-- Workspace & Rooms -->
         <div class="panel pink-border">
-          <div class="panel-label pink">Workspaces &amp; Rooms</div>
+          <div class="panel-label pink">Workspaces, Rooms &amp; State</div>
           <div class="item-list">
             <div class="item-card pink">
-              <strong>Workspace</strong>
-              <div class="node-sub">id (UUID) · name · slug (Unique) · description</div>
+              <strong>Workspace &amp; WorkspaceState</strong>
+              <div class="node-sub">id · name · slug · legacy state snapshot</div>
             </div>
             <div class="item-card pink">
               <strong>Section &amp; Room</strong>
               <div class="node-sub">sectionId · name · icon · isPrivate · position (Float)</div>
+            </div>
+            <div class="item-card pink">
+              <strong>RoomState (OCC Engine)</strong>
+              <div class="node-sub">roomId (Unique) · data (JSONB) · version (Int) · updatedById</div>
             </div>
             <div class="item-card pink">
               <strong>RoomPermission</strong>
@@ -685,24 +690,28 @@
               <strong>PostIt</strong>
               <div class="node-sub">roomId · title · content (JSONB) · color · positionX/Y · version</div>
             </div>
+            <div class="item-card yellow">
+              <strong>FileAttachment</strong>
+              <div class="node-sub">roomId · storageKey · mimeType · sizeBytes · uploadedById</div>
+            </div>
           </div>
         </div>
 
         <!-- Workflows & Collab -->
         <div class="panel green-border">
-          <div class="panel-label green">Workflows &amp; Audit Logs</div>
+          <div class="panel-label green">Workflows, Activity &amp; Alerts</div>
           <div class="item-list">
             <div class="item-card green">
-              <strong>Workflow &amp; Assignees</strong>
+              <strong>Workflow &amp; Assignee</strong>
               <div class="node-sub">status (REVIEW/REVISION/APPROVED) · dueDate · version · assignees[]</div>
             </div>
             <div class="item-card green">
-              <strong>Comment &amp; Notification</strong>
-              <div class="node-sub">workflowId · parentCommentId · content · isResolved · type · readAt</div>
+              <strong>Comment</strong>
+              <div class="node-sub">workflowId · parentCommentId · content · isResolved</div>
             </div>
             <div class="item-card green">
-              <strong>ActivityLog &amp; Files</strong>
-              <div class="node-sub">action · metadata (JSONB) · storageKey · mimeType · sizeBytes</div>
+              <strong>ActivityLog &amp; Notification</strong>
+              <div class="node-sub">action · metadata (JSONB) · type · readAt</div>
             </div>
           </div>
         </div>
@@ -710,7 +719,84 @@
       </div>
 
       <div class="note-footer">
-        <div>🔑 <strong>ACID Guarantees:</strong> Prisma Transaction <code>prisma.$transaction(...)</code> ใช้ในการสร้าง Workspace, ปรับสถานะงาน และบันทึกประวัติ Activity Log</div>
+        <div>🔑 <strong>ACID Guarantees:</strong> ใช้งาน <code>prisma.$transaction(...)</code> ในการสร้าง Workspace, จัดการสิทธิ์ และปรับสถานะงาน</div>
+        <div>⚡ <strong>OCC Versioning:</strong> ตาราง <code>RoomState</code>, <code>Page</code>, <code>PostIt</code> และ <code>Workflow</code> มีคอลัมน์ <code>version</code> เพื่อตรวจจับ Concurrent Conflicts</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05. REALTIME & OCC ENGINE ============ -->
+  <section class="section" id="sec-05">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div class="section-title">Real-time Collaboration &amp; Concurrency Engine</div>
+      <div class="section-sub">ระบบการทำงานประสานกันแบบสดผ่าน Socket.IO ควบคู่กับ Optimistic Concurrency Control (OCC)</div>
+    </div>
+
+    <div class="card-box">
+      <div class="grid-3">
+        
+        <!-- Channels & Presence -->
+        <div class="panel cyan-border">
+          <div class="panel-label cyan">1. Room Channels &amp; Presence</div>
+          <div class="item-list">
+            <div class="item-card cyan">
+              <strong>Workspace &amp; Room Channels</strong>
+              <div class="node-sub"><code>workspace:join</code> / <code>workspace:leave</code><br><code>room:join</code> / <code>room:leave</code></div>
+            </div>
+            <div class="item-card cyan">
+              <strong>Live Presence Events</strong>
+              <div class="node-sub"><code>presence:room_user_joined</code><br><code>presence:room_user_left</code></div>
+            </div>
+            <div class="item-card cyan">
+              <strong>Scope-Isolated Broadcasting</strong>
+              <div class="node-sub">ส่งข้อมูลเฉพาะสมาชิกที่อยู่ในห้องเดียวกันเท่านั้น เพื่อประหยัด Bandwidth</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Cursor Engine -->
+        <div class="panel pink-border">
+          <div class="panel-label pink">2. Live Multi-User Cursors</div>
+          <div class="item-list">
+            <div class="item-card pink">
+              <strong>30 FPS Motion Stream</strong>
+              <div class="node-sub">ส่งพิกัดเมาส์ผ่าน <code>cursor:move</code> ด้วย requestAnimationFrame throttling</div>
+            </div>
+            <div class="item-card pink">
+              <strong>Real-time Cursor Render</strong>
+              <div class="node-sub">รับผ่าน <code>cursor:updated</code> พร้อมแสดงป้ายชื่อและสีประจำตัวผู้ใช้</div>
+            </div>
+            <div class="item-card pink">
+              <strong>LERP Position Smoothing</strong>
+              <div class="node-sub">คำนวณการเคลื่อนไหวของเมาส์เสมือนให้นุ่มนวลเป็นธรรมชาติ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OCC Engine -->
+        <div class="panel yellow-border">
+          <div class="panel-label yellow">3. Optimistic Concurrency (OCC)</div>
+          <div class="item-list">
+            <div class="item-card yellow">
+              <strong>Room-Scoped State API</strong>
+              <div class="node-sub"><code>GET /api/v1/rooms/:id/state</code><br><code>PUT /api/v1/rooms/:id/state</code></div>
+            </div>
+            <div class="item-card yellow">
+              <strong>Version Counter &amp; Atomic Increment</strong>
+              <div class="node-sub">ตรวจสอบ <code>version</code> ในตาราง <code>RoomState</code> ก่อนบันทึกทุกครั้ง</div>
+            </div>
+            <div class="item-card yellow">
+              <strong>409 Conflict Protection</strong>
+              <div class="node-sub">ปฏิเสธเมื่อ version ไม่ตรงกัน ป้องกันปัญหา Lost Update จากการเซฟทับกัน</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-footer">
+        <div>🚀 <strong>High Performance:</strong> ลดปริมาณ Network Payload โดยแยกการบันทึก State เป็นระดับห้องย่อย และกระจาย Cursor ผ่าน WebSocket แบบ Throttled</div>
       </div>
     </div>
   </section>

@@ -5669,3 +5669,43 @@
         .postit-block-assignment.assigned.revision{border-color:#aacaf2;background:#edf5ff;color:#235ba8}
         .postit-block-assignment.assigned.approved{border-color:#a9deb6;background:#eefaf0;color:#23733a}
         .postit-block-assignment.assigned:hover{filter:brightness(.98)}
+
+        /* ===== REALTIME COLLABORATIVE CURSORS ===== */
+        #remoteCursorsContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999;
+            overflow: hidden;
+        }
+
+        .remote-cursor {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            transition: transform 0.08s ease-out, opacity 0.3s ease;
+            will-change: transform;
+            opacity: 1;
+        }
+
+        .remote-cursor svg {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        .remote-cursor-label {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 12px;
+            margin-left: 14px;
+            margin-top: -8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+

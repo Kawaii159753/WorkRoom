@@ -1,3 +1,4 @@
+import '../src/config/env.js';
 import { PrismaClient, WorkspaceRole, WorkflowStatus, ArtifactType } from '@prisma/client';
 import argon2 from 'argon2';
 

@@ -468,3 +468,115 @@
         } else {
             initRoute();
         }
+
+        // ==========================================
+        // REALTIME COLLABORATIVE CURSORS
+        // ==========================================
+        var remoteCursorTimeouts = new Map();
+        var userColors = ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#f97316'];
+
+        function getUserIdColor(userId) {
+            if (!userId) return userColors[0];
+            var hash = 0;
+            for (var i = 0; i < userId.length; i++) {
+                hash = (hash << 5) - hash + userId.charCodeAt(i);
+                hash |= 0;
+            }
+            return userColors[Math.abs(hash) % userColors.length];
+        }
+
+        function ensureRemoteCursorsContainer() {
+            var container = document.getElementById('remoteCursorsContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'remoteCursorsContainer';
+                document.body.appendChild(container);
+            }
+            return container;
+        }
+
+        function handleRemoteCursorMove(data) {
+            if (!data || !data.userId) return;
+            if (typeof currentUser !== 'undefined' && currentUser && currentUser.id === data.userId) return;
+            if (data.roomId && typeof currentRoomId !== 'undefined' && currentRoomId && data.roomId !== currentRoomId) return;
+
+            var container = ensureRemoteCursorsContainer();
+            var cursorId = 'remote-cursor-' + data.userId;
+            var el = document.getElementById(cursorId);
+            var color = getUserIdColor(data.userId);
+
+            if (!el) {
+                el = document.createElement('div');
+                el.id = cursorId;
+                el.className = 'remote-cursor';
+                var name = data.displayName || data.userId.slice(0, 6);
+                el.innerHTML =
+                    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none">' +
+                    '<path d="M5.65 2.14a1 1 0 0 0-1.28 1.28l5.22 17.06a1 1 0 0 0 1.83.16l3.35-6.69 6.69-3.35a1 1 0 0 0 .16-1.83L4.56 3.51l1.09-1.37z" fill="' + color + '"/>' +
+                    '<path d="M5.65 2.14a1 1 0 0 0-1.28 1.28l5.22 17.06a1 1 0 0 0 1.83.16l3.35-6.69 6.69-3.35a1 1 0 0 0 .16-1.83L4.56 3.51l1.09-1.37z" stroke="#ffffff" stroke-width="1.5"/>' +
+                    '</svg>' +
+                    '<span class="remote-cursor-label" style="background:' + color + '">' + (typeof escapeHtml === 'function' ? escapeHtml(name) : name) + '</span>';
+                container.appendChild(el);
+            }
+
+            el.style.transform = 'translate3d(' + Math.round(data.x) + 'px, ' + Math.round(data.y) + 'px, 0)';
+            el.style.opacity = '1';
+
+            if (remoteCursorTimeouts.has(data.userId)) {
+                clearTimeout(remoteCursorTimeouts.get(data.userId));
+            }
+            var timer = setTimeout(function () {
+                if (el && el.parentNode) {
+                    el.style.opacity = '0';
+                    setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 300);
+                }
+                remoteCursorTimeouts.delete(data.userId);
+            }, 4000);
+            remoteCursorTimeouts.set(data.userId, timer);
+        }
+
+        function handleRemoteUserLeft(data) {
+            if (!data || !data.userId) return;
+            var el = document.getElementById('remote-cursor-' + data.userId);
+            if (el && el.parentNode) el.parentNode.removeChild(el);
+            if (remoteCursorTimeouts.has(data.userId)) {
+                clearTimeout(remoteCursorTimeouts.get(data.userId));
+                remoteCursorTimeouts.delete(data.userId);
+            }
+        }
+
+        function handleRemoteUserJoined(data) {
+            if (data && data.userId && typeof showToast === 'function') {
+                var label = (typeof currentUser !== 'undefined' && currentUser && currentUser.id === data.userId) ? null : (data.displayName || 'เพื่อนร่วมทีม');
+                if (label) showToast('👥 ' + label + ' เข้าสู่ห้องแล้ว');
+            }
+        }
+
+        function clearRemoteCursors() {
+            var container = document.getElementById('remoteCursorsContainer');
+            if (container) container.innerHTML = '';
+            remoteCursorTimeouts.forEach(function (timer) { clearTimeout(timer); });
+            remoteCursorTimeouts.clear();
+        }
+
+        window.handleRemoteCursorMove = handleRemoteCursorMove;
+        window.handleRemoteUserLeft = handleRemoteUserLeft;
+        window.handleRemoteUserJoined = handleRemoteUserJoined;
+        window.clearRemoteCursors = clearRemoteCursors;
+
+        // Throttled mouse tracking inside workroom
+        var lastCursorBroadcastAt = 0;
+        document.addEventListener('mousemove', function (e) {
+            var workroom = document.getElementById('page-workroom');
+            if (!workroom || workroom.style.display === 'none') return;
+            if (!window.WorkRoomApi || !window.WorkRoomApi.broadcastCursor) return;
+            if (typeof activeWorkspace === 'undefined' || !activeWorkspace || !activeWorkspace.cloudId) return;
+
+            var now = Date.now();
+            if (now - lastCursorBroadcastAt < 35) return; // ~30 fps cap
+            lastCursorBroadcastAt = now;
+
+            var roomId = typeof currentRoomId !== 'undefined' ? currentRoomId : null;
+            window.WorkRoomApi.broadcastCursor(activeWorkspace.cloudId, e.clientX, e.clientY, roomId);
+        }, { passive: true });
+

@@ -126,6 +126,8 @@ npm run dev
 |---|---|---|---|
 | `POST` | `/api/v1/rooms` | สร้างห้องใหม่ใน Section/Workspace | `OWNER` / `EDITOR` |
 | `GET` | `/api/v1/rooms/:roomId` | ดึงข้อมูลห้อง, หน้ากระดาษ (Pages) และ Post-its | Authenticated |
+| `GET` | `/api/v1/rooms/:roomId/state` | ดึง State/Canvas ประจำห้อง | Room View Permission |
+| `PUT` | `/api/v1/rooms/:roomId/state` | บันทึก State/Canvas ประจำห้อง (OCC Version Check) | Room Edit Permission |
 
 ### Workflows & Tasks (`/api/v1/workflows`)
 | Method | Endpoint | Description | Role Required |
@@ -162,14 +164,20 @@ const socket = io("http://localhost:4000", {
   auth: { token: "your-jwt-token" }
 });
 
-// เข้าห้อง Workspace
+// เข้าช่อง Workspace
 socket.emit("workspace:join", { workspaceId: "workspace-uuid" });
 
-// รับ Event เมื่อสมาชิกคนอื่นเข้าหรือออก
-socket.on("presence:user_joined", (data) => console.log("User joined:", data));
+// เข้าห้องย่อย (Room Channel) เพื่อรับส่ง Cursor/Canvas เฉพาะห้องนั้น
+socket.emit("room:join", { roomId: "room-uuid" });
 
-// ส่งตำแหน่ง Cursor ของผู้ใช้
-socket.emit("cursor:move", { workspaceId: "...", x: 120, y: 350 });
+// ออกจากห้องย่อยเมื่อสลับห้อง
+socket.emit("room:leave", { roomId: "room-uuid" });
+
+// รับ Event เมื่อสมาชิกในห้องเข้าหรือออก
+socket.on("presence:room_user_joined", (data) => console.log("Room user joined:", data));
+
+// ส่งตำแหน่ง Cursor ของผู้ใช้ (ระบุ roomId เพื่อจำกัดการแพร่สัญญาณเฉพาะในห้อง)
+socket.emit("cursor:move", { workspaceId: "...", roomId: "...", x: 120, y: 350 });
 
 // รับตำแหน่ง Cursor ของสมาชิกคนอื่น
 socket.on("cursor:updated", (data) => console.log("Cursor moved:", data));

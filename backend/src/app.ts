@@ -76,6 +76,11 @@ export function createApp(): Express {
   app.use('/api/v1/comments', commentRouter);
   app.use('/api/v1/notifications', notificationRouter);
 
+  // 404 Catch-All for undefined API routes
+  app.use('/api', (req, _res, next) => {
+    next(new AppError(ERROR_CODES.NOT_FOUND, `Endpoint ${req.method} ${req.originalUrl} not found`, 404));
+  });
+
   // Centralized Error Handler
   app.use(errorHandler);
 

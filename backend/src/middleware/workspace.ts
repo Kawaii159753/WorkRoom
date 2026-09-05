@@ -24,18 +24,47 @@ export async function assertWorkspaceAccess(
   return membership;
 }
 
-export async function assertRoomAccess(userId: string, roomId: string) {
+export async function assertRoomAccess(
+  userId: string,
+  roomId: string,
+  requiredAccess: 'view' | 'edit' = 'view'
+) {
   const room = await prisma.room.findUnique({ where: { id: roomId } });
   if (!room) throw new AppError(ERROR_CODES.NOT_FOUND, 'Room not found', 404);
 
   const membership = await assertWorkspaceAccess(userId, room.workspaceId);
-  if (!room.isPrivate || membership.role === 'OWNER') return room;
+  if (membership.role === 'OWNER') return room;
 
+  if (!room.isPrivate) {
+    if (requiredAccess === 'edit' && membership.role === 'VIEWER') {
+      throw new AppError(ERROR_CODES.FORBIDDEN, 'Viewers cannot edit content in this room', 403);
+    }
+    return room;
+  }
+
+  // Private room: check explicit RoomPermission table as primary source of truth
   const explicitPermission = await prisma.roomPermission.findUnique({
     where: { roomId_userId: { roomId, userId } },
   });
-  if (!membership.allowedRoomIds.includes(roomId) && !explicitPermission?.canView) {
+
+  const hasViewPermission = Boolean(
+    explicitPermission?.canView ||
+    explicitPermission?.canEdit ||
+    membership.allowedRoomIds?.includes(roomId)
+  );
+
+  if (!hasViewPermission) {
     throw new AppError(ERROR_CODES.FORBIDDEN, 'You do not have access to this private room', 403);
+  }
+
+  if (requiredAccess === 'edit') {
+    const hasEditPermission = Boolean(
+      explicitPermission?.canEdit ||
+      (membership.role === 'EDITOR' && membership.allowedRoomIds?.includes(roomId) && explicitPermission?.canEdit !== false)
+    );
+    if (!hasEditPermission) {
+      throw new AppError(ERROR_CODES.FORBIDDEN, 'You do not have edit permission for this private room', 403);
+    }
   }
 
   return room;

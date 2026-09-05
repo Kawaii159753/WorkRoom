@@ -12,10 +12,25 @@
             }
 
             function switchRoom(roomId, el) {
+                var previousRoomId = currentRoomId;
                 toggleMobileSidebar(false);
                 setMobileRoomFocus(true);
                 saveActiveWorkspaceData();
                 currentRoomId = roomId;
+
+                // Sync Socket.IO room channel
+                if (window.WorkRoomApi) {
+                    if (previousRoomId && previousRoomId !== roomId && window.WorkRoomApi.leaveRoomChannel) {
+                        window.WorkRoomApi.leaveRoomChannel(previousRoomId);
+                    }
+                    if (roomId && window.WorkRoomApi.joinRoomChannel) {
+                        window.WorkRoomApi.joinRoomChannel(roomId);
+                    }
+                }
+                if (typeof clearRemoteCursors === 'function') {
+                    clearRemoteCursors();
+                }
+
                 document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
                 if (el) el.classList.add('active');
                 let roomName = rooms[roomId] ? rooms[roomId].name : 'ไม่มีชื่อ';

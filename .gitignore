@@ -11,10 +11,17 @@ WorkRoom-main.zip
 *.env
 *.local
 !.env.example
-secrets/
-.secrets/
-!secrets/README.md
-!secrets/*.example.env
+!*.example.env
+!**/*.example.env
+/secrets/
+/.secrets/
+backend/secrets/*.env
+backend/secrets/*.local
+backend/secrets/*.key
+backend/secrets/*.pem
+backend/secrets/*.json
+!backend/secrets/README.md
+!backend/secrets/*.example.env
 
 # Production Builds & Outputs
 dist/

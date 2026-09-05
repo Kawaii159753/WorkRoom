@@ -1,5 +1,4 @@
 import { Router, Response, NextFunction } from 'express';
-import { z } from 'zod';
 import { prisma } from '../../config/prisma.js';
 import { ERROR_CODES, ROLES } from '../../constants/index.js';
 import { requireAuth } from '../../middleware/auth.js';
@@ -8,18 +7,14 @@ import { validate } from '../../middleware/validate.js';
 import { assertRoomAccess, requireWorkspaceRole } from '../../middleware/workspace.js';
 import { AuthenticatedRequest } from '../../types/index.js';
 import { sendSuccess } from '../../utils/response.js';
+import {
+  createRoomSchema,
+  roomParamsSchema,
+  saveRoomStateSchema,
+} from './room.schemas.js';
+import { RoomService } from './room.service.js';
 
 const router = Router();
-
-const createRoomSchema = z.object({
-  body: z.object({
-    workspaceId: z.string().uuid(),
-    sectionId: z.string().uuid().optional(),
-    name: z.string().trim().min(1, 'Room name is required').max(100),
-    icon: z.string().trim().max(32).optional(),
-    isPrivate: z.boolean().default(false),
-  }),
-});
 
 router.post(
   '/',
@@ -57,12 +52,10 @@ router.post(
 router.get(
   '/:roomId',
   requireAuth,
+  validate(roomParamsSchema),
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
-      if (!z.string().uuid().safeParse(req.params.roomId).success) {
-        throw new AppError(ERROR_CODES.VALIDATION_ERROR, 'Invalid roomId', 400);
-      }
-      await assertRoomAccess(req.user!.id, req.params.roomId);
+      await assertRoomAccess(req.user!.id, req.params.roomId, 'view');
       const room = await prisma.room.findUnique({
         where: { id: req.params.roomId },
         include: {
@@ -86,4 +79,40 @@ router.get(
   }
 );
 
+router.get(
+  '/:roomId/state',
+  requireAuth,
+  validate(roomParamsSchema),
+  async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    try {
+      await assertRoomAccess(req.user!.id, req.params.roomId, 'view');
+      const state = await RoomService.getRoomState(req.params.roomId);
+      return sendSuccess(res, state);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.put(
+  '/:roomId/state',
+  requireAuth,
+  validate(saveRoomStateSchema),
+  async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    try {
+      await assertRoomAccess(req.user!.id, req.params.roomId, 'edit');
+      const state = await RoomService.saveRoomState(
+        req.params.roomId,
+        req.user!.id,
+        req.body.data,
+        req.body.baseVersion
+      );
+      return sendSuccess(res, state);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export const roomRouter: Router = router;
+

@@ -3,20 +3,32 @@ import path from 'path';
 import fs from 'fs';
 import { z } from 'zod';
 
-// 1. Load from dedicated secrets directory if present
-const secretsDir = path.resolve(__dirname, '../../secrets');
-if (fs.existsSync(secretsDir)) {
-  const secretFiles = ['app.env', 'database.env', 'auth.env'];
-  secretFiles.forEach((file) => {
-    const fullPath = path.join(secretsDir, file);
+// 1. Fallback to standard .env file first (provides base defaults if any)
+dotenv.config();
+
+// 2. Discover and load from dedicated secrets directories
+const rawDirs = [
+  process.env.WORKROOM_SECRETS_DIR,
+  path.resolve(__dirname, '../../secrets'), // backend/secrets relative to src/config or dist/config
+  path.resolve(__dirname, '../../../secrets'), // root secrets
+  path.resolve(process.cwd(), 'secrets'), // cwd/secrets
+  path.resolve(process.cwd(), 'backend/secrets'), // cwd/backend/secrets
+  path.resolve(process.cwd(), '../secrets'), // cwd/../secrets
+];
+
+const candidateDirs = rawDirs.filter((dir): dir is string => typeof dir === 'string' && dir.length > 0 && fs.existsSync(dir));
+
+const uniqueDirs = Array.from(new Set(candidateDirs.map((d) => path.resolve(d))));
+const secretFiles = ['app.env', 'database.env', 'auth.env'];
+
+for (const dir of uniqueDirs) {
+  for (const file of secretFiles) {
+    const fullPath = path.join(dir, file);
     if (fs.existsSync(fullPath)) {
       dotenv.config({ path: fullPath, override: true });
     }
-  });
+  }
 }
-
-// 2. Fallback to standard .env file
-dotenv.config();
 
 const envSchema = z.object({
   PORT: z.string().default('4000').transform(Number).refine((value) => Number.isInteger(value) && value > 0 && value <= 65535, 'PORT must be a valid TCP port'),

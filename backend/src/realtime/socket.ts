@@ -4,6 +4,7 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import { ROLES, WorkspaceRoleType } from '../constants/index.js';
 import { env } from '../config/env.js';
 import { prisma } from '../config/prisma.js';
+import { assertRoomAccess } from '../middleware/workspace.js';
 import { logger } from '../utils/logger.js';
 
 interface AuthenticatedSocket extends Socket {
@@ -105,7 +106,42 @@ export function initSocketServer(httpServer: HttpServer) {
       });
     });
 
-    // Realtime Cursor / Pointer Position Sync
+    // Join Specific Room Channel with access validation
+    socket.on('room:join', async (data: { roomId: string }) => {
+      try {
+        const { roomId } = data;
+        if (!roomId || !socket.userId) return;
+
+        await assertRoomAccess(socket.userId, roomId, 'view');
+        const channelKey = `room:${roomId}`;
+        socket.join(channelKey);
+        logger.info(`User ${socket.userId} joined room channel: ${channelKey}`);
+
+        socket.to(channelKey).emit('presence:room_user_joined', {
+          roomId,
+          userId: socket.userId,
+          socketId: socket.id,
+          timestamp: new Date().toISOString(),
+        });
+      } catch (error) {
+        socket.emit('error', { message: 'Unauthorized room access' });
+      }
+    });
+
+    // Leave Specific Room Channel
+    socket.on('room:leave', (data: { roomId: string }) => {
+      if (!data?.roomId) return;
+      const channelKey = `room:${data.roomId}`;
+      socket.leave(channelKey);
+      socket.to(channelKey).emit('presence:room_user_left', {
+        roomId: data.roomId,
+        userId: socket.userId,
+        socketId: socket.id,
+        timestamp: new Date().toISOString(),
+      });
+    });
+
+    // Realtime Cursor / Pointer Position Sync (Targets room channel if joined, otherwise workspace)
     socket.on('cursor:move', (data: { workspaceId: string; roomId?: string; pageId?: string; x: number; y: number }) => {
       if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
       if (!Number.isFinite(data.x) || !Number.isFinite(data.y)) return;
@@ -115,14 +151,19 @@ export function initSocketServer(httpServer: HttpServer) {
       }
       socket.cursorWindow.count += 1;
       if (socket.cursorWindow.count > 60) return;
-      socket.to(`workspace:${data.workspaceId}`).emit('cursor:updated', {
+
+      const targetChannel = data.roomId && socket.rooms.has(`room:${data.roomId}`)
+        ? `room:${data.roomId}`
+        : `workspace:${data.workspaceId}`;
+
+      socket.to(targetChannel).emit('cursor:updated', {
         userId: socket.userId,
         ...data,
       });
     });
 
-    // Entity Live Updates (Page, Block, Workflow)
-    socket.on('entity:update', (data: { workspaceId: string; entityType: string; entityId: string; patch: unknown; version: number }) => {
+    // Entity Live Updates (Page, Block, Workflow, Room Canvas)
+    socket.on('entity:update', (data: { workspaceId: string; roomId?: string; entityType: string; entityId: string; patch: unknown; version: number }) => {
       if (!data?.workspaceId || !socket.rooms.has(`workspace:${data.workspaceId}`)) return;
       const role = socket.workspaceRoles?.get(data.workspaceId);
       if (role !== ROLES.OWNER && role !== ROLES.EDITOR) {
@@ -137,7 +178,12 @@ export function initSocketServer(httpServer: HttpServer) {
       } catch {
         return;
       }
-      socket.to(`workspace:${data.workspaceId}`).emit('entity:changed', {
+
+      const targetChannel = data.roomId && socket.rooms.has(`room:${data.roomId}`)
+        ? `room:${data.roomId}`
+        : `workspace:${data.workspaceId}`;
+
+      socket.to(targetChannel).emit('entity:changed', {
         actorId: socket.userId,
         ...data,
         occurredAt: new Date().toISOString(),

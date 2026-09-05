@@ -48,6 +48,7 @@ model User {
   triggeredNotifications Notification[]     @relation("NotificationActor")
   uploadedFiles          FileAttachment[]
   updatedWorkspaceStates WorkspaceState[]   @relation("WorkspaceStateUpdater")
+  updatedRoomStates      RoomState[]        @relation("RoomStateUpdater")
 
   @@map("users")
 }
@@ -141,10 +142,27 @@ model Room {
   pages       Page[]
   postits     PostIt[]
   permissions RoomPermission[]
+  state       RoomState?
 
   @@index([workspaceId])
   @@index([sectionId])
   @@map("rooms")
+}
+
+model RoomState {
+  id          String   @id @default(uuid())
+  roomId      String   @unique @map("room_id")
+  data        Json     @default("{}")
+  version     Int      @default(1)
+  updatedById String   @map("updated_by_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  room      Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  updatedBy User @relation("RoomStateUpdater", fields: [updatedById], references: [id], onDelete: Restrict)
+
+  @@index([updatedById])
+  @@map("room_states")
 }
 
 model RoomPermission {
@@ -282,6 +300,8 @@ model Comment {
   @@index([workspaceId])
   @@index([workflowId])
   @@index([parentCommentId])
+  @@index([workflowId, createdAt(sort: Asc)])
+  @@index([workspaceId, createdAt(sort: Desc)])
   @@map("comments")
 }
 
@@ -301,6 +321,8 @@ model ActivityLog {
   @@index([workspaceId])
   @@index([actorId])
   @@index([createdAt])
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([actorId, createdAt(sort: Desc)])
   @@map("activity_logs")
 }
 
@@ -322,6 +344,8 @@ model Notification {
   @@index([recipientId])
   @@index([workspaceId])
   @@index([readAt])
+  @@index([recipientId, readAt, createdAt(sort: Desc)])
+  @@index([workspaceId, createdAt(sort: Desc)])
   @@map("notifications")
 }
 

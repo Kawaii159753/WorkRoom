@@ -35,6 +35,53 @@ describe('workspace authorization', () => {
       workspaceId: 'workspace-a', userId: 'user-a', role: 'VIEWER', allowedRoomIds: [],
     });
 
-    await expect(assertRoomAccess('user-a', 'room-a')).resolves.toEqual(room);
+    await expect(assertRoomAccess('user-a', 'room-a', 'view')).resolves.toEqual(room);
+  });
+
+  it('rejects viewers trying to edit public rooms', async () => {
+    const room = { id: 'room-a', workspaceId: 'workspace-a', isPrivate: false };
+    prismaMock.room.findUnique.mockResolvedValue(room);
+    prismaMock.workspaceMember.findUnique.mockResolvedValue({
+      workspaceId: 'workspace-a', userId: 'user-a', role: 'VIEWER', allowedRoomIds: [],
+    });
+
+    await expect(assertRoomAccess('user-a', 'room-a', 'edit')).rejects.toMatchObject({ statusCode: 403 });
+  });
+
+  it('allows editors to edit public rooms', async () => {
+    const room = { id: 'room-a', workspaceId: 'workspace-a', isPrivate: false };
+    prismaMock.room.findUnique.mockResolvedValue(room);
+    prismaMock.workspaceMember.findUnique.mockResolvedValue({
+      workspaceId: 'workspace-a', userId: 'user-editor', role: 'EDITOR', allowedRoomIds: [],
+    });
+
+    await expect(assertRoomAccess('user-editor', 'room-a', 'edit')).resolves.toEqual(room);
+  });
+
+  it('rejects users trying to edit private rooms if only canView is granted', async () => {
+    const room = { id: 'room-priv', workspaceId: 'workspace-a', isPrivate: true };
+    prismaMock.room.findUnique.mockResolvedValue(room);
+    prismaMock.workspaceMember.findUnique.mockResolvedValue({
+      workspaceId: 'workspace-a', userId: 'user-editor', role: 'EDITOR', allowedRoomIds: [],
+    });
+    prismaMock.roomPermission.findUnique.mockResolvedValue({
+      roomId: 'room-priv', userId: 'user-editor', canView: true, canEdit: false,
+    });
+
+    await expect(assertRoomAccess('user-editor', 'room-priv', 'view')).resolves.toEqual(room);
+    await expect(assertRoomAccess('user-editor', 'room-priv', 'edit')).rejects.toMatchObject({ statusCode: 403 });
+  });
+
+  it('allows users with canEdit to edit private rooms', async () => {
+    const room = { id: 'room-priv', workspaceId: 'workspace-a', isPrivate: true };
+    prismaMock.room.findUnique.mockResolvedValue(room);
+    prismaMock.workspaceMember.findUnique.mockResolvedValue({
+      workspaceId: 'workspace-a', userId: 'user-editor', role: 'EDITOR', allowedRoomIds: [],
+    });
+    prismaMock.roomPermission.findUnique.mockResolvedValue({
+      roomId: 'room-priv', userId: 'user-editor', canView: true, canEdit: true,
+    });
+
+    await expect(assertRoomAccess('user-editor', 'room-priv', 'edit')).resolves.toEqual(room);
   });
 });

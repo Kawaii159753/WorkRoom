@@ -1,10 +1,13 @@
-/**
- * WorkRoom API Client & Realtime Connector
- * Provides unified HTTP REST client and Socket.IO real-time collaboration bindings.
- */
+(function () {
+  'use strict';
 
-const API_BASE_URL = window.WORKROOM_API_URL || `${window.location.origin}/api/v1`;
-const SOCKET_BASE_URL = window.WORKROOM_SOCKET_URL || window.location.origin;
+  /**
+   * WorkRoom API Client & Realtime Connector
+   * Provides unified HTTP REST client and Socket.IO real-time collaboration bindings.
+   */
+
+  const API_BASE_URL = window.WORKROOM_API_URL || `${window.location.origin}/api/v1`;
+  const SOCKET_BASE_URL = window.WORKROOM_SOCKET_URL || window.location.origin;
 
 class ApiError extends Error {
   constructor(code, message, status, fieldErrors = {}) {
@@ -68,7 +71,7 @@ async function request(endpoint, options = {}) {
 // ==========================================
 // 1. AUTH API MODULE
 // ==========================================
-export const authApi = {
+const authApi = {
   async register({ email, password, displayName, avatarUrl }) {
     return request('/auth/register', {
       method: 'POST',
@@ -99,7 +102,7 @@ export const authApi = {
 // ==========================================
 // 2. WORKSPACES API MODULE
 // ==========================================
-export const workspaceApi = {
+const workspaceApi = {
   async list() {
     const res = await request('/workspaces', { method: 'GET' });
     return res.data;
@@ -153,7 +156,7 @@ export const workspaceApi = {
 // ==========================================
 // 3. ROOMS & SECTIONS API MODULE
 // ==========================================
-export const roomApi = {
+const roomApi = {
   async create({ workspaceId, sectionId, name, icon, isPrivate }) {
     const res = await request('/rooms', {
       method: 'POST',
@@ -166,12 +169,25 @@ export const roomApi = {
     const res = await request(`/rooms/${roomId}`, { method: 'GET' });
     return res.data;
   },
+
+  async getState(roomId) {
+    const res = await request(`/rooms/${roomId}/state`, { method: 'GET' });
+    return res.data;
+  },
+
+  async saveState(roomId, data, baseVersion) {
+    const res = await request(`/rooms/${roomId}/state`, {
+      method: 'PUT',
+      body: { data, baseVersion },
+    });
+    return res.data;
+  },
 };
 
 // ==========================================
 // 4. WORKFLOWS & TASKS API MODULE
 // ==========================================
-export const workflowApi = {
+const workflowApi = {
   async list({ workspaceId, assignee, status }) {
     const params = new URLSearchParams({ workspaceId });
     if (assignee) params.append('assignee', assignee);
@@ -201,7 +217,7 @@ export const workflowApi = {
 // ==========================================
 // 5. COMMENTS & MENTIONS API MODULE
 // ==========================================
-export const commentApi = {
+const commentApi = {
   async listByWorkflow(workflowId) {
     const res = await request(`/comments/workflow/${workflowId}`, { method: 'GET' });
     return res.data;
@@ -227,7 +243,7 @@ export const commentApi = {
 // ==========================================
 // 6. NOTIFICATIONS API MODULE
 // ==========================================
-export const notificationApi = {
+const notificationApi = {
   async list() {
     const res = await request('/notifications', { method: 'GET' });
     return res.data;
@@ -253,7 +269,14 @@ export const notificationApi = {
 // ==========================================
 let socketInstance = null;
 
-export function initRealtimeSocket({ onCursorMove, onEntityChange, onUserJoined, onUserLeft } = {}) {
+function initRealtimeSocket({
+  onCursorMove,
+  onEntityChange,
+  onUserJoined,
+  onUserLeft,
+  onRoomUserJoined,
+  onRoomUserLeft,
+} = {}) {
   if (typeof io === 'undefined') {
     console.warn('[Socket.IO] io client script not loaded in page');
     return null;
@@ -288,29 +311,74 @@ export function initRealtimeSocket({ onCursorMove, onEntityChange, onUserJoined,
     socketInstance.on('presence:user_left', onUserLeft);
   }
 
+  if (onRoomUserJoined) {
+    socketInstance.on('presence:room_user_joined', onRoomUserJoined);
+  }
+
+  if (onRoomUserLeft) {
+    socketInstance.on('presence:room_user_left', onRoomUserLeft);
+  }
+
   return socketInstance;
 }
 
-export function joinWorkspaceRoom(workspaceId) {
+function joinWorkspaceRoom(workspaceId) {
   if (socketInstance && workspaceId) {
     socketInstance.emit('workspace:join', { workspaceId });
   }
 }
 
-export function leaveWorkspaceRoom(workspaceId) {
+function leaveWorkspaceRoom(workspaceId) {
   if (socketInstance && workspaceId) {
     socketInstance.emit('workspace:leave', { workspaceId });
   }
 }
 
-export function broadcastCursor(workspaceId, x, y) {
-  if (socketInstance && workspaceId) {
-    socketInstance.emit('cursor:move', { workspaceId, x, y });
+function joinRoomChannel(roomId) {
+  if (socketInstance && roomId) {
+    socketInstance.emit('room:join', { roomId });
   }
 }
 
-export function broadcastEntityUpdate(workspaceId, entityType, entityId, patch, version) {
-  if (socketInstance && workspaceId) {
-    socketInstance.emit('entity:update', { workspaceId, entityType, entityId, patch, version });
+function leaveRoomChannel(roomId) {
+  if (socketInstance && roomId) {
+    socketInstance.emit('room:leave', { roomId });
   }
 }
+
+function broadcastCursor(workspaceId, x, y, roomId) {
+  if (socketInstance && workspaceId) {
+    socketInstance.emit('cursor:move', { workspaceId, roomId, x, y });
+  }
+}
+
+function broadcastEntityUpdate(workspaceId, entityType, entityId, patch, version, roomId) {
+  if (socketInstance && workspaceId) {
+    socketInstance.emit('entity:update', { workspaceId, roomId, entityType, entityId, patch, version });
+  }
+}
+
+const WorkRoomApi = {
+  authApi,
+  workspaceApi,
+  roomApi,
+  workflowApi,
+  commentApi,
+  notificationApi,
+  initRealtimeSocket,
+  joinWorkspaceRoom,
+  leaveWorkspaceRoom,
+  joinRoomChannel,
+  leaveRoomChannel,
+  broadcastCursor,
+  broadcastEntityUpdate,
+};
+
+if (typeof window !== 'undefined') {
+  window.WorkRoomApi = WorkRoomApi;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = WorkRoomApi;
+}
+}());
+
