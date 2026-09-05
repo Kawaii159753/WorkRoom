@@ -15,10 +15,28 @@
         //     • คัดลอก App ID มาใส่ในตัวแปร FACEBOOK_APP_ID ด้านล่าง
         // ============================================================
 
-        const GOOGLE_CLIENT_ID = ''; // TODO: ใส่ Google Client ID เช่น '1234567890-abc.apps.googleusercontent.com'
-        const FACEBOOK_APP_ID = ''; // TODO: ใส่ Facebook App ID เช่น '1234567890123456'
+        const GOOGLE_CLIENT_ID = (window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.googleClientId) || '';
+        const FACEBOOK_APP_ID = (window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.facebookAppId) || '';
         let fbInitialized = false; // กัน FB.init ซ้ำ
         let googlePromptTimer = null;
+
+        function syncSocialLoginAvailability() {
+            var options = document.getElementById('socialLoginOptions');
+            var divider = document.getElementById('socialLoginDivider');
+            // Social identity must be verified by the backend before it can
+            // create a WorkRoom session. Keep these controls disabled until
+            // server-side OAuth exchange endpoints are configured.
+            var available = false;
+            if (options) options.hidden = !available;
+            if (divider) divider.hidden = !available;
+            var googleButton = document.querySelector('.btn-google');
+            var facebookButton = document.querySelector('.btn-facebook');
+            if (googleButton) googleButton.hidden = !GOOGLE_CLIENT_ID;
+            if (facebookButton) facebookButton.hidden = !FACEBOOK_APP_ID;
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncSocialLoginAvailability);
+        else syncSocialLoginAvailability();
 
         function socialToast(msg) {
             // ใช้ showToast เดิมของแอพถ้ามี (เป็น global function)
@@ -60,13 +78,15 @@
         let currentUser = null; // เก็บข้อมูลผู้ใช้ปัจจุบัน (เผื่อ feature อื่นในอนาคต เช่น logout)
         let loginDestination = 'app'; // 'app' = ล็อกอินแล้วเข้าแอป, 'landing' = ล็อกอินแล้วกลับหน้าแรก
 
-        // โหลดผู้ใช้ที่ล็อกอินค้างไว้จาก localStorage (ไม่ต้องล็อกอินซ้ำ)
+        // Cache only for the current tab. The durable session lives in the HttpOnly cookie.
         function getSavedUser() {
             try {
-                var raw = localStorage.getItem('workroomUser');
+                var raw = sessionStorage.getItem('workroomUser');
                 if (!raw) return null;
                 var u = JSON.parse(raw);
-                return (u && typeof u === 'object' && (u.name || u.email)) ? u : null;
+                if (u && typeof u === 'object' && u.id && u.email) return u;
+                sessionStorage.removeItem('workroomUser');
+                return null;
             } catch (e) {
                 return null;
             }
@@ -87,7 +107,7 @@
                 if (loggedIn) {
                     btn.removeAttribute('data-i18n');
                     btn.textContent = t.logout || 'ออกจากระบบ';
-                    btn.onclick = function () { logout(); return false; };
+                    btn.onclick = function () { requestLogout(); return false; };
                 } else {
                     btn.setAttribute('data-i18n', 'navLogin');
                     btn.textContent = t.navLogin || 'เข้าสู่ระบบ';
@@ -98,13 +118,35 @@
 
         // ออกจากระบบ
         function logout() {
+            var apiUrl = window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.apiUrl;
+            if (apiUrl) fetch(apiUrl + '/auth/logout', { method: 'POST', credentials: 'include' }).catch(function () { });
             currentUser = null;
-            try { localStorage.removeItem('workroomUser'); } catch (e) { }
+            try { sessionStorage.removeItem('workroomUser'); localStorage.removeItem('workroomUser'); } catch (e) { }
             // ถ้ากำลังอยู่ในหน้าแอป ให้กลับมาหน้าแรก
             var inApp = document.getElementById('mainApp').style.display === 'block';
             if (inApp && typeof showBento === 'function') showBento(true);
             updateNavLogin();
             socialToast('ออกจากระบบแล้ว 👋');
+        }
+
+        function requestLogout() {
+            var user = currentUser || getSavedUser() || {};
+            var english = typeof currentLang !== 'undefined' && currentLang === 'en';
+            var options = english ? {
+                title: 'Sign out of WorkRoom?',
+                message: 'Your work on this device has been saved. You can sign in again whenever you are ready.',
+                note: 'You will need to sign in again to access your workspace.',
+                accept: 'Sign out', cancel: 'Stay signed in', icon: '↪', variant: 'logout', focusCancel: true,
+                accountName: user.name || 'WorkRoom user', accountEmail: user.email || ''
+            } : {
+                title: 'ออกจากระบบ WorkRoom?',
+                message: 'งานของคุณบนอุปกรณ์นี้ถูกบันทึกไว้แล้ว คุณสามารถกลับมาเข้าสู่ระบบใหม่ได้ทุกเมื่อ',
+                note: 'คุณจะต้องเข้าสู่ระบบอีกครั้งเพื่อเข้าถึงพื้นที่ทำงาน',
+                accept: 'ออกจากระบบ', cancel: 'อยู่ต่อ', icon: '↪', variant: 'logout', focusCancel: true,
+                accountName: user.name || 'ผู้ใช้ WorkRoom', accountEmail: user.email || ''
+            };
+            if (typeof openWorkroomConfirm === 'function') openWorkroomConfirm(options, logout);
+            else logout();
         }
 
         // ตรวจสอบว่ารูปโปรไฟล์เป็น URL https จริงๆ (กัน CSS/HTML injection)
@@ -128,7 +170,6 @@
                 var avatar = document.getElementById('userAvatar');
                 var nameEl = document.getElementById('userName');
                 var emailEl = document.getElementById('userEmail');
-                var badge = document.getElementById('userBadge');
 
                 avatar.innerHTML = '';
                 avatar.style.background = '';
@@ -150,11 +191,6 @@
 
                 if (nameEl) nameEl.textContent = name;
                 if (emailEl) emailEl.textContent = user.email || '';
-                var providerMap = { google: 'Google', facebook: 'Facebook', email: 'อีเมล' };
-                if (badge) {
-                    badge.textContent = providerMap[user.provider] || 'บัญชี';
-                    badge.className = 'user-provider provider-' + (user.provider || 'email');
-                }
                 card.style.display = 'flex';
             }
 
@@ -181,10 +217,20 @@
 
         function completeLogin(user) {
             user = user || {};
+            // Never treat an identity assembled by browser code as an
+            // authenticated account. Backend responses always contain an id
+            // and establish the durable session in an HttpOnly cookie.
+            if (!user.id) {
+                socialToast(currentLang === 'en'
+                    ? 'This sign-in method is not connected to secure server verification yet.'
+                    : 'วิธีเข้าสู่ระบบนี้ยังไม่ได้เชื่อมการยืนยันตัวตนกับเซิร์ฟเวอร์อย่างปลอดภัย');
+                return false;
+            }
             currentUser = user;
-            // จำผู้ใช้ไว้ เพื่อไม่ต้องล็อกอินซ้ำ
+            // Keep only a short-lived UI cache; credentials remain in an HttpOnly cookie.
             try {
-                localStorage.setItem('workroomUser', JSON.stringify(user));
+                sessionStorage.setItem('workroomUser', JSON.stringify(user));
+                localStorage.removeItem('workroomUser');
             } catch (e) { }
             var name = user.name || user.email || 'สมาชิก';
             if (loginDestination === 'landing') {
@@ -294,3 +340,72 @@
             if (provider === 'google') loginWithGoogle();
             else if (provider === 'facebook') loginWithFacebook();
         }
+
+        function normalizeBackendUser(user) {
+            return {
+                id: user.id,
+                name: user.displayName || user.name || user.email,
+                email: user.email,
+                picture: user.avatarUrl || user.picture || null,
+                provider: user.provider || 'email'
+            };
+        }
+
+        async function submitEmailAuth(event) {
+            event.preventDefault();
+            var form = event.currentTarget;
+            var submit = form.querySelector('.login-submit');
+            var email = document.getElementById('loginEmail').value.trim();
+            var password = document.getElementById('loginPassword').value;
+            var displayName = document.getElementById('signupName').value.trim();
+            var mode = typeof loginAuthMode !== 'undefined' ? loginAuthMode : 'signin';
+            var apiUrl = window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.apiUrl;
+            if (!apiUrl) return socialToast('ยังไม่ได้ตั้งค่าที่อยู่ Backend');
+            submit.disabled = true;
+            submit.setAttribute('aria-busy', 'true');
+            var backendResponded = false;
+            var controller = typeof AbortController === 'function' ? new AbortController() : null;
+            var requestTimeout = controller ? setTimeout(function () { controller.abort(); }, 3500) : null;
+            try {
+                var response = await fetch(apiUrl + (mode === 'signup' ? '/auth/register' : '/auth/login'), {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(mode === 'signup' ? { email: email, password: password, displayName: displayName } : { email: email, password: password }),
+                    signal: controller ? controller.signal : undefined
+                });
+                backendResponded = true;
+                var payload = await response.json().catch(function () { return {}; });
+                if (!response.ok) throw new Error((payload.error && payload.error.message) || 'เข้าสู่ระบบไม่สำเร็จ');
+                var user = payload.data && payload.data.user;
+                if (!user) throw new Error('Backend ส่งข้อมูลผู้ใช้ไม่ครบ');
+                completeLogin(normalizeBackendUser(user));
+                form.reset();
+            } catch (error) {
+                socialToast(error && error.message ? error.message : 'เชื่อมต่อ Backend ไม่สำเร็จ');
+            } finally {
+                if (requestTimeout) clearTimeout(requestTimeout);
+                submit.disabled = false;
+                submit.removeAttribute('aria-busy');
+            }
+        }
+
+        var emailAuthForm = document.getElementById('loginForm');
+        if (emailAuthForm) emailAuthForm.addEventListener('submit', submitEmailAuth);
+
+        async function restoreServerSession() {
+            var apiUrl = window.WORKROOM_CONFIG && window.WORKROOM_CONFIG.apiUrl;
+            if (!apiUrl || getSavedUser()) return updateNavLogin();
+            try {
+                var response = await fetch(apiUrl + '/auth/me', { method: 'GET', credentials: 'include' });
+                if (!response.ok) return updateNavLogin();
+                var payload = await response.json();
+                var user = payload.data && payload.data.user;
+                if (!user) return updateNavLogin();
+                currentUser = normalizeBackendUser(user);
+                sessionStorage.setItem('workroomUser', JSON.stringify(currentUser));
+                updateNavLogin();
+            } catch (error) { updateNavLogin(); }
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', restoreServerSession);
+        else restoreServerSession();
