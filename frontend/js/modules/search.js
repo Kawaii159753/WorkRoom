@@ -4,8 +4,7 @@
             // ========== SEARCH ==========
             let workspaceSearchResults = [], workspaceSearchIndex = -1;
             function plainSearchText(value) {
-                var temp = document.createElement('div'); temp.innerHTML = String(value || '');
-                return (temp.textContent || '').replace(/\s+/g, ' ').trim();
+                return editorPlainText(value).replace(/\s+/g, ' ').trim();
             }
             function searchableBlockText(block) {
                 if (!block) return '';
@@ -113,4 +112,3 @@
                     block.animate([{ background: 'rgba(139,92,246,.22)' }, { background: 'transparent' }], { duration: 1800, easing: 'ease-out' });
                 }, 120);
             }
-

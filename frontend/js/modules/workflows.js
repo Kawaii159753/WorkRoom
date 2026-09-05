@@ -8,7 +8,10 @@
             var showCompletedTasks = false;
 
             function closeoutStatus(status) {
-                return ({ todo: 'review', doing: 'revision', done: 'approved' })[status] || status || 'review';
+                if (status === 'todo' || status === 'review') return 'review';
+                if (status === 'doing' || status === 'revision') return 'revision';
+                if (status === 'done' || status === 'approved') return 'approved';
+                return 'review';
             }
             function closeoutStatusLabel(status) {
                 var labels=currentLang==='en'?{review:'Waiting for feedback',revision:'In revision',approved:'Approved'}:{review:'รอความเห็น',revision:'กำลังแก้ไข',approved:'อนุมัติแล้ว'};
@@ -71,7 +74,7 @@
                 var comments = row.comments.map(function (comment) {
                     var replies = row.comments.filter(function (reply) { return reply.parentId === comment.id; });
                     if (comment.parentId) return '';
-                    return '<article class="task-comment"><div class="task-comment-meta"><span class="task-avatar">' + escapeHtml(workspaceInitial(comment.author)) + '</span><strong>' + escapeHtml(comment.author) + '</strong><time>' + new Date(comment.createdAt).toLocaleString('th-TH') + '</time></div><p>' + escapeHtml(comment.text) + '</p><button onclick="replyTaskComment(\'' + escapeHtml(comment.id) + '\')">ตอบกลับ</button>'
+                    return '<article class="task-comment"><div class="task-comment-meta"><span class="task-avatar">' + escapeHtml(workspaceInitial(comment.author)) + '</span><strong>' + escapeHtml(comment.author) + '</strong><time>' + new Date(comment.createdAt).toLocaleString('th-TH') + '</time></div><p>' + escapeHtml(comment.text) + '</p><button onclick="replyTaskComment(\'' + escapeHandlerString(comment.id) + '\')">ตอบกลับ</button>'
                         + replies.map(function (reply) { return '<div class="task-comment-reply"><strong>' + escapeHtml(reply.author) + '</strong> ' + escapeHtml(reply.text) + '</div>'; }).join('') + '</article>';
                 }).join('') || '<div class="task-empty-copy">ยังไม่มีคอมเมนต์</div>';
                 document.getElementById('taskDetailBody').innerHTML = '<div class="task-detail-grid"><label>สถานะ<select id="taskDetailStatus" ' + (readonly ? 'disabled' : '') + ' onchange="updateTaskStatus(this.value)"><option value="review">รอความเห็น</option><option value="revision">กำลังแก้ไข</option><option value="approved">อนุมัติแล้ว</option></select></label><label>วันครบกำหนด<input id="taskDetailDue" type="date" value="' + escapeHtml(row.dueDate) + '" ' + (readonly ? 'disabled' : '') + ' onchange="updateTaskDue(this.value)"></label></div><section class="task-detail-section"><h3>ผู้รับผิดชอบ</h3><div class="task-assignee-list">' + assignees + '</div></section><section class="task-detail-section"><div class="task-section-heading"><h3>คอมเมนต์และตอบกลับ</h3><span>ใช้ @ชื่อ เพื่อ mention</span></div><div class="task-comments">' + comments + '</div>' + (readonly ? '' : '<div class="task-comment-compose"><textarea id="taskCommentInput" rows="3" placeholder="เขียนความคิดเห็น หรือ @ชื่อ สมาชิก..."></textarea><button onclick="addTaskComment()">ส่งความคิดเห็น</button></div>') + '</section>';
@@ -128,7 +131,7 @@
                 if (myTasksFilter === 'due') tasks = tasks.filter(function (item) { return closeoutDateState(item.row.dueDate); });
                 if (myTasksFilter !== 'all' && myTasksFilter !== 'due') tasks = tasks.filter(function (item) { return item.row.status === myTasksFilter; });
                 document.getElementById('myTasksFilters').innerHTML = [['all','ทั้งหมด'],['review','รอความเห็น'],['revision','กำลังแก้ไข'],['approved','อนุมัติแล้ว'],['due','ใกล้/เลยกำหนด']].map(function (f) { return '<button class="' + (myTasksFilter === f[0] ? 'active' : '') + '" onclick="setMyTasksFilter(\'' + f[0] + '\')">' + f[1] + '</button>'; }).join('');
-                document.getElementById('myTasksList').innerHTML = tasks.length ? tasks.map(function (item) { var state = closeoutDateState(item.row.dueDate); return '<button class="my-task-card" onclick="closeModal(\'myTasksModal\');switchRoom(\'' + escapeHtml(item.roomId) + '\');setTimeout(function(){openTaskDetail(' + item.blockIndex + ',' + item.rowIndex + ',' + String(item.isIdea) + ')},80)"><span><strong>' + escapeHtml(item.row.title || 'งานไม่มีชื่อ') + '</strong><small>' + escapeHtml(workroomRoomName(item.roomId)) + '</small></span><span class="task-status-pill ' + item.row.status + '">' + closeoutStatusLabel(item.row.status) + '</span>' + (item.row.dueDate ? '<time class="task-due ' + state + '">' + escapeHtml(item.row.dueDate) + '</time>' : '') + '</button>'; }).join('') : '<div class="task-empty-copy task-empty-large">ยังไม่มีงานที่มอบหมายให้คุณ</div>';
+                document.getElementById('myTasksList').innerHTML = tasks.length ? tasks.map(function (item) { var state = closeoutDateState(item.row.dueDate); return '<button class="my-task-card" onclick="closeModal(\'myTasksModal\');switchRoom(\'' + escapeHandlerString(item.roomId) + '\');setTimeout(function(){openTaskDetail(' + item.blockIndex + ',' + item.rowIndex + ',' + String(item.isIdea) + ')},80)"><span><strong>' + escapeHtml(item.row.title || 'งานไม่มีชื่อ') + '</strong><small>' + escapeHtml(workroomRoomName(item.roomId)) + '</small></span><span class="task-status-pill ' + item.row.status + '">' + closeoutStatusLabel(item.row.status) + '</span>' + (item.row.dueDate ? '<time class="task-due ' + state + '">' + escapeHtml(item.row.dueDate) + '</time>' : '') + '</button>'; }).join('') : '<div class="task-empty-copy task-empty-large">ยังไม่มีงานที่มอบหมายให้คุณ</div>';
             }
 
             createTaskFlowTable = function (block, blockIndex, isIdea) {
@@ -167,24 +170,21 @@
                 var firstBlock = firstHeading || blocks.find(function (item) {
                     return String(item && item.content || '').replace(/<[^>]*>/g, '').trim();
                 });
-                if (firstBlock) { var holder=document.createElement('div');holder.innerHTML=String(firstBlock.content||'');var heading=String(holder.textContent||holder.innerText||'').replace(/\s+/g,' ').trim();if(heading)return heading.substring(0,80); }
+                if (firstBlock) { var heading=editorPlainText(firstBlock.content).replace(/\s+/g,' ').trim();if(heading)return heading.substring(0,80); }
                 return String(postit&&postit.title||'').replace(/\s+/g,' ').trim().substring(0,80);
             }
             function syncPostitTitleFromHeading(postit) {
                 if(!postit)return '';
                 var headingBlock=(postit.blocks||[]).find(function(item){return item&&(item.type==='h1'||item.type==='h2')&&String(item.content||'').replace(/<[^>]*>/g,'').trim();});
                 if(!headingBlock)return postit.title||'';
-                var holder=document.createElement('div');holder.innerHTML=String(headingBlock.content||'');
-                var heading=String(holder.textContent||holder.innerText||'').replace(/\s+/g,' ').trim().substring(0,100);
+                var heading=editorPlainText(headingBlock.content).replace(/\s+/g,' ').trim().substring(0,100);
                 if(!heading)return postit.title||'';
                 postit.title=heading;if(postit.workflow)postit.workflow.title=heading;
                 return heading;
             }
             function postitBlockTaskTitle(block, postit) {
                 if (!block) return postitHeadingTitle(postit) || 'งานย่อยที่ยังไม่มีชื่อ';
-                var holder = document.createElement('div');
-                holder.innerHTML = String(block.content || '');
-                var text = String(holder.textContent || holder.innerText || '').replace(/\s+/g, ' ').trim();
+                var text = editorPlainText(block.content).replace(/\s+/g, ' ').trim();
                 if (text) return text.substring(0, 80);
                 if (block.type === 'image') return 'รูปภาพในโปสต์อิท';
                 if (block.type === 'embed') return String(block.url || '').trim().substring(0, 80) || 'ลิงก์ในโปสต์อิท';
@@ -267,8 +267,8 @@
                 if (!roots.length) return '<div class="task-empty-copy">'+t.empty+'</div>';
                 return roots.map(function (comment) {
                     var replies = row.comments.filter(function (reply) { return reply.parentId === comment.id; });
-                    var replyComposer = activeReplyCommentId === comment.id ? '<div class="task-reply-compose"><label for="taskReplyInput">'+t.reply+' ' + escapeHtml(comment.author) + '</label><textarea id="taskReplyInput" rows="2" placeholder="'+t.replyPlaceholder+'"></textarea><div><button class="task-reply-cancel" onclick="cancelTaskReply()">'+t.cancel+'</button><button class="task-reply-send" onclick="submitTaskReply(\'' + escapeHtml(comment.id) + '\')">'+t.send+'</button></div></div>' : '';
-                    return '<article class="task-comment' + (comment.resolved ? ' resolved' : '') + '"><div class="task-comment-meta"><span class="task-avatar">' + escapeHtml(workspaceInitial(comment.author)) + '</span><strong>' + escapeHtml(comment.author) + '</strong><time>' + new Date(comment.createdAt).toLocaleString(currentLang==='en'?'en-US':'th-TH') + '</time></div><p>' + escapeHtml(comment.text) + '</p><div class="task-comment-actions"><button onclick="replyTaskComment(\'' + escapeHtml(comment.id) + '\')">↩ '+t.replyAction+'</button>' + (canModerate ? '<button onclick="toggleCommentResolution(\'' + escapeHtml(comment.id) + '\')">' + (comment.resolved ? '↻ '+t.continue : '✓ '+t.resolved) + '</button>' : '') + '</div>' + replies.map(function (reply) { return '<div class="task-comment-reply"><strong>' + escapeHtml(reply.author) + '</strong> ' + escapeHtml(reply.text) + '</div>'; }).join('') + replyComposer + '</article>';
+                    var replyComposer = activeReplyCommentId === comment.id ? '<div class="task-reply-compose"><label for="taskReplyInput">'+t.reply+' ' + escapeHtml(comment.author) + '</label><textarea id="taskReplyInput" rows="2" placeholder="'+t.replyPlaceholder+'"></textarea><div><button class="task-reply-cancel" onclick="cancelTaskReply()">'+t.cancel+'</button><button class="task-reply-send" onclick="submitTaskReply(\'' + escapeHandlerString(comment.id) + '\')">'+t.send+'</button></div></div>' : '';
+                    return '<article class="task-comment' + (comment.resolved ? ' resolved' : '') + '"><div class="task-comment-meta"><span class="task-avatar">' + escapeHtml(workspaceInitial(comment.author)) + '</span><strong>' + escapeHtml(comment.author) + '</strong><time>' + new Date(comment.createdAt).toLocaleString(currentLang==='en'?'en-US':'th-TH') + '</time></div><p>' + escapeHtml(comment.text) + '</p><div class="task-comment-actions"><button onclick="replyTaskComment(\'' + escapeHandlerString(comment.id) + '\')">↩ '+t.replyAction+'</button>' + (canModerate ? '<button onclick="toggleCommentResolution(\'' + escapeHandlerString(comment.id) + '\')">' + (comment.resolved ? '↻ '+t.continue : '✓ '+t.resolved) + '</button>' : '') + '</div>' + replies.map(function (reply) { return '<div class="task-comment-reply"><strong>' + escapeHtml(reply.author) + '</strong> ' + escapeHtml(reply.text) + '</div>'; }).join('') + replyComposer + '</article>';
                 }).join('');
             }
             renderTaskDetail = function () {
@@ -322,10 +322,10 @@
             renderPostitLibrary = function () {
                 renderPostitLibraryBase();
                 var page = roomPages[currentRoomId], items = page && Array.isArray(page.postIts) ? page.postIts.slice().sort(function (a,b) { return Number(Boolean(b.pinned))-Number(Boolean(a.pinned)) || (b.savedAt||0)-(a.savedAt||0); }) : [];
-                document.querySelectorAll('#postitGrid .postit-card').forEach(function (card, i) { var item = items[i]; if (!item) return; var wf = ensureArtifactWorkflow(item, 'postit'); card.classList.add('workflow-enabled'); card.insertAdjacentHTML('beforeend','<button class="postit-workflow-chip ' + wf.status + '" onclick="event.stopPropagation();openArtifactWorkflow(\'postit\',0,\'' + escapeHtml(item.id) + '\')"><span>' + workflowStatusIcon(wf.status) + '</span>' + closeoutStatusLabel(wf.status) + (wf.assignees.length ? '<i>' + wf.assignees.length + '</i>' : '') + '</button>'); });
+                document.querySelectorAll('#postitGrid .postit-card').forEach(function (card, i) { var item = items[i]; if (!item) return; var wf = ensureArtifactWorkflow(item, 'postit'); card.classList.add('workflow-enabled'); card.insertAdjacentHTML('beforeend','<button class="postit-workflow-chip ' + wf.status + '" onclick="event.stopPropagation();openArtifactWorkflow(\'postit\',0,\'' + escapeHandlerString(item.id) + '\')"><span>' + workflowStatusIcon(wf.status) + '</span>' + closeoutStatusLabel(wf.status) + (wf.assignees.length ? '<i>' + wf.assignees.length + '</i>' : '') + '</button>'); });
             };
             var openPostitBase = openPostit;
-            openPostit = function (id) { openPostitBase(id); var body = document.getElementById('postitReaderBody'); if (body) body.insertAdjacentHTML('beforeend','<button class="postit-open-workflow" onclick="closeModal(\'postitReaderModal\');openArtifactWorkflow(\'postit\',0,\'' + escapeHtml(id) + '\')">เปิดสถานะและความคิดเห็น <span>→</span></button>'); };
+            openPostit = function (id) { openPostitBase(id); var body = document.getElementById('postitReaderBody'); if (body) body.insertAdjacentHTML('beforeend','<button class="postit-open-workflow" onclick="closeModal(\'postitReaderModal\');openArtifactWorkflow(\'postit\',0,\'' + escapeHandlerString(id) + '\')">เปิดสถานะและความคิดเห็น <span>→</span></button>'); };
 
             var WORKROOM_TEMPLATES = [
                 { id:'brief', icon:'⌁', color:'yellow', title:'รับบรีฟ', desc:'เป้าหมาย กลุ่มเป้าหมาย ขอบเขต และสิ่งส่งมอบ', blocks:[{type:'h1',content:'บรีฟโปรเจกต์'},{type:'h2',content:'เป้าหมาย'},{type:'text',content:'เราต้องการแก้ปัญหาอะไร และผลลัพธ์ที่คาดหวังคืออะไร'},{type:'h2',content:'กลุ่มเป้าหมาย'},{type:'text',content:''},{type:'h2',content:'สิ่งส่งมอบและข้อจำกัด'},{type:'bullet',content:''}] },

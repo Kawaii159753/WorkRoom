@@ -183,8 +183,8 @@
                 container.innerHTML = collection.pages.map(function (page) {
                     var active = page.id === collection.activePageId;
                     var displayTitle = workroomSystemText(page.title);
-                    return '<div class="idea-page-tab-wrap"><button class="idea-page-tab' + (active ? ' active' : '') + '" role="tab" aria-selected="' + String(active) + '" title="' + escapeHtml(displayTitle) + '" onclick="switchRoomPage(\'' + escapeHtml(page.id) + '\')">' + escapeHtml(displayTitle) + '</button>'
-                        + (canDelete ? '<button class="idea-page-tab-close" onclick="deleteRoomPage(event,\'' + escapeHtml(page.id) + '\')" title="'+(currentLang === 'en' ? 'Delete page' : 'ลบหน้ากระดาษ')+'" aria-label="'+(currentLang === 'en' ? 'Delete page ' : 'ลบหน้ากระดาษ ') + escapeHtml(displayTitle) + '">×</button>' : '') + '</div>';
+                    return '<div class="idea-page-tab-wrap"><button class="idea-page-tab' + (active ? ' active' : '') + '" role="tab" aria-selected="' + String(active) + '" title="' + escapeHtml(displayTitle) + '" onclick="switchRoomPage(\'' + escapeHandlerString(page.id) + '\')">' + escapeHtml(displayTitle) + '</button>'
+                        + (canDelete ? '<button class="idea-page-tab-close" onclick="deleteRoomPage(event,\'' + escapeHandlerString(page.id) + '\')" title="'+(currentLang === 'en' ? 'Delete page' : 'ลบหน้ากระดาษ')+'" aria-label="'+(currentLang === 'en' ? 'Delete page ' : 'ลบหน้ากระดาษ ') + escapeHtml(displayTitle) + '">×</button>' : '') + '</div>';
                 }).join('');
             }
 
@@ -208,9 +208,9 @@
                     var displayTitle = workroomSystemText(page.title);
                     return '<div class="idea-page-tab-wrap"><button class="idea-page-tab' + (active ? ' active' : '') + '" role="tab"'
                         + ' aria-selected="' + String(active) + '" title="' + escapeHtml(displayTitle) + '"'
-                        + ' onclick="switchIdeaPage(\'' + escapeHtml(page.id) + '\')">'
+                        + ' onclick="switchIdeaPage(\'' + escapeHandlerString(page.id) + '\')">'
                         + escapeHtml(displayTitle) + '</button>'
-                        + (canDelete ? '<button class="idea-page-tab-close" onclick="deleteIdeaPage(event,\'' + escapeHtml(page.id) + '\')" title="' + (currentLang === 'en' ? 'Delete page' : 'ลบหน้ากระดาษ') + '" aria-label="' + (currentLang === 'en' ? 'Delete page ' : 'ลบหน้ากระดาษ ') + escapeHtml(displayTitle) + '">×</button>' : '')
+                        + (canDelete ? '<button class="idea-page-tab-close" onclick="deleteIdeaPage(event,\'' + escapeHandlerString(page.id) + '\')" title="' + (currentLang === 'en' ? 'Delete page' : 'ลบหน้ากระดาษ') + '" aria-label="' + (currentLang === 'en' ? 'Delete page ' : 'ลบหน้ากระดาษ ') + escapeHtml(displayTitle) + '">×</button>' : '')
                         + '</div>';
                 }).join('');
             }
@@ -238,10 +238,10 @@
                     var isActive = id === currentRoomId;
                     var canReorder = !activeWorkspace || ['owner', 'editor'].includes(activeWorkspace.role);
                     var displayName = workroomRoomName(id);
-                    return '<div class="page-history-item' + (isActive ? ' active' : '') + '" draggable="' + String(canReorder) + '" data-room="' + escapeHtml(id) + '" role="button" tabindex="0" title="' + (canReorder ? (currentLang === 'en' ? 'Drag to reorder rooms' : 'ลากเพื่อจัดลำดับห้อง') : escapeHtml(displayName)) + '" onclick="switchPage(\'' + escapeHtml(id) + '\',this)" onkeydown="handleKeyboardClick(event,this)">'
+                    return '<div class="page-history-item' + (isActive ? ' active' : '') + '" draggable="' + String(canReorder) + '" data-room="' + escapeHtml(id) + '" role="button" tabindex="0" title="' + (canReorder ? (currentLang === 'en' ? 'Drag to reorder rooms' : 'ลากเพื่อจัดลำดับห้อง') : escapeHtml(displayName)) + '" onclick="switchPage(\'' + escapeHandlerString(id) + '\',this)" onkeydown="handleKeyboardClick(event,this)">'
                         + '<div class="page-history-icon">' + escapeHtml(room.emoji || '📄') + '</div>'
                         + '<div class="page-history-copy"><div class="page-history-name">' + escapeHtml(displayName) + '</div></div>'
-                        + '<button class="page-history-edit" onclick="openRoomEdit(event,\'' + escapeHtml(id) + '\')" title="' + (currentLang === 'en' ? 'Edit room' : 'แก้ไขห้อง') + '" aria-label="' + (currentLang === 'en' ? 'Edit room ' : 'แก้ไขห้อง ') + escapeHtml(displayName) + '">'
+                        + '<button class="page-history-edit" onclick="openRoomEdit(event,\'' + escapeHandlerString(id) + '\')" title="' + (currentLang === 'en' ? 'Edit room' : 'แก้ไขห้อง') + '" aria-label="' + (currentLang === 'en' ? 'Edit room ' : 'แก้ไขห้อง ') + escapeHtml(displayName) + '">'
                         + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>'
                         + '</div>';
                 }
@@ -252,7 +252,7 @@
                     var sectionIds = allIds.filter(function (id) { return rooms[id].sectionId === section.id; });
                     renderedIds = renderedIds.concat(sectionIds);
                     html += '<section class="page-history-group" data-section="' + escapeHtml(section.id) + '">'
-                        + '<div class="page-history-group-title" oncontextmenu="openSectionContext(event,\'' + escapeHtml(section.id) + '\')" title="' + (currentLang === 'en' ? 'Right-click to manage section' : 'คลิกขวาเพื่อจัดการหัวข้อ') + '">' + escapeHtml(workroomSystemText(section.name)) + '</div>'
+                        + '<div class="page-history-group-title" oncontextmenu="openSectionContext(event,\'' + escapeHandlerString(section.id) + '\')" title="' + (currentLang === 'en' ? 'Right-click to manage section' : 'คลิกขวาเพื่อจัดการหัวข้อ') + '">' + escapeHtml(workroomSystemText(section.name)) + '</div>'
                         + (sectionIds.length ? sectionIds.map(roomItemHtml).join('') : '<div class="page-history-group-empty">' + (currentLang === 'en' ? 'Drag rooms here' : 'ลากห้องมาวางที่นี่ได้') + '</div>')
                         + '</section>';
                 });

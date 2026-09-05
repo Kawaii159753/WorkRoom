@@ -300,6 +300,8 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                 document.getElementById('editorContainer').addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
                 document.getElementById('editorContainer').addEventListener('drop', e => {
                     e.preventDefault();
+                    var imageTarget = captureDocumentImageTarget();
+                    if (!imageTarget) return;
                     let files = e.dataTransfer.files;
                     if (!files.length) return;
                     let file = files[0];
@@ -307,9 +309,10 @@ let currentRoomId = 'room-1', contextRoomId = null, contextSectionId = null, con
                     if (file.size > 5 * 1024 * 1024) return showToast(currentLang === 'en' ? 'Image must not exceed 5 MB' : 'รูปภาพต้องมีขนาดไม่เกิน 5 MB');
                     let reader = new FileReader();
                     reader.onload = function (evt) {
-                        let page = roomPages[currentRoomId];
+                        if (!isCurrentDocumentImageTarget(imageTarget)) return;
                         let newBlock = { type: 'image', content: evt.target.result, url: evt.target.result };
-                        page.blocks.push(newBlock);
+                        imageTarget.blocks.push(newBlock);
+                        scheduleWorkspaceSave();
                         renderEditor();
                         showToast('แทรกรูปภาพแล้ว');
                     };

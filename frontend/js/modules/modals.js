@@ -218,12 +218,15 @@
             }
             function saveAccountField() { saveAccountProfile(); }
             function changeAvatar(e) {
+                var targetUser = currentUser;
+                if (!targetUser) return;
                 var file = e.target.files[0];
                 if (!file) return;
                 if (!isAllowedRasterImageFile(file)) return showToast('รองรับเฉพาะรูป PNG, JPEG, GIF หรือ WebP');
                 if (file.size > 3 * 1024 * 1024) return showToast('รูปภาพต้องมีขนาดไม่เกิน 3 MB');
                 var reader = new FileReader();
                 reader.onload = function (evt) {
+                    if (currentUser !== targetUser) return;
                     var user = Object.assign({}, currentUser || {});
                     user.picture = evt.target.result;
                     persistAccountUser(user);

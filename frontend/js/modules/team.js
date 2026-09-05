@@ -12,6 +12,22 @@
                     .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
             }
 
+            // Encode the contents of a single-quoted JS string inside an HTML attribute.
+            // HTML escaping alone is decoded before the event handler is compiled.
+            function escapeHandlerString(value) {
+                return escapeHtml(String(value == null ? '' : value).replace(/[\\'\r\n\u2028\u2029]/g, function (character) {
+                    return '\\u' + character.charCodeAt(0).toString(16).padStart(4, '0');
+                }));
+            }
+
+            // Template contents are inert: extracting text must never load resources
+            // or execute event handlers, even before the editor sanitizes the content.
+            function editorPlainText(value) {
+                var template = document.createElement('template');
+                template.innerHTML = String(value == null ? '' : value);
+                return template.content.textContent || '';
+            }
+
             // Keep only the tiny markup subset used by the editor. All event handlers,
             // styles, URLs and unknown elements are discarded before content reaches DOM.
             function sanitizeEditorHtml(value) {
@@ -391,7 +407,9 @@
             function applyWorkspaceRole() {
                 var readonly = !activeWorkspace || activeWorkspace.role === 'viewer';
                 document.getElementById('mainApp').toggleAttribute('data-workspace-readonly', readonly);
-                document.querySelectorAll('#editorContainer [contenteditable]').forEach(function (el) { el.contentEditable = readonly ? 'false' : 'true'; });
+                document.querySelectorAll('#editorContainer [contenteditable]').forEach(function (el) {
+                    el.contentEditable = readonly ? 'false' : el.closest('.block-code, .idea-block-code') ? 'plaintext-only' : 'true';
+                });
                 var title = document.getElementById('pageTitle');
                 if (title) title.readOnly = readonly;
                 var canvas = document.getElementById('ideaCanvas');
@@ -429,11 +447,11 @@
                     var role = workspace.role === 'owner' ? uiText('wrYourWorkspace') : (workspace.role === 'editor' ? uiText('wrCanEdit') : uiText('wrViewOnly'));
                     var editing = workspaceProfileTargetId === workspace.id;
                     var displayName = workspaceDisplayName(workspace);
-                    return '<div class="workspace-option-row' + (editing ? ' editing' : '') + '"><button class="workspace-option' + (workspace.id === activeWorkspace.id ? ' active' : '') + '" onclick="switchWorkspace(\'' + escapeHtml(workspace.id) + '\')">'
+                    return '<div class="workspace-option-row' + (editing ? ' editing' : '') + '"><button class="workspace-option' + (workspace.id === activeWorkspace.id ? ' active' : '') + '" onclick="switchWorkspace(\'' + escapeHandlerString(workspace.id) + '\')">'
                         + '<span class="workspace-option-mark">' + workspaceMarkHtml(workspace) + '</span><span class="workspace-option-copy">'
                         + '<span class="workspace-option-name">' + escapeHtml(displayName) + '</span><span class="workspace-option-role">' + role + '</span></span></button>'
-                        + (workspace.role === 'owner' ? '<button class="workspace-edit-button" onclick="toggleWorkspaceProfileOptions(event,\'' + escapeHtml(workspace.id) + '\')" aria-expanded="' + String(editing) + '" title="' + escapeHtml(uiText('wrEditServer')) + '" aria-label="' + escapeHtml(uiText('wrEditServer') + ' ' + displayName) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>' : '')
-                        + (editing ? '<div class="workspace-edit-panel"><button class="workspace-profile-action" onclick="chooseWorkspaceProfileImage(event,\'' + escapeHtml(workspace.id) + '\')">📷 ' + escapeHtml(uiText('wrChangeServerProfile')) + '</button></div>' : '')
+                        + (workspace.role === 'owner' ? '<button class="workspace-edit-button" onclick="toggleWorkspaceProfileOptions(event,\'' + escapeHandlerString(workspace.id) + '\')" aria-expanded="' + String(editing) + '" title="' + escapeHtml(uiText('wrEditServer')) + '" aria-label="' + escapeHtml(uiText('wrEditServer') + ' ' + displayName) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>' : '')
+                        + (editing ? '<div class="workspace-edit-panel"><button class="workspace-profile-action" onclick="chooseWorkspaceProfileImage(event,\'' + escapeHandlerString(workspace.id) + '\')">📷 ' + escapeHtml(uiText('wrChangeServerProfile')) + '</button></div>' : '')
                         + '</div>';
                 }).join('');
             }

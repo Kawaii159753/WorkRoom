@@ -25,7 +25,7 @@
                 list.innerHTML = visibleNotifications.map(function (item) {
                     if (item.type === 'team_invite') {
                         var actions = item.status === 'pending'
-                            ? '<div class="invite-actions"><button class="invite-accept" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',true)">' + escapeHtml(uiText('wrAccept')) + '</button><button class="invite-decline" onclick="event.stopPropagation();respondToInvite(\'' + escapeHtml(item.id) + '\',false)">' + escapeHtml(uiText('wrDecline')) + '</button></div>'
+                            ? '<div class="invite-actions"><button class="invite-accept" onclick="event.stopPropagation();respondToInvite(\'' + escapeHandlerString(item.id) + '\',true)">' + escapeHtml(uiText('wrAccept')) + '</button><button class="invite-decline" onclick="event.stopPropagation();respondToInvite(\'' + escapeHandlerString(item.id) + '\',false)">' + escapeHtml(uiText('wrDecline')) + '</button></div>'
                             : '<div class="invite-notification-meta">' + escapeHtml(item.status === 'accepted' ? uiText('wrAccepted') : uiText('wrDeclined')) + '</div>';
                         return '<div class="invite-notification"><div class="invite-notification-title"><strong>' + escapeHtml(item.fromName)
                             + '</strong> ' + escapeHtml(uiText('wrInviteMessage')) + ' “' + escapeHtml(item.workspaceName) + '”</div><div class="invite-notification-meta">'

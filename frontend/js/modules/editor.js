@@ -2,6 +2,17 @@
  * WorkRoom Document Editor, Block Rendering & Slash Menu
  */
             // ========== EDITOR RENDER ==========
+            function captureDocumentImageTarget() {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer' || isPostitRoomId(currentRoomId)) return null;
+                var blocks = currentRoomId === 'room-1' ? ideaDocBlocks : (roomPages[currentRoomId] && roomPages[currentRoomId].blocks);
+                return Array.isArray(blocks) ? { workspace: activeWorkspace, user: currentUser, roomId: currentRoomId, blocks: blocks } : null;
+            }
+            function isCurrentDocumentImageTarget(target) {
+                var current = captureDocumentImageTarget();
+                return !!(target && current && target.workspace === current.workspace && target.user === current.user
+                    && target.roomId === current.roomId && target.blocks === current.blocks);
+            }
+
             function renderEditor() {
                 if (currentRoomId !== 'room-1' && roomPages[currentRoomId] && ensureRichBlockTrailingText(roomPages[currentRoomId].blocks)) scheduleWorkspaceSave();
                 var fullPostitEditor = document.getElementById('postitFullEditor');
@@ -246,7 +257,7 @@
                 } else {
                     let content = document.createElement('div');
                     content.className = 'block-content';
-                    content.setAttribute('contenteditable', block.type === 'code' ? 'plaintext-only' : 'true');
+                    content.setAttribute('contenteditable', !activeWorkspace || activeWorkspace.role === 'viewer' ? 'false' : block.type === 'code' ? 'plaintext-only' : 'true');
                     if (block.type === 'code') {
                         content.setAttribute('role', 'textbox');
                         content.setAttribute('aria-multiline', 'true');
@@ -316,6 +327,9 @@
                 return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
             function highlightCodeText(code) {
+                // Bound regex work on document-controlled input. Long code remains
+                // fully readable/editable, without syntax colouring that can stall the UI.
+                if (code.length > 20000) return escapeCodeHtml(code);
                 var pattern = /(< !--[\s\S ]*?- ->|\/\*[\s\S]*?\*\/|\/\/[^\n]*|^[ \t]*#[^\n]*|<\/?[A-Za-z][^>\n]*>|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b(?:async|await|break|case|catch|class|const|continue|def|delete|do|else|export|extends|false|finally|for|from|function|if|import|in|instanceof|interface|let|new|null|of|pass|private|protected|public|raise|return|static|super|switch|this|throw|true|try|type|typeof|undefined|var|void|while|with|yield)\b|\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)?)\b|[=+\-*\/%<>!&|?:~^]+)/gm;
                 var output = '', lastIndex = 0, match;
                 while ((match = pattern.exec(code)) !== null) {
@@ -380,6 +394,7 @@
             }
 
             function handleBlockKeydown(e, index, isIdea) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 let page = isIdea ? roomPages['room-1'] : roomPages[currentRoomId];
                 let block = page.blocks[index];
                 let content = e.target;
@@ -479,8 +494,7 @@
             }
 
             function firstLinePageTitle(value) {
-                var holder=document.createElement('div');holder.innerHTML=String(value||'');
-                return String(holder.textContent||holder.innerText||'').split(/\r?\n/)[0].replace(/\s+/g,' ').trim().substring(0,60);
+                return editorPlainText(value).split(/\r?\n/)[0].replace(/\s+/g,' ').trim().substring(0,60);
             }
             function syncPageTabTitleFromFirstBlock(page, index, value, ideaCollection) {
                 if(!page||index!==0)return;
@@ -492,6 +506,7 @@
                 if(ideaCollection)renderIdeaPageTabs();else renderRoomPageTabs(currentRoomId);
             }
             function handleBlockInput(e, index, isIdea) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 let page = isIdea ? roomPages['room-1'] : roomPages[currentRoomId];
                 let block = page.blocks[index];
                 let text = e.target.innerText;
@@ -610,12 +625,15 @@
             }
 
             function selectSlashType(type) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 if (slashMenuTarget === null) return;
                 let isIdea = currentRoomId === 'room-1';
                 let page = isIdea ? null : roomPages[currentRoomId];
                 let block = isIdea ? ideaDocBlocks[slashMenuTarget] : page.blocks[slashMenuTarget];
 
                 if (type === 'image') {
+                    var imageTarget = captureDocumentImageTarget();
+                    if (!imageTarget || !block) return;
                     let input = document.createElement('input');
                     input.type = 'file';
                     input.accept = 'image/*';
@@ -627,11 +645,12 @@
                         if (file.size > 5 * 1024 * 1024) return showToast(currentLang === 'en' ? 'Image must not exceed 5 MB' : 'รูปภาพต้องมีขนาดไม่เกิน 5 MB');
                         let reader = new FileReader();
                         reader.onload = function (evt) {
+                            if (!isCurrentDocumentImageTarget(imageTarget) || !imageTarget.blocks.includes(block)) return;
                             block.type = 'image';
                             block.content = evt.target.result;
                             block.url = evt.target.result;
-                            var blocks = isIdea ? ideaDocBlocks : page.blocks;
-                            var writingIndex = slashMenuTarget + 1;
+                            var blocks = imageTarget.blocks;
+                            var writingIndex = blocks.indexOf(block) + 1;
                             blocks.splice(writingIndex, 0, { type: 'text', content: '' });
                             hideSlashMenu();
                             if (isIdea) { saveIdeaBlocks(); renderIdeaBlocks(); }
@@ -842,7 +861,7 @@
 
                 let content = document.createElement('div');
                 content.className = 'ib-content';
-                content.setAttribute('contenteditable', block.type === 'code' ? 'plaintext-only' : 'true');
+                content.setAttribute('contenteditable', !activeWorkspace || activeWorkspace.role === 'viewer' ? 'false' : block.type === 'code' ? 'plaintext-only' : 'true');
                 if (block.type === 'code') {
                     content.setAttribute('role', 'textbox');
                     content.setAttribute('aria-multiline', 'true');
@@ -874,6 +893,7 @@
             }
 
             function handleIdeaKeydown(e, index) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 let block = ideaDocBlocks[index];
                 let content = e.target;
 
@@ -986,6 +1006,7 @@
             }
 
             function handleIdeaInput(e, index) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 let block = ideaDocBlocks[index];
                 let text = e.target.innerText;
                 block.content = e.target.querySelector('.mention-chip') ? sanitizeEditorHtml(e.target.innerHTML) : text;
@@ -1059,8 +1080,10 @@
             }
 
             function toggleIdeaTodo(index) {
+                if (!activeWorkspace || activeWorkspace.role === 'viewer') return;
                 if (!ideaDocBlocks[index]) return;
                 ideaDocBlocks[index].checked = !ideaDocBlocks[index].checked;
+                saveIdeaBlocks();
                 renderIdeaBlocks();
                 setTimeout(() => focusIdeaBlock(index), 10);
             }
